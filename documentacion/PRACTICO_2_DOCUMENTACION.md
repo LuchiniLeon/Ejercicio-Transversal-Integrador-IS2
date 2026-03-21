@@ -1,13 +1,11 @@
 # PRÁCTICO 2B – DOCUMENTACIÓN
-## grupo 2 - comision 2
+## Team Coco - comision 3
 
 ##INTEGRANTES:
 
 
 ## Luchini, Lucia Antonella.
-## Gillo Mayer, Celina.
-## Sangroniz, Maria Candela.
-## Echenique, Mateo.
+## Campos Pedraza, Leonardo Cesar
 
   
 ## Análisis del código fuente y patrón de diseño preexistente
