@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dar de alta a un profesor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Ingresar nuevo profesor</h1>
+
+        {{#successMessage}}
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{successMessage}}</span>
+        </div>
+        {{/successMessage}}
+
+        {{#errorMessage}}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{errorMessage}}</span>
+        </div>
+        {{/errorMessage}}
+
+        <form action="/profesor/alta" method="post" class="space-y-4">
+            <div>
+                <label for="nombre" class="block text-gray-700 text-sm font-medium mb-1">Nombre del nuevo profesor (*):</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ej. Rafael"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+             <div>
+                <label for="apellido" class="block text-gray-700 text-sm font-medium mb-1">Apellido del nuevo profesor (*):</label>
+                <input type="text" id="apellido" name="apellido" required placeholder="Ej. Gonzales"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+             <div>
+                <label for="dni" class="block text-gray-700 text-sm font-medium mb-1">DNI (*):</label>
+                <input type="text" id="dni" name="dni" required pattern="\d*" title="Solo números." placeholder="Ej. 12345678"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="legajo" class="block text-gray-700 text-sm font-medium mb-1">Numero de legajo (*):</label>
+                <input type="text" id="legajo" name="legajo" required pattern="\d*" title="Solo números." placeholder="Ej. 1234"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="correo" class="block text-gray-700 text-sm font-medium mb-1">Correo electronico (*):</label>
+                <input type="email" id="correo" name="correo" required placeholder="hola@gmail.com"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="telefono" class="block text-gray-700 text-sm font-medium mb-1">Numero de telefono:</label>
+                <input type="text" id="telefono" name="telefono" pattern="\d*" title="Solo números." placeholder="Ej. 358-2222888"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="dirección" class="block text-gray-700 text-sm font-medium mb-1">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" placeholder="Ej: Calle paloma 2000"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="cargo" class="block text-gray-700 text-sm font-medium mb-1">Cargo:</label>
+                <input type="text" id="cargo" name="cargo" placeholder="Ej: Titular, Adjunto"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="name" class="block text-gray-700 text-sm font-medium mb-1">Nombre de usuario (*):</label>
+                <input type="text" id="name" name="name" required placeholder="Ej: rgonzales"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="password" class="block text-gray-700 text-sm font-medium mb-1">Contraseña inicial (*):</label>
+                <input type="password" id="password" name="password" required minlength="6" placeholder="Ej: Password"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <p class="text-xs text-gray-500">(*) Campos obligatorios.</p>
+
+                <div class="flex gap-4 mt-6">
+                <a href="/dashboard" 
+                   class="w-1/2 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                    Cancelar
+                </a>
+
+                <button type="submit"
+                        class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    Registrar profesor
+                </button>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>

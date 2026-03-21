@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Mi Perfil</h1>
+
+        <div class="mb-6 text-center">
+            <div class="inline-block bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-sm font-semibold mb-2">Usuario</div>
+            <h2 class="text-2xl text-gray-700 font-bold">{{name}}</h2>
+        </div>
+
+        {{#isProfessor}}
+        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <p class="text-sm text-gray-500">Nombre Completo</p>
+                    <p class="font-medium text-gray-800">{{nombre}} {{apellido}}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">DNI</p>
+                    <p class="font-medium text-gray-800">{{dni}}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Legajo</p>
+                    <p class="font-medium text-gray-800">{{legajo}}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Cargo</p>
+                    <p class="font-medium text-blue-600">{{cargo}}</p>
+                </div>
+                <div class="md:col-span-2">
+                    <p class="text-sm text-gray-500">Correo Electrónico</p>
+                    <p class="font-medium text-gray-800">{{correo}}</p>
+                </div>
+                {{#telefono}}
+                <div>
+                    <p class="text-sm text-gray-500">Teléfono</p>
+                    <p class="font-medium text-gray-800">{{telefono}}</p>
+                </div>
+                {{/telefono}}
+                {{#direccion}}
+                <div>
+                    <p class="text-sm text-gray-500">Dirección</p>
+                    <p class="font-medium text-gray-800">{{direccion}}</p>
+                </div>
+                {{/direccion}}
+            </div>
+        </div>
+        {{/isProfessor}}
+
+        {{^isProfessor}}
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+            <div class="flex">
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                        Este usuario no tiene un perfil de profesor asociado.
+                    </p>
+                </div>
+            </div>
+        </div>
+        {{/isProfessor}}
+
+        <div class="text-center mt-8">
+            <a href="/dashboard" class="inline-block bg-gray-600 text-white py-2 px-6 rounded-md hover:bg-gray-700 transition duration-300">
+                Volver al Panel
+            </a>
+        </div>
+    </div>
+</body>
+</html>
