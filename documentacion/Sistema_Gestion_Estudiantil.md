@@ -13,36 +13,36 @@ El sistema se basa en un código inicial proporcionado por la materia, el cual i
 La desorganización y la lentitud para acceder a información importante. Y la seguridad de los datos, asegurando que cada usuario acceda solo a las datos/información que le corresponda.
 
 ## Usuarios del sistema
-Docentes (Profesores)
-Estudiantes (Aún no implementados)
-Administrativos (esAdministrador)
+- Docentes (Profesores)
+- Estudiantes (Aún no implementados)
+- Administrativos (esAdministrador)
 
 ## Funcionalidades principales:
 
 //Proyecto hasta ahora.
-Crear usuarios normales y administradores
-Crear usuarios de profesores desde un usuario administrador
-Visualizar los datos del usuario profesor en la sección de “Ver perfil”.
+- Crear usuarios normales y administradores
+- Crear usuarios de profesores desde un usuario administrador
+- Visualizar los datos del usuario profesor en la sección de “Ver perfil”.
 
 ### Funcionalidades para administradores
-Crear usuarios de profesores.
-Crear materias.
-Asignar profesores a materias.
-Gestión de usuarios(eliminar usuarios, modificar rol, ver lista de usuarios)
+- Crear usuarios de profesores.
+- Crear materias.
+- Asignar profesores a materias.
+- Gestión de usuarios(eliminar usuarios, modificar rol, ver lista de usuarios)
 
 ### Funcionalidades para estudiantes
-Inscribirse en materias.
-Inscribirse a cursos.
-Ver cursos disponibles.
-Visualizar Materias.
-Visualizar notas.
-Visualizar y editar los datos del usuario estudiantes en la sección de “Ver perfil”.
+- Inscribirse en materias.
+- Inscribirse a cursos.
+- Ver cursos disponibles.
+- Visualizar Materias.
+- Visualizar notas.
+- Visualizar y editar los datos del usuario estudiantes en la sección de “Ver perfil”.
 
 ### Funcionalidades para profesores
-Visualizar estudiantes del curso/materias.
-Cargar notas.
-Crear cursos.
-Editar perfil.
+- Visualizar estudiantes del curso/materias.
+- Cargar notas.
+- Crear cursos.
+- Editar perfil.
 
 ### Otras funcionalidades
 - Diferenciación de campos fijos y editables en perfiles según el rol.
