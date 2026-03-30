@@ -77,20 +77,20 @@ Desarrollo de un sistema de gestión estudiantil para instituciones universitari
 
 ---
 
-**Comparación del análisis de riesgos**
-##Riesgos que encontró la IA y el equipo no
+##**Comparación del análisis de riesgos**
+###Riesgos que encontró la IA y el equipo no
 Riesgos relacionados con errores en autenticación y control de acceso, que podrían generar accesos indebidos al sistema.
 Riesgos de inconsistencia en los datos, que podrían afectar la información de materias, usuarios o notas.
 Riesgos en la validación de datos ingresados, lo que podría provocar registros inválidos.
 Riesgos de falta de documentación del sistema, dificultando el mantenimiento.
 Riesgos de cambios en los requerimientos, generando retrabajo o retrasos.
 Riesgos de acumulación de tareas al final del proyecto, afectando la calidad de la entrega.
-##Riesgos que encontró el equipo y la IA no
+###Riesgos que encontró el equipo y la IA no
 Limitaciones de las tecnologías utilizadas, especialmente SQLite y su impacto en la escalabilidad.
 Fallas en la base de datos, considerando pérdida de información o mal funcionamiento.
 Problemas en el uso de Git, que pueden generar conflictos o pérdida de código.
 Mala distribución de tareas dentro del equipo, afectando la organización del trabajo.
 
-## Conclusión
+###Conclusión
 En resumen, los análisis son complementarios más que contradictorios. La IA detectó más riesgos de fondo —escalabilidad, seguridad de roles, deuda técnica, cobertura de pruebas— porque los infirió del documento técnico. El equipo, en cambio, capturó dos riesgos que la IA no vio: los problemas reales con Git y la curva de aprendizaje de las tecnologías, que son riesgos vividos, no deducidos.
 La debilidad principal del análisis del equipo no es la cantidad sino la profundidad: riesgos como "falla en la base de datos" o "mala comunicación" son válidos pero demasiado genéricos para ser accionables. Un buen análisis de riesgos debería responder no solo qué puede fallar, sino por qué y cómo se mitiga en este proyecto concreto.
