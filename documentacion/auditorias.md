@@ -39,8 +39,6 @@ Condiciones:
 
 **GEMINI**
 
-# Informe de Auditoría de Riesgos: Sistema de Gestión Estudiantil
-
 ## 1. Descripción del Problema
 Desarrollo de un sistema de gestión estudiantil para instituciones universitarias orientado a administrar información de estudiantes, profesores y materias. El sistema busca resolver la desorganización, la lentitud en el acceso a la información y garantizar la seguridad de los datos mediante un control de acceso basado en roles. El desarrollo parte de una base de código preexistente con funcionalidades de inicio de sesión y gestión de usuarios.
 
@@ -79,22 +77,6 @@ Desarrollo de un sistema de gestión estudiantil para instituciones universitari
 
 ---
 
-Tipo de Riesgo,Descripción,Probabilidad,Impacto,Identificado por
-Técnico,Limitación de las tecnologías usadas.,Alta,Medio,Equipo
-Técnico,Falla en la base de datos (Estructura/Conexión).,Medio,Alto,Equipo
-Técnico,Deuda Técnica: Errores ocultos en el código inicial.,Alta,Alto,IA
-Técnico,Brecha de Seguridad: Acceso no autorizado a datos.,Media,Crítico,IA
-Organizacional,Mala distribución de tareas.,Medio,Medio,Equipo
-Organizacional,Problemas con el uso de Git (Conflictos de código).,Alta,Medio,Equipo
-Organizacional,Mala comunicación interna del equipo.,Medio,Alto,Equipo
-Organizacional,Vacío Legal: Incumplimiento de leyes de privacidad.,Baja,Crítico,IA
-Planificación,Tareas no definidas claramente.,Medio,Alto,Equipo
-Planificación,Subestimación: Retraso por refactorizar código ajeno.,Muy Alta,Medio,IA
-Humano,Dificultad para aprender tecnologías nuevas.,Medio,Medio,Equipo
-Humano,Baja de un participante del equipo (Deserción).,Baja,Alto,Equipo
-Humano,Resistencia al Cambio: Usuarios no usan el sistema.,Media,Alto,IA
-
-
 **Comparación del análisis de riesgos**
 ##Riesgos que encontró la IA y el equipo no
 Riesgos relacionados con errores en autenticación y control de acceso, que podrían generar accesos indebidos al sistema.
@@ -108,7 +90,6 @@ Limitaciones de las tecnologías utilizadas, especialmente SQLite y su impacto e
 Fallas en la base de datos, considerando pérdida de información o mal funcionamiento.
 Problemas en el uso de Git, que pueden generar conflictos o pérdida de código.
 Mala distribución de tareas dentro del equipo, afectando la organización del trabajo.
-
 
 ## Conclusión
 En resumen, los análisis son complementarios más que contradictorios. La IA detectó más riesgos de fondo —escalabilidad, seguridad de roles, deuda técnica, cobertura de pruebas— porque los infirió del documento técnico. El equipo, en cambio, capturó dos riesgos que la IA no vio: los problemas reales con Git y la curva de aprendizaje de las tecnologías, que son riesgos vividos, no deducidos.
