@@ -9,12 +9,10 @@
 | Técnico| Retrasos en entregas                             | Alta         | Medio   | Lucía   |
 |Organizacional|Cierre de institución universitaria por crisis de presupuesto a nivel nacional|Baja|Crítico|Lucía|
 |Organizacional|Dificultad de continuar el proyecto por falta de clases y apoyo docentes por paros constantes|Media|Medio|Lucía|
-|Organizacional|Peligro de participación del país dentro de conflictos armados en el mundo|Medio|Crítico|Leo|
 |Planificación|Peligro de no llegar a cumplir la estimación por falta de integrantes|Media|Medio|Leo|
 |Planificación|No llegar a finalizar el proyecto antes de la fecha límite planteada por la materia|Media|Alto|Lucía|
 |Planificación|Confusión en la interpretación en las metodologías de trabajos definidas|Media|Alto|Lucía|
 |Humano|Falta de experiencia en las tecnologías dadas|Media|Medio|Leo|
-|Humano|Falta de motivación por no tener un acompañamiento del profesional|Media|Medio|Leo|
 |Humano|Falta de comunicación del equipo, a consecuencia una mala organización|Baja|Medio|Lucía|
 
 ---
