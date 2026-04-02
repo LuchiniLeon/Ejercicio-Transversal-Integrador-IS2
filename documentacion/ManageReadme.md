@@ -1,7 +1,8 @@
     En la carpeta principal se encuentran 2 archivos ejecutables: manage.bat y manage.sh, dichos archivos tienen como propósito proporcionar métodos que: se encarguen de la instalación de las dependencias necesarias, de la ejecución del proyecto, y de proporcionar algunos métodos útiles. 
 
     El archivo manage.bat es exclusivamente para Windows, principalmente para Windows 10-11; 
-    mientras que el manage.sh se puede ejecutar desde un sistema unix, como ubuntu, wsl, etc.
+    mientras que el manage.sh se puede ejecutar desde un sistema unix, como ubuntu, wsl, etc. 
+    Al usarlo desde un sistema linux, es necesario darle permiso de ejecución ejecutando el comando " chmod +x manage.sh ", o ejecutando todos los comandos de la manera " bash [comando] [comandoOpcional] ".
 
     Ambos archivos poseen los mismos métodos, la diferencia es que algunoas han sido adaptados para cada sistema operarivo, en específico:
         El método instalar() que se encuentra en manage.sh contiene los comandos necesarios para instalar maven y sql lite 3, desde la terminal. Dicho método pide la contraseña del usuario. Mientras que el instalar() de manage.bat solo proporciona el link de las páginas por las que se puede descargar las dependencias.
