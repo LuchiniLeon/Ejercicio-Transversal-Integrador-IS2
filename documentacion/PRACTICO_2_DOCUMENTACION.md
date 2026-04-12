@@ -1,11 +1,14 @@
 # PRÁCTICO 2B – DOCUMENTACIÓN
-## Team Coco - comision 3
+## PentaByte - comision 2 y 3
 
 ##INTEGRANTES:
 
 
 ## Luchini, Lucia Antonella.
 ## Campos Pedraza, Leonardo Cesar
+## Soledad Gamba Virginia
+## Vega Mercedes
+## Rodriguez Agostina
 
   
 ## Análisis del código fuente y patrón de diseño preexistente

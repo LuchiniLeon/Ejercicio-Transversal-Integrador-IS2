@@ -146,5 +146,136 @@ La debilidad principal de nuestro análisis como equipo no es la cantidad de rie
 
 
 
+## Diagrama UML
 
+```mermaid
+classDiagram
+    %% Notas
+    note for Titulo
+        La inclusion de la clase Titulo fue debido a que puede implicar una funcionalidad util,
+        por ejemplo, asignar profesores a materias segun sus estudios previos
+    end note
+
+    note for Usuario
+        Consideramos que hay ciertos casos en los que una persona puede tener mas de un usuario
+        para utilizar distintas funciones
+    end note
+
+    %% Clases Principales
+    class Persona {
+        -Nombre : String
+        -Apellido : String
+        -Mail : String
+        -Fecha_Nac : int
+        -DNI : int
+    }
+    
+    class Usuario {
+        -Es_Administrador : boolean
+        -Nombre_Usuario : String
+        -Clave_Usuario : String
+    }
+    
+    class Titulo {
+        -Nombre_Titulo : String
+    }
+    
+    class Docente {
+        -Anio_Ingreso : int
+        -Cargo : tipo_cargo
+    }
+    
+    class Estudiante {
+        -Anio_Ingreso : int
+    }
+    
+    class Materia {
+        -Nombre : String
+        -Cod_Mat : int
+        -Cant_Inscriptos : int
+        -Descripcion : String
+    }
+    
+    class Carrera {
+        -Nombre : String
+        -Cod_Car : int
+        -Cant_Inscriptos : int
+    }
+    
+    class PlanDeEstudio {
+        -Nombre : String
+        -Cod_Plan : int
+    }
+    
+    class Correlatividad {
+        -Cod_Mat_Requisito : int
+        -Cod_Mat_Bloqueada : int
+    }
+
+    %% Enumeraciones
+    class tipo_estado {
+        <<enumeration>>
+        Libre
+        Regular
+        Promocion
+        Aprobado
+        Cursando
+    }
+    
+    class tipo_estudiante {
+        <<enumeration>>
+        Ingresante
+        Avanzado
+    }
+    
+    class tipo_cargo {
+        <<enumeration>>
+        JefeTP
+        AyudantePrimera
+        AyudanteSegunda
+    }
+
+    %% Clases de Asociación
+    class Cursa {
+        -Estado : tipo_estado
+        -Nota_Aprobacion : int
+    }
+    
+    class Participa {
+        -Fecha_inicio : int
+        -Fecha_fin : int
+    }
+    
+    class Estudia {
+        -Estado : tipo_estudiante
+    }
+
+    %% Herencia
+    Persona <|-- Docente
+    Persona <|-- Estudiante
+
+    %% Relaciones Simples
+    Persona "1" -- "*" Usuario
+    Titulo "0..*" -- "*" Docente : Posee
+    Docente "1" -- "0..1" Materia : Responsable
+    Materia "*" -- "1..*" Carrera
+    Carrera "1" -- "*" PlanDeEstudio
+    
+    %% Correlatividades (mejor modeladas)
+    Correlatividad "*" --> "1" Materia : Requiere
+    Correlatividad "*" --> "1" Materia : Bloquea
+    PlanDeEstudio "1" -- "*" Correlatividad
+
+    %% Relaciones de las Clases de Asociación
+    Docente "*" -- "*" Materia : Participa
+    Participa .. Docente
+    Participa .. Materia
+
+    Estudiante "*" -- "*" Materia : Cursa
+    Cursa .. Estudiante
+    Cursa .. Materia
+
+    Estudiante "*" -- "*" Carrera : Estudia
+    Estudia .. Estudiante
+    Estudia .. Carrera
 
