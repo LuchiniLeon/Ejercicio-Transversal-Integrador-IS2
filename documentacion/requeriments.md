@@ -150,16 +150,6 @@ La debilidad principal de nuestro análisis como equipo no es la cantidad de rie
 
 ```mermaid
 classDiagram
-    %% Notas
-    note for Titulo
-        La inclusion de la clase Titulo fue debido a que puede implicar una funcionalidad util,
-        por ejemplo, asignar profesores a materias segun sus estudios previos
-    end note
-
-    note for Usuario
-        Consideramos que hay ciertos casos en los que una persona puede tener mas de un usuario
-        para utilizar distintas funciones
-    end note
 
     %% Clases Principales
     class Persona {
@@ -261,7 +251,7 @@ classDiagram
     Materia "*" -- "1..*" Carrera
     Carrera "1" -- "*" PlanDeEstudio
     
-    %% Correlatividades (mejor modeladas)
+    %% Correlatividades
     Correlatividad "*" --> "1" Materia : Requiere
     Correlatividad "*" --> "1" Materia : Bloquea
     PlanDeEstudio "1" -- "*" Correlatividad
@@ -278,4 +268,4 @@ classDiagram
     Estudiante "*" -- "*" Carrera : Estudia
     Estudia .. Estudiante
     Estudia .. Carrera
-
+```
