@@ -2,9 +2,12 @@ package com.is1.proyecto.controller;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.is1.proyecto.service.ProfesorService;
 
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
@@ -51,4 +54,21 @@ public class ProfesorController {
             return "";
         }
     }   
+
+    public static Object formAlta(Request req, Response res) {
+
+        Map<String, Object> model = new HashMap<>();
+        
+        String successMessage = req.queryParams("message");
+        if (successMessage != null && !successMessage.isEmpty()) {
+            model.put("successMessage", successMessage);
+        }
+    
+        String errorMessage = req.queryParams("error");
+        if (errorMessage != null && !errorMessage.isEmpty()) {
+            model.put("errorMessage", errorMessage);
+        }
+    
+        return new ModelAndView(model, "profesor_form.mustache");
+    }
 }
