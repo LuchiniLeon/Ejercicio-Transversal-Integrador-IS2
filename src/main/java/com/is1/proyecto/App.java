@@ -21,6 +21,7 @@ import java.util.Map; // Interfaz Map, utilizada para Map.of() o HashMap.
 
 // Importaciones de clases del proyecto
 import com.is1.proyecto.config.DBConfigSingleton; // Clase Singleton para la configuración de la base de datos.
+import com.is1.proyecto.controller.AuthController;
 import com.is1.proyecto.models.User; // Modelo de ActiveJDBC que representa la tabla 'users'.
 import com.is1.proyecto.models.Profesores; // modelo para la tabla 'professors'
 
@@ -288,85 +289,7 @@ public class App {
         });
 
         // POST: Maneja el envío del formulario de inicio de sesión.
-        post("/login", (req, res) -> {
-            Map<String, Object> model = new HashMap<>(); // Modelo para la plantilla de login o dashboard.
-
-            String username = req.queryParams("username");
-            String plainTextPassword = req.queryParams("password");
-
-            // Validaciones básicas: campos de usuario y contraseña no pueden ser nulos o
-            // vacíos.
-            if (username == null || username.isEmpty() || plainTextPassword == null || plainTextPassword.isEmpty()) {
-                res.status(400); // Bad Request.
-                model.put("errorMessage", "El nombre de usuario y la contraseña son requeridos.");
-                return new ModelAndView(model, "login.mustache"); // Renderiza la plantilla de login con error.
-            }
-
-            // Busca la cuenta en la base de datos por el nombre de usuario.
-            User ac = User.findFirst("name = ?", username);
-
-            // Si no se encuentra ninguna cuenta con ese nombre de usuario.
-            if (ac == null) {
-                res.status(401); // Unauthorized.
-                model.put("errorMessage", "Usuario o contraseña incorrectos."); // Mensaje genérico por seguridad.
-                return new ModelAndView(model, "login.mustache"); // Renderiza la plantilla de login con error.
-            }
-
-            // Obtiene la contraseña hasheada almacenada en la base de datos.
-            String storedHashedPassword = ac.getString("password");
-
-            // Compara la contraseña en texto plano ingresada con la contraseña hasheada
-            // almacenada.
-            // BCrypt.checkpw hashea la plainTextPassword con el salt de
-            // storedHashedPassword y compara.
-            if (BCrypt.checkpw(plainTextPassword, storedHashedPassword)) {
-                // Autenticación exitosa.
-                res.status(200); // OK.
-
-                // --- Gestión de Sesión ---
-                req.session(true).attribute("currentUserUsername", username); // Guarda el nombre de usuario en la
-                                                                              // sesión.
-                req.session().attribute("userId", ac.getId()); // Guarda el ID de la cuenta en la sesión (útil).
-                req.session().attribute("loggedIn", true); // Establece una bandera para indicar que el usuario está
-                                                           // logueado.
-
-                System.out.println("DEBUG: Login exitoso para la cuenta: " + username);
-                System.out.println("DEBUG: ID de Sesión: " + req.session().id());
-
-                
-                //Aseguramos la conversión a Boolean
-                // Leemos el valor como un Object y verificamos si es Integer o Number.
-                Object adminValue = ac.get("esAdministrador");
-                boolean isAdmin = false;
-                
-                if (adminValue != null) {
-                    // Si el valor es un Integer (o Number), lo comparamos con 1.
-                    if (adminValue instanceof Number) {
-                        isAdmin = ((Number) adminValue).intValue() == 1;
-                    }
-                    // Si el valor es directamente un Boolean, lo usamos.
-                    else if (adminValue instanceof Boolean) {
-                        isAdmin = (Boolean) adminValue;
-                    }
-                }
-                
-                req.session().attribute("esAdministrador", isAdmin);
-                
-                System.out.println("DEBUG LOGIN: El usuario '" + username + "' tiene esAdministrador=" + adminValue + ". El flag en sesión es: " + isAdmin);
-
-                // REDIRECCIÓN INMEDIATA al GET /dashboard para que cargue la página
-                res.redirect("/dashboard");
-                return null;
-                
-                
-            } else {
-                // Contraseña incorrecta.
-                res.status(401); // Unauthorized.
-                System.out.println("DEBUG: Intento de login fallido para: " + username);
-                model.put("errorMessage", "Usuario o contraseña incorrectos."); // Mensaje genérico por seguridad.
-                return new ModelAndView(model, "login.mustache"); // Renderiza la plantilla de login con error.
-            }
-        }, new MustacheTemplateEngine()); // Especifica el motor de plantillas para esta ruta POST.
+        post("/login", (req, res) -> AuthController.login(req, res));
 
         // POST: Maneja el envío del formulario de Alta de Profesor (HU001)
         post("/profesor/alta", (req, res) -> {
