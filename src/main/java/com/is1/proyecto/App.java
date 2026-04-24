@@ -155,21 +155,7 @@ public class App {
         }, new MustacheTemplateEngine()); // Especifica el motor de plantillas para esta ruta.
 
         // GET: Ruta para cerrar la sesión del usuario.
-        get("/logout", (req, res) -> {
-            // Invalida completamente la sesión del usuario.
-            // Esto elimina todos los atributos guardados en la sesión y la marca como
-            // inválida.
-            // La cookie JSESSIONID en el navegador también será gestionada para
-            // invalidarse.
-            req.session().invalidate();
-
-            System.out.println("DEBUG: Sesión cerrada. Redirigiendo a /login.");
-
-            // Redirige al usuario a la página de login con un mensaje de éxito.
-            res.redirect("/");
-
-            return null; // Importante retornar null después de una redirección.
-        });
+        get("/logout", (req, res) -> AuthController.logout(req, res));
 
         // GET: Muestra el formulario de inicio de sesión (login).
         // Nota: Esta ruta debería ser capaz de leer también mensajes de error/éxito de

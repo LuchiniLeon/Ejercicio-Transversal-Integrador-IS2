@@ -55,6 +55,20 @@ public class AuthController {
         res.redirect("/dashboard");
         return null;
     }
+
+    public static Object logout(Request req, Response res) {
+        // Invalida completamente la sesión del usuario.
+        // Esto elimina todos los atributos guardados en la sesión y la marca como
+        // inválida.
+        // La cookie JSESSIONID en el navegador también será gestionada para
+        // invalidarse.
+        req.session().invalidate();
+        System.out.println("DEBUG: Sesión cerrada. Redirigiendo a /login.");
+        // Redirige al usuario a la página de login con un mensaje de éxito.
+        res.redirect("/");
+        
+        return null; // Importante retornar null después de una redirección.
+}
 }
 
 
