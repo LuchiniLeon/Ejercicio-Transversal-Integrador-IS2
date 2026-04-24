@@ -24,6 +24,7 @@ import com.is1.proyecto.config.DBConfigSingleton; // Clase Singleton para la con
 import com.is1.proyecto.controller.AuthController;
 import com.is1.proyecto.controller.DashboardController;
 import com.is1.proyecto.controller.ProfesorController;
+import com.is1.proyecto.controller.ProfileController;
 import com.is1.proyecto.models.User; // Modelo de ActiveJDBC que representa la tabla 'users'.
 import com.is1.proyecto.models.Profesores; // modelo para la tabla 'professors'
 
@@ -157,53 +158,7 @@ public class App {
         }, new MustacheTemplateEngine()); // Especifica el motor de plantillas para esta ruta.
 
         // GET: Ver perfil del usuario
-        get("/profile", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-
-            // Verificación de sesión
-            if (req.session().attribute("loggedIn") == null) {
-                res.redirect("/login");
-                return null;
-            }
-
-            // Obtener datos básicos del usuario
-            String name = req.session().attribute("currentUserUsername");
-            Integer userId = req.session().attribute("userId");
-            
-            System.out.println("DEBUG: ID de usuario en sesión: " + userId);
-            
-            model.put("name", name);
-
-            // Buscar si este usuario es un profesor
-            // Como comparten ID (id_prof = user_id), buscamos por ID directamente.
-            Profesores profe = Profesores.findById(userId);
-            System.out.println("DEBUG: Resultado de búsqueda de profesor: " + profe);
-
-            if (profe != null) {
-                // Es un profesor: Pasamos sus datos a la vista
-                model.put("isProfessor", true);
-                model.put("nombre", profe.getString("nombre"));
-                model.put("apellido", profe.getString("apellido"));
-                model.put("dni", profe.get("dni"));
-                model.put("legajo", profe.get("legajo"));
-                model.put("cargo", profe.getString("cargo"));
-                model.put("correo", profe.getString("correo"));
-                
-                // Manejo de campos opcionales para que no muestre "null"
-                Object tel = profe.get("telefono");
-                if (tel != null) model.put("telefono", tel);
-                
-                String dir = profe.getString("direccion");
-                if (dir != null && !dir.isEmpty()) model.put("direccion", dir);
-                
-            } else {
-                // No es profesor (es solo admin o usuario base)
-                model.put("isProfessor", false);
-            }
-
-            return new ModelAndView(model, "profile.mustache");
-        }, new MustacheTemplateEngine());
-
+        get("/profile", (req, res) -> ProfileController.profile(req, res));
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
         // POST: Maneja el envío del formulario de creación de nueva cuenta.
