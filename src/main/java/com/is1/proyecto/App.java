@@ -22,6 +22,8 @@ import java.util.Map; // Interfaz Map, utilizada para Map.of() o HashMap.
 // Importaciones de clases del proyecto
 import com.is1.proyecto.config.DBConfigSingleton; // Clase Singleton para la configuración de la base de datos.
 import com.is1.proyecto.controller.AuthController;
+import com.is1.proyecto.controller.DashboardController;
+import com.is1.proyecto.controller.ProfesorController;
 import com.is1.proyecto.models.User; // Modelo de ActiveJDBC que representa la tabla 'users'.
 import com.is1.proyecto.models.Profesores; // modelo para la tabla 'professors'
 
@@ -123,36 +125,7 @@ public class App {
 
         // GET: Ruta para mostrar el dashboard (panel de control) del usuario.
         // Requiere que el usuario esté autenticado.
-        get("/dashboard", (req, res) -> {
-            Map<String, Object> model = new HashMap<>(); // Modelo para la plantilla del dashboard.
-
-            // Intenta obtener el nombre de usuario y la bandera de login de la sesión.
-            String currentUsername = req.session().attribute("currentUserUsername");
-            Boolean loggedIn = req.session().attribute("loggedIn");
-            Boolean esAdministrador = req.session().attribute("esAdministrador"); 
-
-
-            // 1. Verificar si el usuario ha iniciado sesión.
-            // Si no hay un nombre de usuario en la sesión, la bandera es nula o falsa,
-            // significa que el usuario no está logueado o su sesión expiró.
-            if (currentUsername == null || loggedIn == null || !loggedIn) {
-                System.out.println("DEBUG: Acceso no autorizado a /dashboard. Redirigiendo a /login.");
-                // Redirige al login con un mensaje de error.
-                res.redirect("/login?error=Debes iniciar sesión para acceder a esta página.");
-                return null; // Importante retornar null después de una redirección.
-            }
-
-            // 2. Si el usuario está logueado, añade el nombre de usuario al modelo para la
-            // plantilla.
-            model.put("username", currentUsername);
-
-           if (esAdministrador != null && esAdministrador) {
-                model.put("esAdministrador", true);
-            }
-
-            // 3. Renderiza la plantilla del dashboard con el nombre de usuario.
-            return new ModelAndView(model, "dashboard.mustache");
-        }, new MustacheTemplateEngine()); // Especifica el motor de plantillas para esta ruta.
+        get("/dashboard", (req, res) -> DashboardController.dashboard(req, res));
 
         // GET: Ruta para cerrar la sesión del usuario.
         get("/logout", (req, res) -> AuthController.logout(req, res));
@@ -278,126 +251,7 @@ public class App {
         post("/login", (req, res) -> AuthController.login(req, res));
 
         // POST: Maneja el envío del formulario de Alta de Profesor (HU001)
-        post("/profesor/alta", (req, res) -> {
-            // datos del profesor
-            String nombre = req.queryParams("nombre");
-            String apellido = req.queryParams("apellido");
-            String correo = req.queryParams("correo");
-            String dniStr = req.queryParams("dni");
-            String direccion = req.queryParams("direccion");
-            String telefonoStr = req.queryParams("telefono");
-            String legajoStr = req.queryParams("legajo");
-            String cargo = req.queryParams("cargo");
-            String name = req.queryParams("name");
-            String password = req.queryParams("password");
-
-            // Validaciones básicas: campos no pueden ser nulos o vacíos.
-            // ... (dentro de post /profesor/alta) ...
-
-            // Validaciones básicas
-            if (nombre == null || nombre.isEmpty() ||
-                    apellido == null || apellido.isEmpty() ||
-                    correo == null || correo.isEmpty() ||
-                    dniStr == null || dniStr.isEmpty() ||
-                    legajoStr == null || legajoStr.isEmpty() ||
-                    password == null || password.isEmpty() ||
-                    name == null || name.isEmpty()) { 
-
-                res.status(400);
-                String msg = "Faltan campos obligatorios: nombre, apellido, correo, DNI, legajo, usuario y contraseña son requeridos.";
-                res.redirect("/profesor/alta?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
-                return "";
-            }
-
-            // Validar formato de correo
-            if (!correo.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
-                res.status(400);
-                String msg = "El formato del correo electrónico no es válido.";
-                res.redirect("/profesor/alta?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
-                return "";
-            }
-
-            // Validar números
-            Integer dni, legajo;
-            try {
-                dni = Integer.valueOf(dniStr.trim());
-                legajo = Integer.valueOf(legajoStr.trim());
-            } catch (NumberFormatException e) {
-                res.status(400);
-                String msg = "DNI y Legajo deben ser números válidos.";
-                res.redirect("/profesor/alta?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
-                return "";
-            }
-
-            // Validar duplicados (Correo)
-            if (Profesores.findFirst("correo = ?", correo) != null) {
-                res.status(409);
-                String msg = "El correo electrónico ya existe en la base de datos.";
-                res.redirect("/profesor/alta?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
-                return "";
-            }
-            // Validar duplicados (DNI)
-            if (Profesores.findFirst("dni = ?", dni) != null) {
-                res.status(409);
-                String msg = "El DNI ya existe en la base de datos.";
-                res.redirect("/profesor/alta?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
-                return "";
-            }
-            // Validar duplicados (Legajo)
-            if (Profesores.findFirst("legajo = ?", legajo) != null) {
-                res.status(409);
-                String msg = "El número de legajo ya existe en la base de datos.";
-                res.redirect("/profesor/alta?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
-                return "";
-            }
-            // Validar duplicados (Username)
-            if (User.findFirst("name = ?", name) != null) {
-                res.status(409);
-                String msg = "El nombre de usuario ya está en uso. Elija otro.";
-                res.redirect("/profesor/alta?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
-                return "";
-            }
-            
-            try {
-                // crear un nuevo usuario
-                User newUser = new User();
-                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-                newUser.set("name", name);
-                newUser.set("password", hashedPassword);
-                newUser.saveIt();
-                
-                Object userId = newUser.getId(); 
-                System.out.println("DEBUG: Usuario creado con ID: " + userId);
-
-                String sql = "INSERT INTO professors (id_prof, nombre, apellido, dni, legajo, correo, cargo, direccion, telefono) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                
-                // Preparamos los valores opcionales para que sean null si están vacíos
-                Object dirVal = (direccion != null && !direccion.isEmpty()) ? direccion : null;
-                Object telVal = null;
-                if (telefonoStr != null && !telefonoStr.isEmpty()) {
-                     try { telVal = Integer.valueOf(telefonoStr.trim()); } catch (Exception e) {}
-                }
-
-                // Ejecutamos la inserción manual vinculando los IDs
-                Base.exec(sql, userId, nombre, apellido, dni, legajo, correo, cargo, dirVal, telVal);
-
-                System.out.println("DEBUG: Profesor insertado manualmente con ID: " + userId);
-
-                // si el profesor se creo tenemos un user con exito
-                res.status(201);
-                String msg1 = "Profesor " + nombre + " " + apellido + " registrado con éxito. Su usuario inicial es: " + name;
-                res.redirect("/profesor/alta?message=" + URLEncoder.encode(msg1, StandardCharsets.UTF_8));
-                return "";
-
-            } catch (Exception e) {
-                System.err.println("Error al registrar profesor: " + e.getMessage());
-                e.printStackTrace();
-                res.status(500);
-                String msg = "Error interno al registrar profesor. Intente nuevamente.";
-                res.redirect("/profesor/alta?error=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
-                return "";
-            }
-        });
+        post("/profesor/alta", (req, res) -> ProfesorController.alta(req, res));
 
         // POST: Endpoint para añadir usuarios (API que devuelve JSON, no HTML).
         // Advertencia: Esta ruta tiene un propósito diferente a las de formulario HTML.
