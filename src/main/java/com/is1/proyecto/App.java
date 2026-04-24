@@ -12,11 +12,8 @@ import org.mindrot.jbcrypt.BCrypt; // Utilidad para hashear y verificar contrase
 import spark.ModelAndView; // Representa un modelo de datos y el nombre de la vista a renderizar.
 import spark.template.mustache.MustacheTemplateEngine; // Motor de plantillas Mustache para Spark.
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 // Importaciones estándar de Java
 import java.util.HashMap; // Para crear mapas de datos (modelos para las plantillas).
-import java.util.List;
 import java.util.Map; // Interfaz Map, utilizada para Map.of() o HashMap.
 
 // Importaciones de clases del proyecto
@@ -25,9 +22,8 @@ import com.is1.proyecto.controller.AuthController;
 import com.is1.proyecto.controller.DashboardController;
 import com.is1.proyecto.controller.ProfesorController;
 import com.is1.proyecto.controller.ProfileController;
+import com.is1.proyecto.controller.UserController;
 import com.is1.proyecto.models.User; // Modelo de ActiveJDBC que representa la tabla 'users'.
-import com.is1.proyecto.models.Profesores; // modelo para la tabla 'professors'
-
 /**
  * Clase principal de la aplicación Spark.
  * Configura las rutas, filtros y el inicio del servidor web.
@@ -108,21 +104,7 @@ public class App {
             return new ModelAndView(model, "user_form.mustache");
         }, new MustacheTemplateEngine()); // Especifica el motor de plantillas para esta ruta.
 
-        get("/profesor/alta", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            String successMessage = req.queryParams("message");
-            // Obtengo y añado el mensaje de error de los query parameters
-            // ( uno para exito, otro para error)
-            if (successMessage != null && !successMessage.isEmpty()) {
-                model.put("successMessage", successMessage);
-            }
-            String errorMessage = req.queryParams("error");
-            if (errorMessage != null && !errorMessage.isEmpty()) {
-                model.put("errorMessage", errorMessage);
-            }
-            // aca crear la plantilla
-            return new ModelAndView(model, "profesor_form.mustache");
-        }, new MustacheTemplateEngine());
+        get("/profesor/alta", (req, res) -> ProfesorController.formAlta(req, res));
 
         // GET: Ruta para mostrar el dashboard (panel de control) del usuario.
         // Requiere que el usuario esté autenticado.
@@ -162,45 +144,8 @@ public class App {
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
         // POST: Maneja el envío del formulario de creación de nueva cuenta.
-        post("/user/new", (req, res) -> {
-            String name = req.queryParams("name");
-            String password = req.queryParams("password");
-
-            // Validaciones básicas: campos no pueden ser nulos o vacíos.
-            if (name == null || name.isEmpty() || password == null || password.isEmpty()) {
-                res.status(400); // Código de estado HTTP 400 (Bad Request).
-                // Redirige al formulario de creación con un mensaje de error.
-                res.redirect("/user/create?error=Nombre y contraseña son requeridos.");
-                return ""; // Retorna una cadena vacía ya que la respuesta ya fue redirigida.
-            }
-
-            try {
-                // Intenta crear y guardar la nueva cuenta en la base de datos.
-                User ac = new User(); // Crea una nueva instancia del modelo User.
-                // Hashea la contraseña de forma segura antes de guardarla.
-                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-
-                ac.set("name", name); // Asigna el nombre de usuario.
-                ac.set("password", hashedPassword); // Asigna la contraseña hasheada.
-                ac.set("esAdministrador", 0); //El usuario NO es administrador
-                ac.saveIt(); // Guarda el nuevo usuario en la tabla 'users'.
-
-                res.status(201); // Código de estado HTTP 201 (Created) para una creación exitosa.
-                // Redirige al formulario de creación con un mensaje de éxito.
-                res.redirect("/user/create?message=Cuenta creada exitosamente para " + name + "!");
-                return ""; // Retorna una cadena vacía.
-
-            } catch (Exception e) {
-                // Si ocurre cualquier error durante la operación de DB (ej. nombre de usuario
-                // duplicado),
-                // se captura aquí y se redirige con un mensaje de error.
-                System.err.println("Error al registrar la cuenta: " + e.getMessage());
-                e.printStackTrace(); // Imprime el stack trace para depuración.
-                res.status(500); // Código de estado HTTP 500 (Internal Server Error).
-                res.redirect("/user/create?error=Error interno al crear la cuenta. Intente de nuevo.");
-                return ""; // Retorna una cadena vacía.
-            }
-        });
+        post("/user/new", (req, res) ->  UserController.create(req, res));
+     
 
         // POST: Maneja el envío del formulario de inicio de sesión.
         post("/login", (req, res) -> AuthController.login(req, res));
