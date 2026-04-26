@@ -68,7 +68,24 @@ public class AuthController {
         res.redirect("/");
         
         return null; // Importante retornar null después de una redirección.
-}
+    }
+
+    public static Object showLogin(Request req, Response res) {
+
+        Map<String, Object> model = new HashMap<>();
+
+        String errorMessage = req.queryParams("error");
+        if (errorMessage != null && !errorMessage.isEmpty()) {
+            model.put("errorMessage", errorMessage);
+        }
+
+        String successMessage = req.queryParams("message");
+        if (successMessage != null && !successMessage.isEmpty()) {
+            model.put("successMessage", successMessage);
+        }
+
+        return new ModelAndView(model, "login.mustache");
+    }
 }
 
 

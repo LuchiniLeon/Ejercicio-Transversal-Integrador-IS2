@@ -6,8 +6,6 @@ import static spark.Spark.*; // Importa los métodos estáticos principales de S
 
 // Importaciones específicas para ActiveJDBC (ORM para la base de datos)
 import org.javalite.activejdbc.Base; // Clase central de ActiveJDBC para gestionar la conexión a la base de datos.
-import org.mindrot.jbcrypt.BCrypt; // Utilidad para hashear y verificar contraseñas de forma segura.
-
 // Importaciones de Spark para renderizado de plantillas
 import spark.ModelAndView; // Representa un modelo de datos y el nombre de la vista a renderizar.
 import spark.template.mustache.MustacheTemplateEngine; // Motor de plantillas Mustache para Spark.
@@ -80,29 +78,9 @@ public class App {
 
         // --- Rutas GET para renderizar formularios y páginas HTML ---
 
+
         // GET: Muestra el formulario de creación de cuenta.
-        // Soporta la visualización de mensajes de éxito o error pasados como query
-        // parameters.
-        get("/user/create", (req, res) -> {
-            Map<String, Object> model = new HashMap<>(); // Crea un mapa para pasar datos a la plantilla.
-
-            // Obtener y añadir mensaje de éxito de los query parameters (ej.
-            // ?message=Cuenta creada!)
-            String successMessage = req.queryParams("message");
-            if (successMessage != null && !successMessage.isEmpty()) {
-                model.put("successMessage", successMessage);
-            }
-
-            // Obtener y añadir mensaje de error de los query parameters (ej. ?error=Campos
-            // vacíos)
-            String errorMessage = req.queryParams("error");
-            if (errorMessage != null && !errorMessage.isEmpty()) {
-                model.put("errorMessage", errorMessage);
-            }
-
-            // Renderiza la plantilla 'user_form.mustache' con los datos del modelo.
-            return new ModelAndView(model, "user_form.mustache");
-        }, new MustacheTemplateEngine()); // Especifica el motor de plantillas para esta ruta.
+        get("/user/create", (req, res) -> UserController.formCreate(req, res));
 
         get("/profesor/alta", (req, res) -> ProfesorController.formAlta(req, res));
 
@@ -118,18 +96,7 @@ public class App {
         // los query params
         // si se la usa como destino de redirecciones. (Tu código de /user/create ya lo
         // hace, aplicar similar).
-        get("/", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            String errorMessage = req.queryParams("error");
-            if (errorMessage != null && !errorMessage.isEmpty()) {
-                model.put("errorMessage", errorMessage);
-            }
-            String successMessage = req.queryParams("message");
-            if (successMessage != null && !successMessage.isEmpty()) {
-                model.put("successMessage", successMessage);
-            }
-            return new ModelAndView(model, "login.mustache");
-        }, new MustacheTemplateEngine()); // Especifica el motor de plantillas para esta ruta.
+        get("/", (req, res) -> AuthController.showLogin(req, res));
 
         // GET: Ruta de alias para el formulario de creación de cuenta.
         // En una aplicación real, probablemente querrías unificar con '/user/create'
