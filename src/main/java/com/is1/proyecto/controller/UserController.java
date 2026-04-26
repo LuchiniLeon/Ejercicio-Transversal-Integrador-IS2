@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.UserService;
 
 import spark.ModelAndView;
@@ -68,5 +69,50 @@ public class UserController {
         }
 
         return new ModelAndView(model, "user_form.mustache");
+    }
+
+    // Advertencia: Esta ruta tiene un propósito diferente a las de formulario HTML.
+    public static Object addUser(Request req, Response res) throws Exception {
+
+        res.type("application/json");
+
+        String name = req.queryParams("name");
+        String password = req.queryParams("password");
+
+        // Validaciones básicas
+        if (name == null || name.isEmpty() || password == null || password.isEmpty()) {
+            res.status(400);
+            return new com.fasterxml.jackson.databind.ObjectMapper()
+                    .writeValueAsString(Map.of("error", "Nombre y contraseña son requeridos."));
+        }
+
+        try {
+
+            User newUser = new User();
+            newUser.set("name", name);
+            newUser.set("password", password);
+            newUser.saveIt();
+
+            res.status(201);
+
+            return new com.fasterxml.jackson.databind.ObjectMapper()
+                    .writeValueAsString(
+                            Map.of("message", "Usuario '" + name + "' registrado con exito.", "id", newUser.getId()));
+
+        } catch (Exception e) {
+            System.err.println("Error al registrar usuario: " + e.getMessage());
+            e.printStackTrace();
+            res.status(500);
+
+            return new com.fasterxml.jackson.databind.ObjectMapper()
+                    .writeValueAsString(
+                            Map.of("error", "Error interno al registrar usuario: " + e.getMessage()));
+        }
+    }  
+    
+    // En una aplicación real, probablemente querrías unificar con '/user/create'
+    // para evitar duplicidad.
+    public static Object formNew(Request req, Response res) {
+        return new ModelAndView(new HashMap<>(), "user_form.mustache");
     }
 }

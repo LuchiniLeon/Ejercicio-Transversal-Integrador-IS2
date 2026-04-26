@@ -70,6 +70,10 @@ public class AuthController {
         return null; // Importante retornar null después de una redirección.
     }
 
+    // Nota: Esta ruta debería ser capaz de leer también mensajes de error/éxito de
+    // los query params
+    // si se la usa como destino de redirecciones. (Tu código de /user/create ya lo
+    // hace, aplicar similar).
     public static Object showLogin(Request req, Response res) {
 
         Map<String, Object> model = new HashMap<>();

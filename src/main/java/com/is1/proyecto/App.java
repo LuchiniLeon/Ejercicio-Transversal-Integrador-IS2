@@ -92,19 +92,10 @@ public class App {
         get("/logout", (req, res) -> AuthController.logout(req, res));
 
         // GET: Muestra el formulario de inicio de sesión (login).
-        // Nota: Esta ruta debería ser capaz de leer también mensajes de error/éxito de
-        // los query params
-        // si se la usa como destino de redirecciones. (Tu código de /user/create ya lo
-        // hace, aplicar similar).
         get("/", (req, res) -> AuthController.showLogin(req, res));
 
         // GET: Ruta de alias para el formulario de creación de cuenta.
-        // En una aplicación real, probablemente querrías unificar con '/user/create'
-        // para evitar duplicidad.
-        get("/user/new", (req, res) -> {
-            return new ModelAndView(new HashMap<>(), "user_form.mustache"); // No pasa un modelo específico, solo el
-                                                                            // formulario.
-        }, new MustacheTemplateEngine()); // Especifica el motor de plantillas para esta ruta.
+        get("/user/new", (req, res) -> UserController.formNew(req, res)); // Especifica el motor de plantillas para esta ruta.
 
         // GET: Ver perfil del usuario
         get("/profile", (req, res) -> ProfileController.profile(req, res));
@@ -121,41 +112,7 @@ public class App {
         post("/profesor/alta", (req, res) -> ProfesorController.alta(req, res));
 
         // POST: Endpoint para añadir usuarios (API que devuelve JSON, no HTML).
-        // Advertencia: Esta ruta tiene un propósito diferente a las de formulario HTML.
-        post("/add_users", (req, res) -> {
-            res.type("application/json"); // Establece el tipo de contenido de la respuesta a JSON.
+        post("/add_users", (req, res) -> UserController.addUser(req, res));
 
-            // Obtiene los parámetros 'name' y 'password' de la solicitud.
-            String name = req.queryParams("name");
-            String password = req.queryParams("password");
-
-            // --- Validaciones básicas ---
-            if (name == null || name.isEmpty() || password == null || password.isEmpty()) {
-                res.status(400); // Bad Request.
-                return objectMapper.writeValueAsString(Map.of("error", "Nombre y contraseña son requeridos."));
-            }
-
-            try {
-                
-                User newUser = new User(); // Crea una nueva instancia de tu modelo User.
-                newUser.set("name", name); // Asigna el nombre al campo 'name'.
-                newUser.set("password", password); // Asigna la contraseña al campo 'password'.
-                newUser.saveIt(); // Guarda el nuevo usuario en la tabla 'users'.
-
-                res.status(201); // Created.
-                // Devuelve una respuesta JSON con el mensaje y el ID del nuevo usuario.
-                return objectMapper.writeValueAsString(
-                        Map.of("message", "Usuario '" + name + "' registrado con exito.", "id", newUser.getId()));
-
-            } catch (Exception e) {
-                // Si ocurre cualquier error durante la operación de DB, se captura aquí.
-                System.err.println("Error al registrar usuario: " + e.getMessage());
-                e.printStackTrace(); // Imprime el stack trace para depuración.
-                res.status(500); // Internal Server Error.
-                return objectMapper
-                        .writeValueAsString(Map.of("error", "Error interno al registrar usuario: " + e.getMessage()));
-            }
-        });
-
-    } // Fin del método main
-} // Fin de la clase App
+    } 
+} 
