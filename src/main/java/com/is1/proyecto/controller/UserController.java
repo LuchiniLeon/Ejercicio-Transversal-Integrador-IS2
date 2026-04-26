@@ -49,7 +49,7 @@ public class UserController {
 
     // Soporta la visualización de mensajes de éxito o error pasados como query
     // parameters.
-    public static Object formCreate(Request req, Response res) {
+    public static ModelAndView formCreate(Request req, Response res) {
 
         Map<String, Object> model = new HashMap<>();
 
@@ -112,7 +112,7 @@ public class UserController {
     
     // En una aplicación real, probablemente querrías unificar con '/user/create'
     // para evitar duplicidad.
-    public static Object formNew(Request req, Response res) {
+    public static ModelAndView formNew(Request req, Response res) {
         return new ModelAndView(new HashMap<>(), "user_form.mustache");
     }
 }

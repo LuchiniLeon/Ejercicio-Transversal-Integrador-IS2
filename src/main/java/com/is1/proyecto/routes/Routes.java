@@ -1,5 +1,6 @@
 package com.is1.proyecto.routes;
 
+import spark.template.mustache.MustacheTemplateEngine;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
@@ -13,27 +14,28 @@ public class Routes {
     
     public static void configure() {
 
+        MustacheTemplateEngine engine = new MustacheTemplateEngine();
         // GET
         // GET: Muestra el formulario de creación de cuenta.
-        get("/user/create", (req, res) -> UserController.formCreate(req, res));
+        get("/user/create", (req, res) -> UserController.formCreate(req, res), engine);
 
-        get("/profesor/alta", (req, res) -> ProfesorController.formAlta(req, res));
+        get("/profesor/alta", (req, res) -> ProfesorController.formAlta(req, res), engine);
 
         // GET: Ruta para mostrar el dashboard (panel de control) del usuario.
         // Requiere que el usuario esté autenticado.
-        get("/dashboard", (req, res) -> DashboardController.dashboard(req, res));
+        get("/dashboard", (req, res) -> DashboardController.dashboard(req, res), engine);
 
         // GET: Ruta para cerrar la sesión del usuario.
         get("/logout", (req, res) -> AuthController.logout(req, res));
 
         // GET: Muestra el formulario de inicio de sesión (login).
-        get("/", (req, res) -> AuthController.showLogin(req, res));
+        get("/", (req, res) -> AuthController.vistaLogin(req, res), engine);
 
         // GET: Ruta de alias para el formulario de creación de cuenta.
-        get("/user/new", (req, res) -> UserController.formNew(req, res)); // Especifica el motor de plantillas para esta ruta.
+        get("/user/new", (req, res) -> UserController.formNew(req, res), engine); // Especifica el motor de plantillas para esta ruta.
 
         // GET: Ver perfil del usuario
-        get("/profile", (req, res) -> ProfileController.profile(req, res));
+        get("/profile", (req, res) -> ProfileController.profile(req, res), engine);
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
     

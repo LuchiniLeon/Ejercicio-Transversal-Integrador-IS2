@@ -55,7 +55,7 @@ public class ProfesorController {
         }
     }   
 
-    public static Object formAlta(Request req, Response res) {
+    public static ModelAndView formAlta(Request req, Response res) {
 
         Map<String, Object> model = new HashMap<>();
         

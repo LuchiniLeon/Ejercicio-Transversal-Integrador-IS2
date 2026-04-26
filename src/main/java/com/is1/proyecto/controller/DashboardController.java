@@ -9,7 +9,7 @@ import spark.ModelAndView;
 
 public class DashboardController {
     
-  public static Object dashboard(Request req, Response res) {
+  public static ModelAndView dashboard(Request req, Response res) {
     Map<String, Object> model = new HashMap<>(); // Modelo para la plantilla del dashboard.
 
         // Intenta obtener el nombre de usuario y la bandera de login de la sesión.

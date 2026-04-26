@@ -74,7 +74,7 @@ public class AuthController {
     // los query params
     // si se la usa como destino de redirecciones. (Tu código de /user/create ya lo
     // hace, aplicar similar).
-    public static Object showLogin(Request req, Response res) {
+    public static ModelAndView vistaLogin(Request req, Response res) {
 
         Map<String, Object> model = new HashMap<>();
 
