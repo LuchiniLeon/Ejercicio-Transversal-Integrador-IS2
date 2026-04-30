@@ -1,0 +1,20 @@
+# Compilacion correcta aprueba de git add . Te estoy viendo LEO
+target/
+bin/
+out/
+build/
+
+# Extensiones de editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Base de datos ignorada, ignoramos los archivos .db
+db/*.db
+db/*.db-journal
+db/*.db-wal
