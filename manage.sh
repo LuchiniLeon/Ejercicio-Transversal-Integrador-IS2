@@ -57,6 +57,25 @@ limpiar() {
         fi
 }
 
+preparar_db() {
+    local ARCHIVO="db/base-de-datos.db"
+    
+    # Si no existe la carpeta db, la creamos
+    mkdir -p db
+
+    if [ ! -f "$ARCHIVO" ]; then
+        echo -e "${AMARILLO}Base de datos no encontrada. Creándola...${RESET}"
+        
+        # Cargamos los esquemas en orden. 
+        # Usamos -f para que si un archivo falta, no se rompa todo el proceso
+        sqlite3 "$ARCHIVO" < db/schema-base.sql 2>/dev/null
+        sqlite3 "$ARCHIVO" < db/entidades-especificas.sql 2>/dev/null
+        sqlite3 "$ARCHIVO" < db/relaciones.sql 2>/dev/null
+        
+        echo -e "${VERDE}Base de datos creada y configurada con éxito.${RESET}"
+    fi
+}
+
 # Abre la base de datos
 # Por defecto abre el archivo dev.db
 # Si no abre el archivo prod.db si se pasa el comando de la siguiemte forma:
@@ -82,7 +101,8 @@ db() {
         else 
                 echo -e "${ROJO} Abriendo directamente la base de datos${RESET}"
                 echo -e "${ROJO} Para salir escriba .exit o .quit"
-
+                preparar_db
+                
                 sqlite3 "$ARCHIVO"
 
                 return 0
