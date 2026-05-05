@@ -152,120 +152,191 @@ La debilidad principal de nuestro análisis como equipo no es la cantidad de rie
 classDiagram
 
     %% Clases Principales
+
+    class Usuario {
+        -NombreUser : String
+        -Contrasenia : String
+    }
+
     class Persona {
         -Nombre : String
         -Apellido : String
-        -Mail : String
         -Fecha_Nac : int
         -DNI : int
+        -Telefono : String
+        -Email : String
     }
     
-    class Usuario {
-        -Es_Administrador : boolean
-        -Nombre_Usuario : String
-        -Clave_Usuario : String
-    }
     
-    class Titulo {
-        -Nombre_Titulo : String
+     class Estudiante {
+        -ingreso : Date
+        -Estado_Academico : TEstado
     }
     
     class Docente {
-        -Anio_Ingreso : int
-        -Cargo : tipo_cargo
+        -Cargo : String
+	-legajo : String
+        -Titulos : List<String>
     }
     
-    class Estudiante {
-        -Anio_Ingreso : int
-    }
-    
-    class Materia {
-        -Nombre : String
-        -Cod_Mat : int
-        -Cant_Inscriptos : int
-        -Descripcion : String
-    }
-    
-    class Carrera {
-        -Nombre : String
-        -Cod_Car : int
-        -Cant_Inscriptos : int
-    }
-    
-    class PlanDeEstudio {
-        -Nombre : String
-        -Cod_Plan : int
-    }
-    
-    class Correlatividad {
-        -Cod_Mat_Requisito : int
-        -Cod_Mat_Bloqueada : int
+    class Administrador {
+        -Cargo : String
+        -Sector : String
     }
 
+    class Carrera {
+        -idCarrera : int
+        -duracion : int
+        -nombre : String
+        -modalidad : String
+    }
+
+    class PlanDeEstudio {
+        -idPlan : int
+        -anioVigencia : int
+        -activo : Boolean
+        -resolucion : String
+    }
+
+    class Nota {
+        -idNota : int
+        -notaFinal : int
+        -fechaExamen : Date
+        -condicion : TCondicion
+    }
+
+    class Materia {
+        -idMateria : int
+        -nombre : String
+        -codigo : String
+        -horasTotales : int
+    }
+
+    class Correlatividad {
+        -condicion : TCondicion
+    }
+
+    class Taller {
+        -idTaller : int
+        -titulo : String
+        -horas : int
+        -estado : TEstadoCurso
+    }    
+
     %% Enumeraciones
-    class tipo_estado {
+    class TEstado {
         <<enumeration>>
-        Libre
+        Activo
+        Egresado
+        Baja
+        Suspendido
+    }
+    
+    class TEstadoCurso {
+        <<enumeration>>
+        Activo
+        No_activo
+    }
+    
+    class TCondicion {
+        <<enumeration>>
         Regular
         Promocion
-        Aprobado
-        Cursando
+        Libre
     }
-    
-    class tipo_estudiante {
+
+    class TCuatrimestre {
         <<enumeration>>
-        Ingresante
-        Avanzado
-    }
-    
-    class tipo_cargo {
-        <<enumeration>>
-        JefeTP
-        AyudantePrimera
-        AyudanteSegunda
+        1 er Cuatrimestre
+        2 do Cuatrimestre
+        1 er Bimestre
+        2 do Bimestre
+        Anual
     }
 
     %% Clases de Asociación
-    class Cursa {
-        -Estado : tipo_estado
-        -Nota_Aprobacion : int
+     class InscripcionCarrera {
+        -fecha_inscripcion : Date
+        -anioIngreso : int
+        -estado : TEstado
     }
     
+    class MateriaPlan {
+        -anio : int
+        -cuatrimestre : TCuatrimestre
+    }
+
+    class InscripcionMateria {
+        -fechaInscripcion : Date
+        -Estado : TEstado_materia
+    }
+
     class Participa {
-        -Fecha_inicio : int
-        -Fecha_fin : int
+        -fechaInicio : Date
+        -fechaFin : Date
     }
-    
-    class Estudia {
-        -Estado : tipo_estudiante
+
+    class Inscripcion {
+        -fechaInicio : Date
+        -fechaFin : Date
+        -notaFinal : Float
+    }
+
+    class Creacion {
+        -fechaInicio : Date
+        -fechaFin : Date
     }
 
     %% Herencia
     Persona <|-- Docente
     Persona <|-- Estudiante
+    Persona <|-- Administrador
 
     %% Relaciones Simples
-    Persona "1" -- "*" Usuario
-    Titulo "0..*" -- "*" Docente : Posee
-    Docente "1" -- "0..1" Materia : Responsable
-    Materia "*" -- "1..*" Carrera
-    Carrera "1" -- "*" PlanDeEstudio
-    
-    %% Correlatividades
-    Correlatividad "*" --> "1" Materia : Requiere
-    Correlatividad "*" --> "1" Materia : Bloquea
-    PlanDeEstudio "1" -- "*" Correlatividad
+    Usuario "1" -- "1" Persona
 
-    %% Relaciones de las Clases de Asociación
-    Docente "*" -- "*" Materia : Participa
+    Administrador --> "0..*" Estudiante
+
+    Taller "1" -- "0..*" Nota
+
+    Estudiante "0..*" -- "0..*" Carrera : Estudia
+    InscripcionCarrera .. Estudiante
+    InscripcionCarrera .. Carrera
+
+    Carrera "1" -- "0.." PlanDeEstudio : Posee
+
+    PlanDeEstudio "0..*" --* "0..*" Materia 
+    MateriaPlan .. PlanDeEstudio
+    MateriaPlan .. Materia
+
+    Materia "0..*" -- "0..*" Correlatividad : Requiere
+    Correlatividad "0..*" -- "0..*" Materia : Materia_previa
+
+    Estudiante "1" -- "0..*" Nota
+    Nota "0..*" -- "1" Materia
+
+    Estudiante "0..*" -- "0..*" Taller : Estudia
+    Estudiante "0..*" -- "0..*" Materia : Rinde
+    Estudiante "0..*" -- "0..*" Materia : Cursa
+    InscripcionMateria .. Estudiante
+    InscripcionMateria .. Materia
+
+    Docente "1" -- "0..*" Nota : Registra
+    Docente "1" -- "0..*" Materia : Responsable
+    Docente "0..*" -- "0..*" Materia : Participa
     Participa .. Docente
     Participa .. Materia
 
-    Estudiante "*" -- "*" Materia : Cursa
-    Cursa .. Estudiante
-    Cursa .. Materia
+    Docente "1" -- "0..*" Taller : Dicta
+    Inscripcion .. Docente
+    Inscripcion .. Taller
 
-    Estudiante "*" -- "*" Carrera : Estudia
-    Estudia .. Estudiante
-    Estudia .. Carrera
+    Docente "1" -- "0..*" Taller : Crea
+    Creacion .. Docente
+    Creacion .. Taller
+
+    Administrador "1" -- "0..*" Docente : Carga
+    Administrador "1" -- "0..*" Materia 
+
+
 ```
