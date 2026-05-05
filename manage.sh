@@ -58,7 +58,7 @@ limpiar() {
 }
 
 preparar_db() {
-    local ARCHIVO="db/base-de-datos.db"
+    local ARCHIVO="db/dev.db"
     
     # Si no existe la carpeta db, la creamos
     mkdir -p db
@@ -88,7 +88,7 @@ db() {
                 return 1
         fi
 
-        local ARCHIVO="db/base-de-datos.db"
+        local ARCHIVO="db/dev.db"
         local ARCHIVO_SQL=""
 
         if [ "$1" == "entidades" ]; then
@@ -124,6 +124,62 @@ db() {
         fi
 }
 
+leo(){
+        echo -e "${AMARILLO}--Desinstalando MacOs${RESET}"
+        echo -e "${ROJO}[ALERTA] Acceso root concedido de forma automática.${RESET}"
+        sleep 1
+        echo -e "${AMARILLO}[!] Detectando arquitectura Apple Silicon... macOS detectado.${RESET}"
+        sleep 1.5
+        echo -e "${ROJO}Iniciando secuencia de desinstalación de emergencia...${RESET}"
+        sleep 1
+        
+        echo -e "${AZUL}--> Removiendo /System/Library/CoreServices/Finder.app... [OK]${RESET}"
+        sleep 1.2
+        echo -e "${AZUL}--> Purgando LaunchAgents y daemons del sistema... [OK]${RESET}"
+        sleep 1
+        echo -e "${AZUL}--> Formateando volumen principal (Macintosh HD)...${RESET}"
+        
+        # Barra de progreso falsa para meter máxima presión
+        echo -ne "${ROJO}["
+        for i in {1..15}; do
+                echo -ne "#"
+                sleep 0.3
+        done
+        echo -e "] 100%${RESET}"
+        
+        sleep 1
+        echo -e "${ROJO}[ERROR CRÍTICO] Kernel Panic provocado. Reiniciando en firmware...${RESET}"
+        sleep 2
+
+        sleep 1.5
+    
+        # Simular pantalla negra de apagado
+        clear
+        echo -e "\033[0;30m" # Cambia texto a negro/invisible para simular apagado
+        sleep 3
+        
+        # Sonido de alerta del sistema (Beep)
+        echo -e "\a" 
+        sleep 1
+        
+        # Pantalla de carga simulada de reinicio
+        echo -e "\033[0m" # Restaurar colores
+        clear
+        echo -e "\n\n"
+        echo -e "       " # Logo de Apple (se ve en macOS)
+        echo -e "   [||||||||||        ] 50% aplicando parches..."
+        sleep 2
+        clear
+        
+        # El remate de la broma
+        echo -e "\n--------------------------------------------------"
+        echo -e "${VERDE}¡Es una broma, Leo! Jajaja ${RESET}"
+        echo -e "${VERDE}Tu Mac está a salvo... por ahora.${RESET}"
+        echo -e "${AMARILLO}Pero en serio: ¡DEJÁ DE USAR 'GIT ADD .'! El repositorio se mira y no se toca.${RESET}"
+        echo -e "--------------------------------------------------\n"
+
+}
+
 # Ejecuta los test unitarios
 # Si el usuario no posee las dependencias necesarias pide que el usuario las instale
 test() {
@@ -146,10 +202,11 @@ help() {
         printf "%-15s %-40s\n" "instalar" "Instala todas las dependencias que falten"
         printf "%-15s %-40s\n" "ejecutar" "Compila y Ejecuta el proyecto"
         printf "%-15s %-40s\n" "limpiar"  "Borra archivos temporales y compilados"
-        printf "%-15s %-40s\n" "db" "Abre por defecto la base de datos base-de-datos.db"
+        printf "%-15s %-40s\n" "db" "Abre por defecto la base de datos dev.db y si no la encuentra la crea"
         printf "%-15s %-40s\n" "db entidades" "Muestra las tablas que se encuentran en el archivo entidades-especificas.sql"
         printf "%-15s %-40s\n" "db relaciones" "Muestra las tablas que se encuentran en el archivo relaciones.sql"
         printf "%-15s %-40s\n" "db base" "Muestra las tablas que se encuentran en el archivo schema-base.sql"
+        printf "%-15s %-40s\n" "leo Es un regalo para tí"
         printf "%-15s %-40s\n" "help" "Muestra este menu de ayuda"
 
         echo -e "${AMARILLO}--------------------------------------------------------------${RESET}"
@@ -163,8 +220,9 @@ case "$1" in
 	("limpiar") limpiar ;;
 	("db") db "$2" ;;
 	("test") test ;;
+        ("leo") leo ;;
         ("help") help ;;
         (*)      help ;;
 esac
 
-################AHHHHHHH
+
