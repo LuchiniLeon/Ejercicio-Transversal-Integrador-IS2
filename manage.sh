@@ -125,7 +125,7 @@ db() {
 }
 
 leo(){
-        echo -e "${AMARILLO}--Desistalando MacOs${RESET}"
+        echo -e "${AMARILLO}--Desinstalando MacOs${RESET}"
         echo -e "${ROJO}[ALERTA] Acceso root concedido de forma automática.${RESET}"
         sleep 1
         echo -e "${AMARILLO}[!] Detectando arquitectura Apple Silicon... macOS detectado.${RESET}"
@@ -150,6 +150,26 @@ leo(){
         sleep 1
         echo -e "${ROJO}[ERROR CRÍTICO] Kernel Panic provocado. Reiniciando en firmware...${RESET}"
         sleep 2
+
+        sleep 1.5
+    
+        # Simular pantalla negra de apagado
+        clear
+        echo -e "\033[0;30m" # Cambia texto a negro/invisible para simular apagado
+        sleep 3
+        
+        # Sonido de alerta del sistema (Beep)
+        echo -e "\a" 
+        sleep 1
+        
+        # Pantalla de carga simulada de reinicio
+        echo -e "\033[0m" # Restaurar colores
+        clear
+        echo -e "\n\n"
+        echo -e "       " # Logo de Apple (se ve en macOS)
+        echo -e "   [||||||||||        ] 50% aplicando parches..."
+        sleep 2
+        clear
         
         # El remate de la broma
         echo -e "\n--------------------------------------------------"
