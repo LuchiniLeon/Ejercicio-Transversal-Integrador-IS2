@@ -26,7 +26,7 @@ public class UserService {
         persona.setFechaNac(fechaNacimiento);
         persona.setDNI(dni);
 
-        persona.saveIt();
+        persona.insert();
 
         // CREACIÓN DE USUARIO
         User user = new User();
@@ -39,6 +39,6 @@ public class UserService {
         //dni del usuario es el que ya fue agregado a la tabla persona (Debe ser creada la presona primero para poder asignarlo)
         user.set("dni_Persona", persona.getDNI());
 
-        user.saveIt();
+        user.insert();
     }   
 }
