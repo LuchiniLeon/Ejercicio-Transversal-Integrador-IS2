@@ -38,19 +38,6 @@ public class AuthController {
         req.session().attribute("userId", user.getId());
         req.session().attribute("loggedIn", true);
 
-        // admin (esto también es controller porque usa session)
-        Object adminValue = user.get("esAdministrador");
-        boolean isAdmin = false;
-
-        if (adminValue != null) {
-            if (adminValue instanceof Number) {
-                isAdmin = ((Number) adminValue).intValue() == 1;
-            } else if (adminValue instanceof Boolean) {
-                isAdmin = (Boolean) adminValue;
-            }
-        }
-
-        req.session().attribute("esAdministrador", isAdmin);
 
         res.redirect("/dashboard");
         return null;
