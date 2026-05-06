@@ -15,7 +15,7 @@ public class DashboardController {
         // Intenta obtener el nombre de usuario y la bandera de login de la sesión.
         String currentUsername = req.session().attribute("currentUserUsername");
         Boolean loggedIn = req.session().attribute("loggedIn");
-        Boolean esAdministrador = req.session().attribute("esAdministrador"); 
+
         // 1. Verificar si el usuario ha iniciado sesión.
         // Si no hay un nombre de usuario en la sesión, la bandera es nula o falsa,
         // significa que el usuario no está logueado o su sesión expiró.
@@ -28,9 +28,7 @@ public class DashboardController {
         // 2. Si el usuario está logueado, añade el nombre de usuario al modelo para la
         // plantilla.
         model.put("username", currentUsername);
-           if(esAdministrador != null && esAdministrador) {
-            model.put("esAdministrador", true);
-        }
+        
         // 3. Renderiza la plantilla del dashboard con el nombre de usuario.
         return new ModelAndView(model, "dashboard.mustache");
   }    
