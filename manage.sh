@@ -39,7 +39,7 @@ ejecutar() {
                         xdg-open http://localhost:8080 || echo -e "${AMARILLO}Por favor abre en el navegador http://localhost:8080${RESET}"
                 fi
 
-                mvn clean compile exec:java
+                mvn clean compile activejdbc-instrumentation:instrument exec:java -Dexec.mainClass="com.is1.proyecto.App"
         else
                 echo -e "${AMARILLO}--- Por favor utilice el metodo instalar() para tener todas las dependencias necesaria ---${RESET}"
                 echo -e "${AMARILLO}--- Para mas informacion ejecuta: ./manage.sh help ---${RESET}"
@@ -89,15 +89,24 @@ db() {
         fi
 
         local ARCHIVO="db/dev.db"
-        local ARCHIVO_SQL=""
 
-        if [ "$1" == "entidades" ]; then
-                ARCHIVO_SQL="db/entidades-especificas.sql"
+        if [[ "$1" == "-s" ]]; then
+                shift
 
-        elif [ "$1" == "relaciones" ]; then 
-                ARCHIVO_SQL="db/relaciones.sql"
-        elif [ "$1" == "base" ]; then
-                ARCHIVO_SQL="db/schema-base.sql"
+                local TABLES=("$@")
+
+                if [[ "${#TABLES[@]}" -eq 0 ]]; then
+                        echo -e "${ROJO}Error: Debes especificar el nombre de la tabla.${RESET}"
+                        return 1
+                fi
+
+                for TABLE in "${TABLES[@]}"
+                do      
+                        echo -e "${VERDE}---Esquema de la tabla: $TABLE ---${RESET}" 
+                        sqlite3 "$ARCHIVO" ".schema $TABLE"
+                        echo ""
+                done
+
         else 
                 echo -e "${ROJO} Abriendo directamente la base de datos${RESET}"
                 echo -e "${ROJO} Para salir escriba .exit o .quit"
@@ -106,78 +115,126 @@ db() {
                 sqlite3 "$ARCHIVO"
 
                 return 0
-        fi
-
-
-        if [ -f "$ARCHIVO_SQL" ]; then
-                echo -e "${AZUL} Mostrando las tablas que pertenecen a $1${RESET}"
-                TABLAS=$(grep -i "CREATE TABLE" "$ARCHIVO_SQL" |\
-                             sed -E 's/.*TABLE (IF NOT EXISTS )?//I' | \
-                             cut -d'(' -f1 | tr -d '\r ' | \
-                             paste -sd "," - | sed "s/,/','/g" | sed "s/^/'/" | sed "s/$/'/")
-
-                if [ -n "$TABLAS" ]; then
-                        sqlite3 "$ARCHIVO" "SELECT name FROM sqlite_master WHERE type='table' AND  name IN ($TABLAS);"
-                else
-                        echo -e "${AZUL}[ERROR] No se pudo encontrar el archivo $ARCHIVO_SQL${RESET}"
-                fi
-        fi
+       fi
 }
 
-leo(){
-        echo -e "${AMARILLO}--Desinstalando MacOs${RESET}"
-        echo -e "${ROJO}[ALERTA] Acceso root concedido de forma automática.${RESET}"
-        sleep 1
-        echo -e "${AMARILLO}[!] Detectando arquitectura Apple Silicon... macOS detectado.${RESET}"
-        sleep 1.5
-        echo -e "${ROJO}Iniciando secuencia de desinstalación de emergencia...${RESET}"
-        sleep 1
-        
-        echo -e "${AZUL}--> Removiendo /System/Library/CoreServices/Finder.app... [OK]${RESET}"
-        sleep 1.2
-        echo -e "${AZUL}--> Purgando LaunchAgents y daemons del sistema... [OK]${RESET}"
-        sleep 1
-        echo -e "${AZUL}--> Formateando volumen principal (Macintosh HD)...${RESET}"
-        
-        # Barra de progreso falsa para meter máxima presión
-        echo -ne "${ROJO}["
-        for i in {1..15}; do
-                echo -ne "#"
-                sleep 0.3
-        done
-        echo -e "] 100%${RESET}"
-        
-        sleep 1
-        echo -e "${ROJO}[ERROR CRÍTICO] Kernel Panic provocado. Reiniciando en firmware...${RESET}"
-        sleep 2
 
-        sleep 1.5
+
+broma(){
+    # Colores (Asegúrate de definirlos arriba o usarlos así)
+    ROJO='\033[0;31m'
+    VERDE='\033[0;32m'
+    RESET='\033[0m'
+
+    OS_TYPE="$(uname -s)"
+    KERNEL_INFO="$(uname -a)"
+
+    # IMPORTANTE: Espacios en los [[ ]]
+    if [[ "$OS_TYPE" == "Darwin" ]]; then
+        PLATFORM="macOS"
+        MENSAJE="--- Apple System Integrity Protection: DISABLED ---
+                Initializing deletion of /System/Library/CoreServices...
+                Removing: Finder.app, Dock.app, SystemUIServer.app
+                Unlinking local iCloud cache: ~/Library/Mobile Documents/..."
+        # Escapamos las comillas internas con \"
+        PANIC="panic(cpu 0 caller 0xffffff8012ad4e3b): \"Process 1 (launchd) exited. Critical system process died.\"
+                Debugger called: <panic>
+                Backtrace (CPU 0), Frame : Return Address
+                0xffffff811234bde0 : 0xffffff8011234567 
+                0xffffff811234be30 : 0xffffff8011345678 
+                BSD process name corresponding to current thread: launchd
+                Mac OS version: Not yet set"
+        REINICIO="[  OK  ] EFI Boot Manager initialized.
+                [  OK  ] Testing 16GB LPDDR4 RAM...
+                [ ERROR ] AppleImage4: Authentication failed for 'KernelCache'.
+                [ ERROR ] Boot path not found.
+                
+          🚫
+support.apple.com/mac/startup"
+
+    elif [[ "$KERNEL_INFO" == *"microsoft"* ]] || [[ "$KERNEL_INFO" == *"Microsoft"* ]]; then
+        PLATFORM="Windows (WSL)"
+        MENSAJE="--- WSL-INTEROP: Accessing Host File System (C:/) ---
+                Targeting: C:\\Windows\\System32\\drivers\\etc...
+                Deleting Registry Hives: HKEY_LOCAL_MACHINE\\SYSTEM...
+                Warning: Critical I/O error on /mnt/c/Users/\$(whoami)/Documents
+                Purging Windows Boot Manager (bootmgr)..."
+        PANIC="STOP: 0x0000007B (0xFFFFF880009A97E8, 0xFFFFFFFFC0000034, 0x0000000000000000, 0x0000000000000000)
+                INACCESSIBLE_BOOT_DEVICE
+
+                Your PC ran into a problem and needs to restart. We're just collecting
+                some error info, and then we'll restart for you. (0% complete)
+
+                If you call a support person, give them this info:
+                Stop Code: CRITICAL_PROCESS_DIED"
+        REINICIO="Preparing Automatic Repair...
+
+                Your PC did not start correctly.
+                Press \"Restart\" to restart your PC, which can sometimes fix the problem.
+
+                Log file: C:\\Windows\\System32\\Logfiles\\Srt\\SrtTrail.txt
+
+                [ Shutdown ]  [ Advanced options ]"
+
+    else 
+        PLATFORM="Linux"
+        MENSAJE="--- WARNING: EXECUTING AS ROOT (UID 0) ---
+                Wiping filesystem headers on /dev/sda1...
+                Removing: /boot/vmlinuz-\$(uname -r)
+                Unmounting /home and zeroing superblocks...
+                Purging Shared Libraries: /lib/x86_64-linux-gnu/libc.so.6"
+        PANIC="[   10.543210] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+                [   10.543215] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.15.0-generic
+                [   10.543220] Hardware name: Virtual Machine
+                [   10.543225] Call Trace:
+                [   10.543230]  [<ffffffff81b23456>] dump_stack+0x6d/0x89
+                [   10.543235]  [<ffffffff81b23456>] panic+0xe4/0x24d
+                ---[ end Kernel panic - not syncing: Attempted to kill init! ]---"
+        REINICIO="error: no such partition.
+                alloc magic is broken at 0x7f32a100: 0x0
+                Entering rescue mode...
+                grub rescue> _"
+    fi
+
+    echo -e "SISTEMA DETECTADO: $PLATFORM"
+    echo "------------------------------------------"
+    echo -e "$MENSAJE"
+
+    # Barra de carga
+    echo -ne "${ROJO}["
+    for i in {1..15}; do
+            echo -ne "#"
+            sleep 0.2
+    done
+    echo -e "] 100%${RESET}"
     
-        # Simular pantalla negra de apagado
-        clear
-        echo -e "\033[0;30m" # Cambia texto a negro/invisible para simular apagado
-        sleep 3
-        
-        # Sonido de alerta del sistema (Beep)
-        echo -e "\a" 
-        sleep 1
-        
-        # Pantalla de carga simulada de reinicio
-        echo -e "\033[0m" # Restaurar colores
-        clear
-        echo -e "\n\n"
-        echo -e "       " # Logo de Apple (se ve en macOS)
-        echo -e "   [||||||||||        ] 50% aplicando parches..."
-        sleep 2
-        clear
-        
-        # El remate de la broma
-        echo -e "\n--------------------------------------------------"
-        echo -e "${VERDE}¡Es una broma, Leo! Jajaja ${RESET}"
-        echo -e "${VERDE}Tu Mac está a salvo... por ahora.${RESET}"
-        echo -e "${AMARILLO}Pero en serio: ¡DEJÁ DE USAR 'GIT ADD .'! El repositorio se mira y no se toca.${RESET}"
-        echo -e "--------------------------------------------------\n"
+    sleep 1
+    clear
+    echo -e "${ROJO}$PANIC${RESET}"
+    sleep 3
 
+    # Simular pantalla negra de apagado
+    clear
+    sleep 2
+    
+    # Sonido de alerta (Beep)
+    echo -e "\a" 
+    sleep 1
+    
+    # Pantalla de carga simulada de reinicio
+    clear
+    echo -e "\n\n"
+    # El logo solo tiene sentido en Mac, pero queda bien como "misterio"
+    [[ "$PLATFORM" == "macOS" ]] && echo -e "       " 
+    echo -e "${ROJO}$REINICIO${RESET}"
+    sleep 4
+    clear
+    
+    # El remate
+    echo -e "\n--------------------------------------------------"
+    echo -e "${VERDE}   ¡Es una broma!${RESET}"
+    echo -e "${VERDE}   Tu sistema está a salvo... por ahora.${RESET}"
+    echo -e "--------------------------------------------------\n"
 }
 
 # Ejecuta los test unitarios
@@ -199,15 +256,13 @@ help() {
 
         printf "${VERDE}%-15s %-40s${RESET}\n" "Comando" "Funcionalidad"
         echo -e "${AMARILLO}--------------------------------------------------------------${RESET}"
-        printf "%-15s %-40s\n" "instalar" "Instala todas las dependencias que falten"
-        printf "%-15s %-40s\n" "ejecutar" "Compila y Ejecuta el proyecto"
-        printf "%-15s %-40s\n" "limpiar"  "Borra archivos temporales y compilados"
-        printf "%-15s %-40s\n" "db" "Abre por defecto la base de datos dev.db y si no la encuentra la crea"
-        printf "%-15s %-40s\n" "db entidades" "Muestra las tablas que se encuentran en el archivo entidades-especificas.sql"
-        printf "%-15s %-40s\n" "db relaciones" "Muestra las tablas que se encuentran en el archivo relaciones.sql"
-        printf "%-15s %-40s\n" "db base" "Muestra las tablas que se encuentran en el archivo schema-base.sql"
-        printf "%-15s %-40s\n" "leo Es un regalo para tí"
-        printf "%-15s %-40s\n" "help" "Muestra este menu de ayuda"
+        printf "%-15s %-40s\n" "instalar"       "Instala todas las dependencias que falten"
+        printf "%-15s %-40s\n" "ejecutar"       "Compila y Ejecuta el proyecto"
+        printf "%-15s %-40s\n" "limpiar"        "Borra archivos temporales y compilados"
+        printf "%-15s %-40s\n" "db"             "Abre por defecto la base de datos dev.db y si no la encuentra la crea"
+        printf "%-15s %-40s\n" "db -s [tablas]" "Muestra el esquema de todas tablas que se les pase como parametro (cada tabla debe estar separada por un espacio)"
+        printf "%-15s %-40s\n" "broma"          "Es una broma solo para valientes y quienes quieran reír un rato :)"
+        printf "%-15s %-40s\n" "help"           "Muestra este menu de ayuda"
 
         echo -e "${AMARILLO}--------------------------------------------------------------${RESET}"
         echo -e "Uso: ${VERDE}./manage.sh [comando]${RESET}"
@@ -218,9 +273,11 @@ case "$1" in
         ("instalar") instalar ;;
         ("ejecutar") ejecutar ;;
 	("limpiar") limpiar ;;
-	("db") db "$2" ;;
+	("db") shift 
+                db "$@"
+                ;;
 	("test") test ;;
-        ("leo") leo ;;
+        ("broma") broma ;;
         ("help") help ;;
         (*)      help ;;
 esac
