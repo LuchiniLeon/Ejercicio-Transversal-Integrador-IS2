@@ -70,18 +70,6 @@ CREATE TABLE IF NOT EXISTS participa (
     CONSTRAINT fk_dni_Est_participa FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS nota;
-
-CREATE TABLE IF NOT EXISTS nota (
-    id_Nota INTEGER,
-    condicion TEXT NOT NULL CHECK (condicion IN ('Libre', 'Regular', 'Promocional')),
-    nota_Final INTEGER NOT NULL,
-    fecha_Examen TEXT NOT NULL, --No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
-    dni_Estudiante INTEGER,
-    id_Materia INTEGER,
-    CONSTRAINT pk_nota PRIMARY KEY (id_Nota),
-    CONSTRAINT fk_id_Mat_Nota FOREIGN KEY (id_Materia, dni_Estudiante) REFERENCES rinde(id_Materia, dni_Estudiante) ON DELETE CASCADE
-);
 
 DROP TABLE IF EXISTS taller;
 
@@ -100,10 +88,25 @@ DROP TABLE IF EXISTS estudia;
 CREATE TABLE IF NOT EXISTS estudia (
     dni_Estudiante INTEGER,
     id_Taller INTEGER,
-    id_Nota INTEGER NOT NULL,
     CONSTRAINT pk_estudia PRIMARY KEY (id_Taller, dni_Estudiante),
     CONSTRAINT fk_taller_estudia FOREIGN KEY (id_Taller) REFERENCES taller(id_Taller) ON DELETE CASCADE,
     CONSTRAINT fk_ESt_Estudia FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS nota;
+
+CREATE TABLE IF NOT EXISTS nota (
+    id_Nota INTEGER,
+    condicion TEXT NOT NULL CHECK (condicion IN ('Libre', 'Regular', 'Promocional')),
+    nota_Final INTEGER NOT NULL,
+    fecha_Examen TEXT NOT NULL, --No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
+    dni_Estudiante INTEGER,
+    id_Materia INTEGER,
+    id_Taller INTEGER,
+    dni_Estudiante_Estudia INTEGER,
+    CONSTRAINT pk_nota PRIMARY KEY (id_Nota),
+    CONSTRAINT fk_id_Mat_Nota FOREIGN KEY (id_Materia, dni_Estudiante) REFERENCES rinde(id_Materia, dni_Estudiante) ON DELETE CASCADE,
+    CONSTRAINT fk_id_Taller_Nota FOREIGN KEY (id_Taller, dni_Estudiante_Estudia) REFERENCES estudia(id_Taller, dni_Estudiante) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS pertenece;
