@@ -33,6 +33,15 @@ CREATE TABLE IF NOT EXISTS telefono (
     CONSTRAINT fk_dni_persona_tel FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS email;
+
+CREATE TABLE IF NOT EXISTS email(
+    dni_Persona INTEGER,
+    email TEXT NOT NULL,
+    CONSTRAINT pk_dni_email PRIMARY KEY (dni_Persona),
+    CONSTRAINT fk_dni_persona_email FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON DELETE CASCADE
+);
+
 DROP TABLE IF EXISTS titulo;
 
 CREATE TABLE IF NOT EXISTS titulo (
