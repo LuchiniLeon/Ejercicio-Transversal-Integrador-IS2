@@ -17,6 +17,7 @@ public class UserController {
 
         String name = req.queryParams("name");
         String password = req.queryParams("password");
+        String passwordVerificacion = req.queryParams("passwordConfirmada");
         String nombre = req.queryParams("nombre");
         String apellido = req.queryParams("apellido");
         String fechaNacimiento = req.queryParams("fechaNacimiento");
@@ -39,6 +40,13 @@ public class UserController {
 
             return null;
 
+        }
+
+        if(password == null || !(password.equals(passwordVerificacion))){
+             res.redirect("/user/create?error=" +
+                URLEncoder.encode("La contraseña debe coincidir", StandardCharsets.UTF_8)
+            );
+            return null;
         }
 
 
