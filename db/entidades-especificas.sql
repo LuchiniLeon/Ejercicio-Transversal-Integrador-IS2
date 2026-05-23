@@ -85,3 +85,13 @@ CREATE TABLE IF NOT EXISTS materia (
     CONSTRAINT fk_dni_docente_materia FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON DELETE CASCADE,
     CONSTRAINT fk_dni_administrador_Mat FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON DELETE CASCADE
 );
+
+DROP TABLE IF EXISTS token_password;
+CREATE TABLE IF NOT EXISTS token_password(
+    token TEXT,
+    email TEXT NOT NULL,
+    fecha_expiracion TEXT NOT NULL,
+    usado INTEGER DEFAULT 0, -- 0 indica no usado
+    CONSTRAINT pk_token PRIMARY KEY (token),
+    CONSTRAINT fk_token_email FOREIGN KEY (email) REFERENCES email(email) ON DELETE CASCADE
+);

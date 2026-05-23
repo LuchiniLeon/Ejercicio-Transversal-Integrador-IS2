@@ -65,12 +65,12 @@ public class AuthController {
 
         Map<String, Object> model = new HashMap<>();
 
-        String errorMessage = req.queryParams("error");
+        String errorMessage = req.queryParams("errorMessage");
         if (errorMessage != null && !errorMessage.isEmpty()) {
             model.put("errorMessage", errorMessage);
         }
 
-        String successMessage = req.queryParams("message");
+        String successMessage = req.queryParams("successMessage");
         if (successMessage != null && !successMessage.isEmpty()) {
             model.put("successMessage", successMessage);
         }
