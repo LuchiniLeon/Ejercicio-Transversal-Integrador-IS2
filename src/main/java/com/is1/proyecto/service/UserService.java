@@ -1,5 +1,8 @@
 package com.is1.proyecto.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 import org.javalite.activejdbc.Base;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -18,6 +21,13 @@ public class UserService {
             dni == null || dni == 0 ) {
 
             throw new IllegalArgumentException("Todos los campos son requeridos");
+        }
+
+        //Validación de fecha (Formato y fecha existente)
+        try{
+            LocalDate.parse(fechaNacimiento);
+        }catch(DateTimeParseException e){
+            throw new IllegalArgumentException("La fecha de nacimiento debe estar en formato YYYY-MM-DD y ser una fecha válida");
         }
 
         //Abre la transacción acá
