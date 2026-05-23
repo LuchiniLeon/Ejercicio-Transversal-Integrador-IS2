@@ -2,6 +2,7 @@ package com.is1.proyecto.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.regex.Pattern;
 
 import org.javalite.activejdbc.Base;
 import org.mindrot.jbcrypt.BCrypt;
@@ -11,6 +12,10 @@ import com.is1.proyecto.models.User;
 import com.is1.proyecto.models.Email;
 
 public class UserService {
+
+    private static final String EXPRESION_REGULAR_EMAIL = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final Pattern PATRON_EMAIL = Pattern.compile(EXPRESION_REGULAR_EMAIL);
+
     public static void createUser(String name, String password, String nombre, String apellido, String fechaNacimiento, Integer dni, String email) {
 
         // VALIDACIONES
@@ -23,6 +28,11 @@ public class UserService {
             dni == null || dni == 0 ) {
 
             throw new IllegalArgumentException("Todos los campos son requeridos");
+        }
+
+        //Validación de formato del mail
+        if(!PATRON_EMAIL.matcher(email).matches()){
+            throw new IllegalArgumentException("Formato del email no es valido");
         }
 
         //Validación de fecha (Formato y fecha existente)
