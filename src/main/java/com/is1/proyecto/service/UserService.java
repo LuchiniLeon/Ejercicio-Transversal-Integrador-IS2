@@ -8,9 +8,10 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.User;
+import com.is1.proyecto.models.Email;
 
 public class UserService {
-    public static void createUser(String name, String password, String nombre, String apellido, String fechaNacimiento, Integer dni) {
+    public static void createUser(String name, String password, String nombre, String apellido, String fechaNacimiento, Integer dni, String email) {
 
         // VALIDACIONES
         if (name == null || name.isEmpty() ||
@@ -18,6 +19,7 @@ public class UserService {
             nombre == null || nombre.isEmpty() ||
             apellido == null || apellido.isEmpty() ||
             fechaNacimiento == null || fechaNacimiento.isEmpty() ||
+            email ==  null || email.isEmpty() ||
             dni == null || dni == 0 ) {
 
             throw new IllegalArgumentException("Todos los campos son requeridos");
@@ -40,8 +42,14 @@ public class UserService {
             persona.setApellido(apellido);
             persona.setFechaNac(fechaNacimiento);
             persona.setDNI(dni);
-
             persona.insert();
+
+            //CREACION DE EMAIL
+            Email modelEmail = new Email();
+            modelEmail.setDni(persona.getDNI());
+            modelEmail.setMail(email);
+            modelEmail.insert();
+
 
             // CREACIÓN DE USUARIO
             User user = new User();

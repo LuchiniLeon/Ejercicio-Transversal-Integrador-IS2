@@ -21,6 +21,7 @@ public class UserController {
         String nombre = req.queryParams("nombre");
         String apellido = req.queryParams("apellido");
         String fechaNacimiento = req.queryParams("fechaNacimiento");
+        String email = req.queryParams("email");
 
         Integer dni = null; //Para obtener el valor de dni del formulario, lo hacemos dentro de un try catch por si se pasó un valor distinto a Integer
         try{
@@ -52,7 +53,7 @@ public class UserController {
 
         try {
 
-            UserService.createUser(name, password, nombre, apellido, fechaNacimiento, dni);
+            UserService.createUser(name, password, nombre, apellido, fechaNacimiento, dni, email);
 
             res.status(201);
             res.redirect("/user/create?message=" +
