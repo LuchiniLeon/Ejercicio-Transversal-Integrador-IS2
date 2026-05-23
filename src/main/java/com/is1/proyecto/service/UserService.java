@@ -1,5 +1,6 @@
 package com.is1.proyecto.service;
 
+import org.javalite.activejdbc.Base;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.is1.proyecto.models.Persona;
@@ -19,26 +20,38 @@ public class UserService {
             throw new IllegalArgumentException("Todos los campos son requeridos");
         }
 
-        //CREACION DE PERSONA
-        Persona persona = new Persona();
-        persona.setNombre(nombre);
-        persona.setApellido(apellido);
-        persona.setFechaNac(fechaNacimiento);
-        persona.setDNI(dni);
+        //Abre la transacción acá
+        Base.openTransaction();
 
-        persona.insert();
+        try{
+            //CREACION DE PERSONA
+            Persona persona = new Persona();
+            persona.setNombre(nombre);
+            persona.setApellido(apellido);
+            persona.setFechaNac(fechaNacimiento);
+            persona.setDNI(dni);
 
-        // CREACIÓN DE USUARIO
-        User user = new User();
+            persona.insert();
 
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+            // CREACIÓN DE USUARIO
+            User user = new User();
 
-        user.setName(name);
-        user.setPassword(hashedPassword);
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        //dni del usuario es el que ya fue agregado a la tabla persona (Debe ser creada la presona primero para poder asignarlo)
-        user.set("dni_Persona", persona.getDNI());
+            user.setName(name);
+            user.setPassword(hashedPassword);
 
-        user.insert();
+            //dni del usuario es el que ya fue agregado a la tabla persona (Debe ser creada la presona primero para poder asignarlo)
+            user.set("dni_Persona", persona.getDNI());
+
+            user.insert();
+
+            //Si todo salió bien dentro del try, confirma para que pase a la bd
+            Base.commitTransaction(); 
+        }catch (Exception e){
+            //Si falló algo en el try, deshacemos todo para no dejar nada a medias en la bd
+            Base.rollbackTransaction();
+            throw e;
+        }
     }   
 }
