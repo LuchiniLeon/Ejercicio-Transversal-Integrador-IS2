@@ -29,14 +29,46 @@ public class PasswordRecoveryService {
         tokenPassword.set("usado", 0);
         tokenPassword.insert();
 
-        //ACA AÑADIR LOGICA CUANDO VEA COMO ENVIAR EL MAIL
-        //ESTO ES DE PRUEBA
-        String link = "http://localhost:8080/reset-password?token=" + token;
-        System.out.println("-------------------------------------------------");
-        System.out.println("EMAIL SIMULADO PARA: " + emailStr);
-        System.out.println("Para restablecer tu contraseña haz click aquí:");
-        System.out.println(link);
-        System.out.println("-------------------------------------------------");
+        //LOGICA PARA ENVIAR EL MAIL (con JavaMail)
+
+        //Configuracion
+        java.util.Properties prop = new java.util.Properties();
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "587");
+
+        //Credenciales
+        final String correo = System.getenv("EMAIL_USER"); //Variables de entorno definidas en .dev, no se carga a git
+        final String password = System.getenv("EMAIL_PASSWORD");
+
+        if(correo == null || password == null){
+            throw new IllegalStateException("Credenciales del correo no estan cargadas en el entorno");
+        }
+
+        //CRear sesion con autenticación
+        javax.mail.Session session = javax.mail.Session.getInstance(prop, new javax.mail.Authenticator(){
+            protected javax.mail.PasswordAuthentication getPasswordAuthentication(){
+                return new javax.mail.PasswordAuthentication(correo, password);
+            }
+        });
+
+        try {
+            //Escritura del mail
+            javax.mail.Message mensaje = new javax.mail.internet.MimeMessage(session);
+            mensaje.setFrom(new javax.mail.internet.InternetAddress(correo));
+            mensaje.setRecipients(javax.mail.Message.RecipientType.TO, javax.mail.internet.InternetAddress.parse(emailStr));
+            mensaje.setSubject("Recuperación de Contraseña - Sistema de Gestion Universitario");
+
+            String link = "http://localhost:8080/reset-password?token=" + token;
+            mensaje.setText("¡Buenos dias!,\n\nPara restablecer tu contraseña, haz clic en el siguiente enlace:\n" + link);
+
+            //Enviar mail
+            javax.mail.Transport.send(mensaje);
+            System.out.println("Correo enviado exitosamente a " + emailStr);
+        }catch(javax.mail.MessagingException e){
+            throw new RuntimeException("Error al enviar el correo " + e.getMessage());
+        }
     }
 
     //Validacion del token y cambio de contraseña
