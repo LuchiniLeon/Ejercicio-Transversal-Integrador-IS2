@@ -23,7 +23,15 @@ public class PasswordRecoveryController {
     //Muestra el formulario para la nueva contraseña
     public static ModelAndView resetPasswordGet(Request req, Response res){
         String token = req.queryParams("token");
-        HashMap model = new HashMap<>();
+        HashMap<String, Object> model = new HashMap<>();
+
+        try{
+            PasswordRecoveryService.validarToken(token);
+        }catch(IllegalArgumentException e){
+            res.redirect("/forgot-password?errorMessage=" + 
+                URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            return new ModelAndView(model, "forgot_password.mustache");
+        }
         model.put("token", token);
         return new ModelAndView(model, "password_recovery.mustache");
     }
@@ -50,6 +58,12 @@ public class PasswordRecoveryController {
     }
 
     public static ModelAndView formNew(Request req, Response res) {
-        return new ModelAndView(new HashMap<>(), "forgot_password.mustache");
+        HashMap<String, Object> model = new HashMap<>();
+
+        String errorMessage = req.queryParams("errorMessage");
+        if(errorMessage!=null && !errorMessage.isEmpty()){
+            model.put("errorMessage", errorMessage);
+        }
+        return new ModelAndView(model, "forgot_password.mustache");
     }
 }

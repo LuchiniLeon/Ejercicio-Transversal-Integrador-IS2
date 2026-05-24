@@ -71,19 +71,26 @@ public class PasswordRecoveryService {
         }
     }
 
-    //Validacion del token y cambio de contraseña
-    public static void reestablecerContraseña(String token, String nuevaPassword){
+    //Validación del token
+    public static void validarToken(String token){
         Token tokenPassword = Token.findById(token);
 
         if(tokenPassword == null || tokenPassword.getInteger("usado") == 1){
-            throw new IllegalArgumentException("El link usado es inválido o ya fue usado");
+            throw new IllegalArgumentException("El link usado es inválido o ya fue usado, por favor solicita uno nuevo.");
         }
 
         LocalDateTime expiracion = LocalDateTime.parse(tokenPassword.getExpiracion());
         if(LocalDateTime.now().isAfter(expiracion)){
-            throw new IllegalArgumentException("El link usado ya expiró");
+            throw new IllegalArgumentException("El link usado ya expiró, por favor solicita uno nuevo.");
         }
+    }
 
+    //Cambio de contraseña
+    public static void reestablecerContraseña(String token, String nuevaPassword){
+        validarToken(token);
+
+        Token tokenPassword = Token.findById(token);
+        
         Base.openTransaction();
         try{
             String emailStr = tokenPassword.getmail();
