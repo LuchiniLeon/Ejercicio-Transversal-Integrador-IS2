@@ -17,9 +17,11 @@ public class UserController {
 
         String name = req.queryParams("name");
         String password = req.queryParams("password");
+        String passwordVerificacion = req.queryParams("passwordConfirmada");
         String nombre = req.queryParams("nombre");
         String apellido = req.queryParams("apellido");
         String fechaNacimiento = req.queryParams("fechaNacimiento");
+        String email = req.queryParams("email");
 
         Integer dni = null; //Para obtener el valor de dni del formulario, lo hacemos dentro de un try catch por si se pasó un valor distinto a Integer
         try{
@@ -41,10 +43,17 @@ public class UserController {
 
         }
 
+        if(password == null || !(password.equals(passwordVerificacion))){
+             res.redirect("/user/create?error=" +
+                URLEncoder.encode("La contraseña debe coincidir", StandardCharsets.UTF_8)
+            );
+            return null;
+        }
+
 
         try {
 
-            UserService.createUser(name, password, nombre, apellido, fechaNacimiento, dni);
+            UserService.createUser(name, password, nombre, apellido, fechaNacimiento, dni, email);
 
             res.status(201);
             res.redirect("/user/create?message=" +
