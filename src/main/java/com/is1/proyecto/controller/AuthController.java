@@ -2,6 +2,7 @@ package com.is1.proyecto.controller;
 
 import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.AuthService;
+import com.is1.proyecto.service.SuperAdminService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,9 @@ import spark.ModelAndView;
 
 
 public class AuthController {
-     public static Object login(Request req, Response res) {
+    public static Object login(Request req, Response res) {
+
+        SuperAdminService.cargaSuperAdmin();
 
         Map<String, Object> model = new HashMap<>();
 

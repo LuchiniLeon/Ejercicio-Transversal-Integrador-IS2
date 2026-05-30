@@ -73,7 +73,7 @@ public class UserService {
             user.set("dni_Persona", persona.getDNI());
 
             user.insert();
-
+    
             //Si todo salió bien dentro del try, confirma para que pase a la bd
             Base.commitTransaction(); 
         }catch (Exception e){
