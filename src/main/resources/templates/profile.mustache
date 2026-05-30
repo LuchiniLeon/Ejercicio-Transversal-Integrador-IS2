@@ -15,64 +15,123 @@
             <h2 class="text-2xl text-gray-700 font-bold">{{name}}</h2>
         </div>
 
-        {{#isProfessor}}
-        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <p class="text-sm text-gray-500">Nombre Completo</p>
                     <p class="font-medium text-gray-800">{{nombre}} {{apellido}}</p>
                 </div>
+
                 <div>
                     <p class="text-sm text-gray-500">DNI</p>
                     <p class="font-medium text-gray-800">{{dni}}</p>
                 </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Fecha de Nacimiento</p>
+                    <p class="font-medium text-gray-800">{{fecha}}</p>
+                </div>
+         </div>
+
+        {{#esDocente}}
+        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <p class="text-sm text-gray-500">Legajo</p>
                     <p class="font-medium text-gray-800">{{legajo}}</p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Cargo</p>
-                    <p class="font-medium text-blue-600">{{cargo}}</p>
+                    <p class="font-medium text-blue-600">{{cargoDoc}}</p>
                 </div>
-                <div class="md:col-span-2">
-                    <p class="text-sm text-gray-500">Correo Electrónico</p>
-                    <p class="font-medium text-gray-800">{{correo}}</p>
-                </div>
-                {{#telefono}}
-                <div>
-                    <p class="text-sm text-gray-500">Teléfono</p>
-                    <p class="font-medium text-gray-800">{{telefono}}</p>
-                </div>
-                {{/telefono}}
-                {{#direccion}}
-                <div>
-                    <p class="text-sm text-gray-500">Dirección</p>
-                    <p class="font-medium text-gray-800">{{direccion}}</p>
-                </div>
-                {{/direccion}}
             </div>
         </div>
-        {{/isProfessor}}
+        {{/esDocente}}
 
-        {{^isProfessor}}
+        {{#esAdministrador}}
+        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <p class="text-sm text-gray-500">Cargo</p>
+                    <p class="font-medium text-gray-800">{{cargoAdm}}</p>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Sector</p>
+                    <p class="font-medium text-blue-600">{{sector}}</p>
+                </div>
+            </div>
+        </div>
+        {{/esAdministrador}}
+
+        {{#esEstudiante}}
+        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <p class="text-sm text-gray-500">Fecha Ingreso</p>
+                    <p class="font-medium text-gray-800">{{ingreso}}</p>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Estado Académico</p>
+                    <p class="font-medium text-blue-600">{{estado}}</p>
+                </div>
+            </div>
+        </div>
+        {{/esEstudiante}}
+
+        {{^esDocente}}
         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
             <div class="flex">
                 <div class="ml-3">
                     <p class="text-sm text-yellow-700">
-                        Este usuario no tiene un perfil de profesor asociado.
+                        Este usuario no tiene un perfil de docente asociado.
                     </p>
                 </div>
             </div>
         </div>
-        {{/isProfessor}}
+        {{/esDocente}}
 
-        <div class="text-center mt-8">
-            <a href="/dashboard" class="inline-block bg-gray-600 text-white py-2 px-6 rounded-md hover:bg-gray-700 transition duration-300">
+        {{^esAdministrador}}
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+            <div class="flex">
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                        Este usuario no tiene un perfil de administrador asociado.
+                    </p>
+                </div>
+            </div>
+        </div>
+        {{/esAdministrador}}
+
+        {{^esEstudiante}}
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+            <div class="flex">
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                        Este usuario no tiene un perfil de estudiante asociado.
+                    </p>
+                </div>
+            </div>
+        </div>
+        {{/esEstudiante}}
+
+        <div class="flex gap-4 mt-6">
+            <a href="/dashboard" 
+            class="w-1/2 inline-block bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                 Volver al Panel
             </a>
+            
+            <a href="/editor" 
+            class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                Editar Datos
+            </a>
         </div>
+
     </div>
 </body>
 </html>
