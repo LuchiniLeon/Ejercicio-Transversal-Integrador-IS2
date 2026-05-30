@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS inscripcion_Carrera (
     fecha_Ingreso TEXT NOT NULL, -- No existe el tipo date, por lo que se escribe asi: 'YYYY-MM-DD'
     anio_Ingreso TEXT NOT NULL, -- No existe el tipo date, por lo que se escribe asi: 'YYYY'
     CONSTRAINT pk_est_carrera PRIMARY KEY (id_Carrera, dni_Estudiante),
-    CONSTRAINT fk_dni_estudiante_insc FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON DELETE CASCADE,
+    CONSTRAINT fk_dni_estudiante_insc FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_id_Carrera_insc FOREIGN KEY (id_Carrera) REFERENCES carrera(id_Carrera) ON DELETE CASCADE
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS inscripcion_Materia (
     fecha_Inscripcion TEXT NOT NULL, --No existe el tipo date, por lo que se escribe asi: 'YYYY-MM-DD'
     CONSTRAINT pk_inscMat PRIMARY KEY (id_Materia, dni_Estudiante),
     CONSTRAINT fk_id_Mat_InscMat FOREIGN KEY (id_Materia) REFERENCES materia(id_Materia) ON DELETE CASCADE,
-    CONSTRAINT fk_dni_Est_InscMat FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON DELETE CASCADE
+    CONSTRAINT fk_dni_Est_InscMat FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS rinde;
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS rinde (
     id_Materia INTEGER,
     dni_Estudiante INTEGER,
     CONSTRAINT pk_rinde PRIMARY KEY (id_Materia, dni_Estudiante),
-    CONSTRAINT fk_dni_estudiante_rinde FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON DELETE CASCADE,
+    CONSTRAINT fk_dni_estudiante_rinde FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_id_Mat_rinde FOREIGN KEY (id_Materia) REFERENCES materia(id_Materia) ON DELETE CASCADE
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS participa (
     fecha_Fin TEXT NOT NULL, -- No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
     CONSTRAINT pk_participa PRIMARY KEY (id_Materia, dni_Docente),
     CONSTRAINT fk_id_Materia_participa FOREIGN key (id_Materia) REFERENCES materia(id_Materia) ON DELETE CASCADE,
-    CONSTRAINT fk_dni_Est_participa FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON DELETE CASCADE
+    CONSTRAINT fk_dni_Est_participa FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS taller (
     titulo TEXT NOT NULL,
     dni_Docente INTEGER NOT NULL,
     CONSTRAINT pk_taller PRIMARY KEY (id_Taller),
-    CONSTRAINT fk_doc_Taller FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON DELETE CASCADE
+    CONSTRAINT fk_doc_Taller FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS estudia;
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS estudia (
     id_Taller INTEGER,
     CONSTRAINT pk_estudia PRIMARY KEY (id_Taller, dni_Estudiante),
     CONSTRAINT fk_taller_estudia FOREIGN KEY (id_Taller) REFERENCES taller(id_Taller) ON DELETE CASCADE,
-    CONSTRAINT fk_ESt_Estudia FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON DELETE CASCADE
+    CONSTRAINT fk_ESt_Estudia FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS nota;
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS pertenece (
     dni_Estudiante INTEGER,
     id_Taller INTEGER,
     CONSTRAINT pk_pertenece PRIMARY KEY (id_Nota, dni_Estudiante, id_Taller),
-    CONSTRAINT fk_Est_pertenece FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON DELETE CASCADE,
+    CONSTRAINT fk_Est_pertenece FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_Nota_Pertenece FOREIGN KEY (id_Nota) REFERENCES nota(id_Nota) ON DELETE CASCADE,
     CONSTRAINT fk_Taller_pertenece FOREIGN KEY (id_Taller) REFERENCES taller(id_Taller) ON DELETE CASCADE
 );
