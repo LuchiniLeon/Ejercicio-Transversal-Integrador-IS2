@@ -7,12 +7,15 @@ import static spark.Spark.post;
 
 import java.util.HashMap;
 
+import com.is1.proyecto.controller.AdminController;
 import com.is1.proyecto.controller.AuthController;
 import com.is1.proyecto.controller.DashboardController;
 import com.is1.proyecto.controller.PasswordRecoveryController;
-import com.is1.proyecto.controller.ProfesorController;
+import com.is1.proyecto.controller.DocenteController;
 import com.is1.proyecto.controller.ProfileController;
+import com.is1.proyecto.controller.SuperAdminController;
 import com.is1.proyecto.controller.UserController;
+import com.is1.proyecto.controller.EditorController;
 
 public class Routes {
     
@@ -23,7 +26,11 @@ public class Routes {
         // GET: Muestra el formulario de creación de cuenta.
         get("/user/create", (req, res) -> UserController.formCreate(req, res), engine);
 
-        get("/profesor/alta", (req, res) -> ProfesorController.formAlta(req, res), engine);
+        get("/docente/alta", (req, res) -> DocenteController.formAlta(req, res), engine);
+
+        get("/admin/alta", (req, res) -> AdminController.formAlta(req, res), engine);
+
+        get("/superadmin/alta", (req, res) -> SuperAdminController.formAlta(req, res), engine);
 
         // GET: Ruta para mostrar el dashboard (panel de control) del usuario.
         // Requiere que el usuario esté autenticado.
@@ -40,9 +47,17 @@ public class Routes {
 
         // GET: Ver perfil del usuario
         get("/profile", (req, res) -> ProfileController.profile(req, res), engine);
+
+        get("/editor", (req, res) -> EditorController.editar(req, res), engine);
+
+       // get("/save", (req, res) -> EditorController.save(req, res), engine);
         
         //GET: Recuperacion de contraseña
         get("/forgot-password", (req, res) -> PasswordRecoveryController.formNew(req, res), engine);
+
+        get("/mensaje-advertencia", (req, res) -> EditorController.redireccion(req, res), engine);
+
+        get("/pedido-cambio", (req, res) -> EditorController.pedido(req, res), engine);
 
         //GET: Reestablecimiento con token
         get("/reset-password", (req, res) -> PasswordRecoveryController.resetPasswordGet(req, res), engine);
@@ -53,18 +68,36 @@ public class Routes {
         // POST
         // POST: Maneja el envío del formulario de creación de nueva cuenta.
         post("/user/new", (req, res) ->  UserController.create(req, res));
+
+        post("/profile", (req, res) -> ProfileController.profile(req, res));
+
+        post("/editor" , (req, res) -> EditorController.editar(req, res));
+
+        post("/save-usuario", (req, res) -> EditorController.saveUser(req, res));
+
+        post("/save-admin", (req, res) -> EditorController.saveAdmin(req, res));
      
         // POST: Maneja el envío del formulario de inicio de sesión.
         post("/login", (req, res) -> AuthController.login(req, res));
 
         // POST: Maneja el envío del formulario de Alta de Profesor (HU001)
-        post("/profesor/alta", (req, res) -> ProfesorController.alta(req, res));
+        post("/docente/alta", (req, res) -> DocenteController.alta(req, res));
+
+        post("/superadmin/alta", (req, res) -> SuperAdminController.alta(req, res));
+
+        post("/admin/alta", (req, res) -> AdminController.alta(req, res));
+
+        post("/superadmin/alta", (req, res) -> SuperAdminController.alta(req, res));
 
         // POST: Endpoint para añadir usuarios (API que devuelve JSON, no HTML).
         post("/add_users", (req, res) -> UserController.addUser(req, res));
 
         //POST: Recuperacion de contraseña
         post("/forgot-password", (req, res) -> PasswordRecoveryController.forgotPasswordPost(req, res));
+
+        post("/mensaje-advertencia", (req, res) -> EditorController.redireccion(req, res));
+
+        post("/pedido-cambio", (req, res) -> EditorController.pedido(req, res));
 
         //POST: Reestablecimiento con token
         post("/reset-password", (req, res) -> PasswordRecoveryController.resetPasswordPost(req, res));
