@@ -19,24 +19,24 @@ public static ModelAndView profile(Request req, Response res) {
         // Verificación de sesión
         if (req.session().attribute("loggedIn") == null) {
             res.redirect("/");
+            System.out.println("El logueo es nulo");
             return null;
         }
 
         // Obtener datos básicos del usuario
-        Integer userId = req.session().attribute("userId");
         String username = req.session().attribute("currentUserUsername");
 
         model.put("name", username);
 
         try {
-            Map<String, Object> profileData = ProfileService.getProfileData(userId);
-
+            Map<String, Object> profileData = ProfileService.getProfileData(username);
+            System.out.println("Sigo en el try");
             model.putAll(profileData);
-
+    
         } catch (Exception e) {
+            e.printStackTrace(); 
             model.put("errorMessage", "Error al cargar el perfil");
         }
-
         return new ModelAndView(model, "profile.mustache");
     }
 }

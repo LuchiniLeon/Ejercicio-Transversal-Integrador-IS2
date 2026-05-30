@@ -8,14 +8,14 @@ public class AuthService {
     public static User login(String username, String password) {
 
         // buscar usuario
-        User user = User.findFirst("name = ?", username);
+        User user = User.findFirst("nombreUsuario = ?", username);
 
         if (user == null) {
             return null;
         }
 
         // verificar password
-        String storedHashedPassword = user.getString("password");
+        String storedHashedPassword = user.getString("contraseña");
 
         if (!BCrypt.checkpw(password, storedHashedPassword)) {
             return null;

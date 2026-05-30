@@ -17,14 +17,47 @@ public class UserController {
 
         String name = req.queryParams("name");
         String password = req.queryParams("password");
+        String passwordVerificacion = req.queryParams("passwordConfirmada");
+        String nombre = req.queryParams("nombre");
+        String apellido = req.queryParams("apellido");
+        String fechaNacimiento = req.queryParams("fechaNacimiento");
+        String email = req.queryParams("email");
+
+        Integer dni = null; //Para obtener el valor de dni del formulario, lo hacemos dentro de un try catch por si se pasó un valor distinto a Integer
+        try{
+
+            String dniForm = req.queryParams("dni");
+            if(dniForm == null || dniForm.isEmpty()){
+                throw new NumberFormatException("El DNI está vacío");
+            }
+            dni = Integer.parseInt(dniForm);
+
+        } catch (NumberFormatException e) {
+            System.err.println("Formato incorrecto para campo DNI:" + e.getMessage());
+
+            res.redirect("/user/create?error=" +
+                URLEncoder.encode("DNI debe ser un número sin puntos ni espacios", StandardCharsets.UTF_8)
+            );
+
+            return null;
+
+        }
+
+        if(password == null || !(password.equals(passwordVerificacion))){
+             res.redirect("/user/create?error=" +
+                URLEncoder.encode("La contraseña debe coincidir", StandardCharsets.UTF_8)
+            );
+            return null;
+        }
+
 
         try {
 
-            UserService.createUser(name, password);
+            UserService.createUser(name, password, nombre, apellido, fechaNacimiento, dni, email);
 
             res.status(201);
             res.redirect("/user/create?message=" +
-                URLEncoder.encode("Cuenta creada exitosamente para " + name + "!", StandardCharsets.UTF_8)
+                URLEncoder.encode("Cuenta creada exitosamente para " + nombre + "!", StandardCharsets.UTF_8)
             );
 
             return "";
@@ -42,6 +75,7 @@ public class UserController {
 
             res.status(500);
             res.redirect("/user/create?error=Error interno al crear la cuenta.");
+            e.printStackTrace();
 
             return null;
         }   
@@ -89,8 +123,8 @@ public class UserController {
         try {
 
             User newUser = new User();
-            newUser.set("name", name);
-            newUser.set("password", password);
+            newUser.set("nombreUsuario", name);
+            newUser.set("contraseña", password);
             newUser.saveIt();
 
             res.status(201);

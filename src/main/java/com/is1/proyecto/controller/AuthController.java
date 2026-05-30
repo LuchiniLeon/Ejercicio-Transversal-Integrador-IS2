@@ -2,6 +2,7 @@ package com.is1.proyecto.controller;
 
 import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.AuthService;
+import com.is1.proyecto.service.SuperAdminService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,9 @@ import spark.ModelAndView;
 
 
 public class AuthController {
-     public static Object login(Request req, Response res) {
+    public static Object login(Request req, Response res) {
+
+        SuperAdminService.cargaSuperAdmin();
 
         Map<String, Object> model = new HashMap<>();
 
@@ -38,19 +41,6 @@ public class AuthController {
         req.session().attribute("userId", user.getId());
         req.session().attribute("loggedIn", true);
 
-        // admin (esto también es controller porque usa session)
-        Object adminValue = user.get("esAdministrador");
-        boolean isAdmin = false;
-
-        if (adminValue != null) {
-            if (adminValue instanceof Number) {
-                isAdmin = ((Number) adminValue).intValue() == 1;
-            } else if (adminValue instanceof Boolean) {
-                isAdmin = (Boolean) adminValue;
-            }
-        }
-
-        req.session().attribute("esAdministrador", isAdmin);
 
         res.redirect("/dashboard");
         return null;
@@ -78,12 +68,12 @@ public class AuthController {
 
         Map<String, Object> model = new HashMap<>();
 
-        String errorMessage = req.queryParams("error");
+        String errorMessage = req.queryParams("errorMessage");
         if (errorMessage != null && !errorMessage.isEmpty()) {
             model.put("errorMessage", errorMessage);
         }
 
-        String successMessage = req.queryParams("message");
+        String successMessage = req.queryParams("successMessage");
         if (successMessage != null && !successMessage.isEmpty()) {
             model.put("successMessage", successMessage);
         }

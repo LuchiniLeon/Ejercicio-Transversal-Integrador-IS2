@@ -8,45 +8,135 @@
 </head>
 <body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Panel de Control</h1>
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+        
+        <div class="flex items-center justify-between mb-6">
+            <div class="w-20 hidden sm:block"></div> 
 
+            <h1 class="text-3xl font-bold text-gray-800 text-center flex-1">Panel de Control</h1>
+
+            <div class="flex items-center gap-2 sm:w-20 justify-end">
+                <a href="/settings" class="text-gray-500 hover:text-green-600 p-2 rounded-full hover:bg-green-50 transition duration-300" title="Configuraciones">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.767a1.123 1.123 0 0 0-.417 1.03c.004.074.006.148.006.222 0 .074-.002.148-.006.222a1.123 1.123 0 0 0 .417 1.03l1.003.767a1.125 1.125 0 0 1 .26 1.43l-1.296 2.247a1.125 1.125 0 0 1-1.37.49l-1.216-.456a1.125 1.125 0 0 0-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281a1.125 1.125 0 0 0-.646-.87a6.555 6.555 0 0 1-.22-.127a1.125 1.125 0 0 0-1.074-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.004-.767a1.122 1.122 0 0 0 .417-1.03a6.57 6.57 0 0 1-.006-.222c0-.074.002-.148.006-.222a1.122 1.122 0 0 0-.417-1.03l-1.004-.767a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.49l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128c.332-.183.582-.495.646-.869L9.593 3.94Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                </a >
+
+                <a href="/profile" class="text-gray-500 hover:text-blue-600 p-1.5 rounded-full hover:bg-blue-50 transition duration-300" title="Mi Perfil">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
         {{#username}}
         <p class="text-xl text-center text-gray-700 mb-8">¡Bienvenido, <span class="font-semibold text-blue-600">{{username}}</span>!</p>
         {{/username}}
         {{^username}}
         <p class="text-xl text-center text-gray-700 mb-8">¡Bienvenido!</p>
         {{/username}}
+        
+        {{#esSuperAdmin}}
+            <div class="bg-red-100 border-l-4 border-red-500 border-t-4 border-red-500 text-white-700 p-5 mb-8 rounded-lg shadow-lg" role="alert">
+                <p class="font-bold text-xl text-center">Super Administrador</p>
+                <p class="text-center">Podes cargar nuevos administradores.</p>
+                <p class="text-center">Próximamente más funcionalidades serán agregadas.</p>
+            </div>
+        {{/esSuperAdmin}}
 
         {{#esAdministrador}}
             <div class="bg-red-100 border-l-4 border-red-500 border-t-4 border-red-500 text-white-700 p-5 mb-8 rounded-lg shadow-lg" role="alert">
                 <p class="font-bold text-xl text-center">Administrador</p>
-                <p class= text-center>Podes cargar nuevos profesores.</p>
-                <p class= text-center>Proximamente más funcionalidades seran agregadas.</p>
+                <p class="text-center">Podes cargar nuevos docentes.</p>
+                <p class="text-center">Próximamente más funcionalidades serán agregadas.</p>
             </div>
         {{/esAdministrador}}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-blue-50 border border-blue-200 p-6 rounded-lg text-center shadow-sm">
-                <h2 class="text-2xl font-bold text-blue-700 mb-3">Tu Perfil</h2>
-                <p class="text-gray-600 mb-4">Gestiona la información de tu cuenta.</p>
-                <a href="/profile" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">Ver Perfil</a>
+        {{#esDocente}}
+           <div class="bg-red-100 border-l-4 border-red-500 border-t-4 border-red-500 text-white-700 p-5 mb-8 rounded-lg shadow-lg" role="alert">
+                <p class="font-bold text-xl text-center">Docentes</p>
+                <p class="text-center">Podes cargar nuevos Talleres y Cargar notas.</p>
+                <p class="text-center">Próximamente más funcionalidades serán agregadas.</p>
             </div>
-            <div class="bg-green-50 border border-green-200 p-6 rounded-lg text-center shadow-sm">
-                <h2 class="text-2xl font-bold text-green-700 mb-3">Configuraciones</h2>
-                <p class="text-gray-600 mb-4">Ajusta las preferencias de tu aplicación.</p>
-                <a href="/settings" class="inline-block bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition duration-300">Configuración</a>
+        {{/esDocente}}
+
+        {{#esEstudiante}}
+           <div class="bg-red-100 border-l-4 border-red-500 border-t-4 border-red-500 text-white-700 p-5 mb-8 rounded-lg shadow-lg" role="alert">
+                <p class="font-bold text-xl text-center">Estudiante</p>
+                <p class="text-center">Podes inscribirte a materias y talleres.</p>
+                <p class="text-center">Próximamente más funcionalidades serán agregadas.</p>
             </div>
+        {{/esEstudiante}}
+
+
+        <div class="mt-8 mb-8 border-t border-gray-100 pt-6">
+            
+            {{#esAdministrador}}
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <a href="/docente/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
+                        Cargar nuevo Docente
+                    </a>
+                    <a href="/estudiante/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
+                        Cargar nuevo Estudiante
+                    </a>
+                    <a href="/editor?modo=oculto" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
+                        Editar Usuario
+                    </a>
+                </div>
+            {{/esAdministrador}}
+
+            {{#esSuperAdmin}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
+                    <a href="/superadmin/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm flex items-center justify-center">
+                        Cargar nuevo Administrador
+                    </a>
+                    <a href="/editor?modo=oculto" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm flex items-center justify-center">
+                        Editar Usuario
+                    </a>
+                </div>
+            {{/esSuperAdmin}}
+
+            {{#esDocente}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
+                    <a href="/taller/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm flex items-center justify-center">
+                        Cargar nuevo taller
+                    </a>
+                    <a href="/nota/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm flex items-center justify-center">
+                        Cargar Nota
+                    </a>
+                </div>
+            {{/esDocente}}
+
+            {{#esEstudiante}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                    <a href="/inscripcion/materia" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
+                        Inscribirse Materia
+                    </a>
+                    <a href="/inscripcion/carrera" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
+                        Inscribirse Carrera
+                    </a>
+                    <a href="/estado/carrera" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
+                        Estado Carrera
+                    </a>
+                    <a href="/estado/materia" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
+                        Estado Materia
+                    </a>
+                    <a href="/estado/taller" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
+                        Estado Taller
+                    </a>
+                </div>                
+            {{/esEstudiante}}
+
         </div>
 
-        {{#esAdministrador}}
-          <div class="text-center mt-6">
-            <a href="/profesor/alta" class="inline-block bg-blue-600 text-white py-2 px-8 rounded-md hover:bg-red-700 transition duration-300 text-lg">Cargar nuevo profesor</a>
-          </div>
-        {{/esAdministrador}}
-
-        <div class="text-center mt-6">
-            <a href="/logout" class="inline-block bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700 transition duration-300 text-lg">Cerrar Sesión</a>
+        <div class="flex justify-center border-t border-gray-150 pt-4">
+            <a href="/logout" class="w-full max-w-xs text-center inline-block bg-red-500 text-white py-3 px-6 rounded-md hover:bg-red-600 transition duration-300 font-semibold shadow-md">
+                Cerrar Sesión
+            </a>
         </div>
+
     </div>
 </body>
 </html>

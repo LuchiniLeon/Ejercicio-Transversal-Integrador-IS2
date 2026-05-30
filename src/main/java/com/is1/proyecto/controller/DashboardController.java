@@ -3,6 +3,12 @@ package com.is1.proyecto.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.is1.proyecto.models.Admin;
+import com.is1.proyecto.models.Docente;
+import com.is1.proyecto.models.Estudiante;
+import com.is1.proyecto.models.Persona;
+import com.is1.proyecto.models.User;
+
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
@@ -15,7 +21,7 @@ public class DashboardController {
         // Intenta obtener el nombre de usuario y la bandera de login de la sesión.
         String currentUsername = req.session().attribute("currentUserUsername");
         Boolean loggedIn = req.session().attribute("loggedIn");
-        Boolean esAdministrador = req.session().attribute("esAdministrador"); 
+
         // 1. Verificar si el usuario ha iniciado sesión.
         // Si no hay un nombre de usuario en la sesión, la bandera es nula o falsa,
         // significa que el usuario no está logueado o su sesión expiró.
@@ -27,10 +33,30 @@ public class DashboardController {
         }
         // 2. Si el usuario está logueado, añade el nombre de usuario al modelo para la
         // plantilla.
-        model.put("username", currentUsername);
-           if(esAdministrador != null && esAdministrador) {
-            model.put("esAdministrador", true);
+        boolean esSuper = "SuperAdmin55555".equals(req.session().attribute("currentUserUsername"));
+
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Persona person = Persona.findFirst("dni = ?", user.getDNI());
+
+        if(person != null){
+            // Usamos findFirst de forma segura. Si no es admin, da null, NO rompe la conexión.
+            java.util.List<Admin> admins = Admin.where("dni_Persona = ?", user.getDNI());
+            if(!admins.isEmpty()) model.put("esAdministrador", true);
+
+            java.util.List<Docente> docentes = Docente.where("dni_Persona = ?", user.getDNI());
+            if(!docentes.isEmpty()) model.put("esDocente", true);
+
+            java.util.List<Estudiante> estudiantes = Estudiante.where("dni_Persona = ?", user.getDNI());
+            if(!estudiantes.isEmpty()) model.put("esEstudiante", true);
         }
+        
+        if(esSuper){
+            model.put("esSuperAdmin", esSuper);
+            model.replace("esAdministrador", false);
+        }
+
+        model.put("username", currentUsername);
+        
         // 3. Renderiza la plantilla del dashboard con el nombre de usuario.
         return new ModelAndView(model, "dashboard.mustache");
   }    
