@@ -36,4 +36,6 @@ public class User extends Model {
         return getInteger("dni_Persona"); // Obtiene el valor de la columna 'id'
     }
 
+    public void setDNI(Integer dni){ set("dni_Persona", dni); }
+
 }

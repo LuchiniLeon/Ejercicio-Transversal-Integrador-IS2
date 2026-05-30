@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS estudiante (
     ingreso TEXT NOT NULL, -- No existe el tipo date, por lo que se debe escribir así: 'YYYY-MM-DD'
     dni_Administrador INTEGER,
     CONSTRAINT pk_dni_Estudiante PRIMARY KEY (dni_Persona),
-    CONSTRAINT fk_dni_persona_Estudiante FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON DELETE CASCADE,
-    CONSTRAINT fk_dni_persona_administrador_Est FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON DELETE CASCADE
+    CONSTRAINT fk_dni_persona_Estudiante FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_dni_persona_administrador_Est FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS docente;
@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS docente (
     cargo TEXT NOT NULL,
     dni_Administrador INTEGER,
     CONSTRAINT pk_dni_docente PRIMARY KEY (dni_Persona),
-    CONSTRAINT fk_dni_persona_docente FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON DELETE CASCADE,
-    CONSTRAINT fk_dni_persona_administrador_doc FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON DELETE CASCADE
+    CONSTRAINT fk_dni_persona_docente FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_dni_persona_administrador_doc FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS telefono;
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS telefono (
     dni_Persona INTEGER,
     telefono TEXT NOT NULL,
     CONSTRAINT pk_dni_telefono PRIMARY KEY (dni_Persona),
-    CONSTRAINT fk_dni_persona_tel FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON DELETE CASCADE
+    CONSTRAINT fk_dni_persona_tel FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS email;
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS email(
     dni_Persona INTEGER,
     email TEXT NOT NULL,
     CONSTRAINT pk_dni_email PRIMARY KEY (dni_Persona),
-    CONSTRAINT fk_dni_persona_email FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON DELETE CASCADE
+    CONSTRAINT fk_dni_persona_email FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS titulo;
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS titulo (
     dni_Docente INTEGER,
     titulo TEXT NOT NULL,
     CONSTRAINT pk_dni_titulo PRIMARY KEY (dni_Docente),
-    CONSTRAINT fk_dni_docente_titulo FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON DELETE CASCADE
+    CONSTRAINT fk_dni_docente_titulo FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS carrera;
@@ -82,8 +82,8 @@ CREATE TABLE IF NOT EXISTS materia (
     dni_Administrador INTEGER NOT NULL,
     dni_Docente INTEGER NOT NULL,
     CONSTRAINT pk_id_materia PRIMARY KEY (id_Materia),
-    CONSTRAINT fk_dni_docente_materia FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON DELETE CASCADE,
-    CONSTRAINT fk_dni_administrador_Mat FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON DELETE CASCADE
+    CONSTRAINT fk_dni_docente_materia FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_dni_administrador_Mat FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS token_password;

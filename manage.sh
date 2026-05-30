@@ -6,6 +6,32 @@ AZUL='\033[0;34m'
 AMARILLO='\033[0;33m'
 RESET='\033[0m'
 
+
+managepro(){
+
+        CONFIG_FILE="$HOME/.bashrc"
+        if [ -f "$HOME/.zshrc" ]; then
+                CONFIG_FILE="$HOME/.zshrc"
+        fi
+
+        # Guardamos la ruta en RUTA_ABSOLUTA
+        RUTA_ABSOLUTA="$(realpath "$0")"
+
+        echo "" >> "$CONFIG_FILE"
+        echo "# Comandos rápidos de manage.sh" >> "$CONFIG_FILE"
+        
+        
+        echo "alias manage='$RUTA_ABSOLUTA'" >> "$CONFIG_FILE"
+        echo "alias instalar='$RUTA_ABSOLUTA instalar'" >> "$CONFIG_FILE"
+        echo "alias ejecutar='$RUTA_ABSOLUTA ejecutar'" >> "$CONFIG_FILE"
+        echo "alias limpiar='$RUTA_ABSOLUTA limpiar'" >> "$CONFIG_FILE"
+        echo "alias db='$RUTA_ABSOLUTA db'" >> "$CONFIG_FILE"
+        echo "alias test='$RUTA_ABSOLUTA test'" >> "$CONFIG_FILE"
+
+        echo -e "${VERDE}¡Instalación exitosa!${RESET}"
+        echo -e "${AZUL}Ahora debes reiniciar la terminal o ejecutar: source $CONFIG_FILE${RESET}"
+}
+
 # Instala todas las dependencias necesarias de una vez
 # Si el usuario ya tiene alguna dependencia no la descarga
 instalar() {
@@ -265,6 +291,7 @@ help() {
 
         printf "${VERDE}%-15s %-40s${RESET}\n" "Comando" "Funcionalidad"
         echo -e "${AMARILLO}--------------------------------------------------------------${RESET}"
+        printf "%-15s %-40s\n" "managepro"      "Instala todos los comandos directamente en sus compus"
         printf "%-15s %-40s\n" "instalar"       "Instala todas las dependencias que falten"
         printf "%-15s %-40s\n" "ejecutar"       "Compila y Ejecuta el proyecto"
         printf "%-15s %-40s\n" "limpiar"        "Borra archivos temporales y compilados"
@@ -279,6 +306,7 @@ help() {
 }
 
 case "$1" in
+        ("managepro") managepro ;;
         ("instalar") instalar ;;
         ("ejecutar") ejecutar ;;
 	("limpiar") limpiar ;;
