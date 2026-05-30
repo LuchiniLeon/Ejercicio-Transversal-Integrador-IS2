@@ -30,6 +30,10 @@ public class UserService {
             throw new IllegalArgumentException("Todos los campos son requeridos");
         }
 
+        if(dni > 99999999 || dni <= 0){
+            throw new IllegalArgumentException("DNI debe ser un número válido de hasta 8 digitos");
+        }
+ 
         //Validación de formato del mail
         if(!PATRON_EMAIL.matcher(email).matches()){
             throw new IllegalArgumentException("Formato del email no es valido");
