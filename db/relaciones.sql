@@ -1,6 +1,5 @@
 PRAGMA foreign_keys = ON;
 
-DROP TABLE IF EXISTS inscripcion_Carrera;
 
 CREATE TABLE IF NOT EXISTS inscripcion_Carrera (
     dni_Estudiante INTEGER,
@@ -13,7 +12,6 @@ CREATE TABLE IF NOT EXISTS inscripcion_Carrera (
     CONSTRAINT fk_id_Carrera_insc FOREIGN KEY (id_Carrera) REFERENCES carrera(id_Carrera) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS materia_Plan;
 
 CREATE TABLE IF NOT EXISTS materia_Plan (
     id_Plan INTEGER,
@@ -25,7 +23,6 @@ CREATE TABLE IF NOT EXISTS materia_Plan (
     CONSTRAINT fk_id_Materia_matP FOREIGN KEY (id_Materia) REFERENCES materia(id_Materia) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS correlatividad;
 
 CREATE TABLE IF NOT EXISTS correlatividad (
     id_Materia_Primaria INTEGER,
@@ -48,7 +45,6 @@ CREATE TABLE IF NOT EXISTS inscripcion_Materia (
     CONSTRAINT fk_dni_Est_InscMat FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS rinde;
 
 CREATE TABLE IF NOT EXISTS rinde (
     id_Materia INTEGER,
@@ -57,8 +53,6 @@ CREATE TABLE IF NOT EXISTS rinde (
     CONSTRAINT fk_dni_estudiante_rinde FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_id_Mat_rinde FOREIGN KEY (id_Materia) REFERENCES materia(id_Materia) ON DELETE CASCADE
 );
-
-DROP TABLE IF EXISTS participa;
 
 CREATE TABLE IF NOT EXISTS participa (
     id_Materia INTEGER,
@@ -71,8 +65,6 @@ CREATE TABLE IF NOT EXISTS participa (
 );
 
 
-DROP TABLE IF EXISTS taller;
-
 CREATE TABLE IF NOT EXISTS taller (
     id_Taller INTEGER,
     vigente INTEGER NOT NULL DEFAULT 0 CHECK (vigente IN (0, 1)),
@@ -83,7 +75,7 @@ CREATE TABLE IF NOT EXISTS taller (
     CONSTRAINT fk_doc_Taller FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS estudia;
+
 
 CREATE TABLE IF NOT EXISTS estudia (
     dni_Estudiante INTEGER,
@@ -92,8 +84,6 @@ CREATE TABLE IF NOT EXISTS estudia (
     CONSTRAINT fk_taller_estudia FOREIGN KEY (id_Taller) REFERENCES taller(id_Taller) ON DELETE CASCADE,
     CONSTRAINT fk_ESt_Estudia FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-DROP TABLE IF EXISTS nota;
 
 CREATE TABLE IF NOT EXISTS nota (
     id_Nota INTEGER,
@@ -109,7 +99,7 @@ CREATE TABLE IF NOT EXISTS nota (
     CONSTRAINT fk_id_Taller_Nota FOREIGN KEY (id_Taller, dni_Estudiante_Estudia) REFERENCES estudia(id_Taller, dni_Estudiante) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS pertenece;
+
 
 CREATE TABLE IF NOT EXISTS pertenece (
     id_Nota INTEGER,

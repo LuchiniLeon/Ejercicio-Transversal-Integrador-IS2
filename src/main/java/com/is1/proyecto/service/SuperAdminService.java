@@ -11,28 +11,40 @@ public class SuperAdminService {
         
         
         SuperAdmin admin = new SuperAdmin();
+        //Hardcodeo
+        UserService.createUser("Leo4", "Leo4", "Leonel", "Campos", "1900-05-23", 25325125, "mechylacruz06@gmail.com");
+        UserService.createUser("UriCocos4", "UriCocos4", "Uriel", "Luchinni", "1900-05-23", 54118344, "mechylacruz06@gmail.com");
+        UserService.createUser("Agos100", "Agos100", "Agostina", "Dios Sabe", "1900-05-23", 48458455, "mechylacruz06@gmail.com");
+            
+        Base.openTransaction();
         
         try{
           
             User exist = User.findFirst("nombreUsuario = ?", admin.getUsuario());
 
             if(exist != null){
-
                 System.out.println("Saltando creación de Super Admin");
+                Base.commitTransaction();
                 return;
             }
 
             UserService.createUser(admin.getUsuario(), admin.getPassword(), admin.getNombre(), admin.getApellido(), admin.getFecha(), admin.getDni(), admin.getEmail());
-            //Hardcodeo
-            //UserService.createUser("Leo4", "Leo4", "Leonel", "Campos", "1900-05-23", 25325125, "mechylacruz06@gmail.com");
-            //UserService.createUser("UriCocos4", "UriCocos4", "Uriel", "Luchinni", "1900-05-23", 54118344, "mechylacruz06@gmail.com");
-            //UserService.createUser("Agos100", "Agos100", "Agostina", "Dios Sabe", "1900-05-23", 48458455, "mechylacruz06@gmail.com");
-            Base.openTransaction();
-            
+
             String sql = "INSERT INTO administrador (dni_Persona, cargo, sector) VALUES (?, ?, ?)";
 
             Base.exec(sql, admin.getDni(), admin.getCargo(), admin.getSector());
             
+
+            // Hardcodeo — solo si no existen
+            if (User.findFirst("nombreUsuario = ?", "Leo4") == null)
+                UserService.createUser("Leo4", "Leo4", "Leonel", "Campos", "1900-05-23", 25325125, "mechylacruz06@gmail.com");
+
+            if (User.findFirst("nombreUsuario = ?", "UriCocos4") == null)
+                UserService.createUser("UriCocos4", "UriCocos4", "Uriel", "Luchinni", "1900-05-23", 54118344, "mechylacruz06@gmail.com");
+
+            if (User.findFirst("nombreUsuario = ?", "Agos100") == null)
+                UserService.createUser("Agos100", "Agos100", "Agostina", "Dios Sabe", "1900-05-23", 48458455, "mechylacruz06@gmail.com");
+
             //Hardcodeo
         //    String sqlAdm = "INSERT INTO administrador (dni_Persona, cargo, sector) VALUES (?, ?, ?)";
         //   String sqlDocente = "INSERT INTO docente (dni_Persona, legajo, cargo, dni_Administrador) VALUES(?, ?, ?, ?)";
