@@ -1,5 +1,15 @@
 PRAGMA foreign_keys = ON;
 
+DROP TABLE IF EXISTS pertenece;
+DROP TABLE IF EXISTS nota;
+DROP TABLE IF EXISTS estudia;
+DROP TABLE IF EXISTS taller;
+DROP TABLE IF EXISTS participa;
+DROP TABLE IF EXISTS rinde;
+DROP TABLE IF EXISTS inscripcion_Materia;
+DROP TABLE IF EXISTS correlatividad;
+DROP TABLE IF EXISTS materia_Plan;
+DROP TABLE IF EXISTS inscripcion_Carrera;
 
 CREATE TABLE IF NOT EXISTS inscripcion_Carrera (
     dni_Estudiante INTEGER,

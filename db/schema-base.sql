@@ -1,4 +1,9 @@
 PRAGMA foreign_keys = ON;
+
+DROP TABLE IF EXISTS administrador;
+DROP TABLE IF EXISTS usuario;
+DROP TABLE IF EXISTS persona;
+
 CREATE TABLE IF NOT EXISTS persona (
     dni INTEGER,
     nombre TEXT NOT NULL,

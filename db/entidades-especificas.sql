@@ -1,5 +1,17 @@
 PRAGMA foreign_keys = ON;
 
+
+DROP TABLE IF EXISTS token_password;
+DROP TABLE IF EXISTS titulo;
+DROP TABLE IF EXISTS email;
+DROP TABLE IF EXISTS telefono;
+DROP TABLE IF EXISTS materia;
+DROP TABLE IF EXISTS planEstudio;
+DROP TABLE IF EXISTS carrera;
+DROP TABLE IF EXISTS estudiante;
+DROP TABLE IF EXISTS docente;
+
+
 CREATE TABLE IF NOT EXISTS estudiante (
     dni_Persona INTEGER,
     estado_Academico TEXT NOT NULL,
