@@ -75,14 +75,17 @@
             
             {{#esAdministrador}}
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <a href="/editor?modo=oculto" class="col-span-1 sm:col-span-3 text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
+                        Editar Usuario
+                    </a>
                     <a href="/docente/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
                         Cargar nuevo Docente
                     </a>
                     <a href="/estudiante/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
                         Cargar nuevo Estudiante
                     </a>
-                    <a href="/editor?modo=oculto" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
-                        Editar Usuario
+                    <a href="/asignar/profesor" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
+                        Asignar profesor
                     </a>
                 </div>
             {{/esAdministrador}}

@@ -74,4 +74,10 @@ public class AdminController {
     
         return new ModelAndView(model, "admin_form.mustache");
     }
+
+    //Metodo que recibe la peticion para mostrar la plantilla de opciones de asignacion a profesores
+    public static ModelAndView opcionesAsignacion(Request req, Response res) {
+
+        return new ModelAndView(new HashMap<>(), "opciones_asignacion.mustache");
+    }
 }
