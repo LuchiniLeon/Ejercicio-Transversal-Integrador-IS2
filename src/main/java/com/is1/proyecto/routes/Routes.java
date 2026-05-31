@@ -62,6 +62,9 @@ public class Routes {
         //GET: Reestablecimiento con token
         get("/reset-password", (req, res) -> PasswordRecoveryController.resetPasswordGet(req, res), engine);
 
+        // GET: Muestra las opciones para asignar un profesor
+        get("/asignar/profesor", (req, res) -> AdminController.opcionesAsignacion(req, res), engine);
+
 
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
