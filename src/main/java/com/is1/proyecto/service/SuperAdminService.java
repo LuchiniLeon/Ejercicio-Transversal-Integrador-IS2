@@ -2,7 +2,8 @@ package com.is1.proyecto.service;
 
 import org.javalite.activejdbc.Base;
 
-import com.is1.proyecto.models.*;
+import com.is1.proyecto.models.SuperAdmin;
+import com.is1.proyecto.models.User;
 
 public class SuperAdminService {
  
@@ -33,14 +34,14 @@ public class SuperAdminService {
             Base.exec(sql, admin.getDni(), admin.getCargo(), admin.getSector());
             
             //Hardcodeo
-            String sqlAdm = "INSERT INTO administrador (dni_Persona, cargo, sector) VALUES (?, ?, ?)";
-            String sqlDocente = "INSERT INTO docente (dni_Persona, legajo, cargo, dni_Administrador) VALUES(?, ?, ?, ?)";
-            String sqlEst = "INSERT INTO estudiante (dni_Persona, estado_Academico, ingreso, dni_administrador) VALUES (?, ?, ?, ?)";
+        //    String sqlAdm = "INSERT INTO administrador (dni_Persona, cargo, sector) VALUES (?, ?, ?)";
+        //   String sqlDocente = "INSERT INTO docente (dni_Persona, legajo, cargo, dni_Administrador) VALUES(?, ?, ?, ?)";
+        //    String sqlEst = "INSERT INTO estudiante (dni_Persona, estado_Academico, ingreso, dni_administrador) VALUES (?, ?, ?, ?)";
 
             
-            Base.exec(sqlAdm, 48458455, "EXPERIENCIA", "GRUPO");
-            Base.exec(sqlDocente, 54118344, 452182584, "AYUDANTE", 48458455);
-            Base.exec(sqlEst, 25325125, "REGULAR", "2020-03-01", 48458455);
+        //   Base.exec(sqlAdm, 48458455, "EXPERIENCIA", "GRUPO");
+        //    Base.exec(sqlDocente, 54118344, 452182584, "AYUDANTE", 48458455);
+        //    Base.exec(sqlEst, 25325125, "REGULAR", "2020-03-01", 48458455);
 
             Base.commitTransaction();
 
