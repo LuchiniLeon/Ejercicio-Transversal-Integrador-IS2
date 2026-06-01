@@ -1,6 +1,16 @@
 PRAGMA foreign_keys = ON;
 
+
+DROP TABLE IF EXISTS token_password;
+DROP TABLE IF EXISTS titulo;
+DROP TABLE IF EXISTS email;
+DROP TABLE IF EXISTS telefono;
+DROP TABLE IF EXISTS materia;
+DROP TABLE IF EXISTS planEstudio;
+DROP TABLE IF EXISTS carrera;
 DROP TABLE IF EXISTS estudiante;
+DROP TABLE IF EXISTS docente;
+
 
 CREATE TABLE IF NOT EXISTS estudiante (
     dni_Persona INTEGER,
@@ -12,7 +22,6 @@ CREATE TABLE IF NOT EXISTS estudiante (
     CONSTRAINT fk_dni_persona_administrador_Est FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS docente;
 
 CREATE TABLE IF NOT EXISTS docente (
     dni_Persona INTEGER,
@@ -24,7 +33,6 @@ CREATE TABLE IF NOT EXISTS docente (
     CONSTRAINT fk_dni_persona_administrador_doc FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS telefono;
 
 CREATE TABLE IF NOT EXISTS telefono (
     dni_Persona INTEGER,
@@ -33,7 +41,6 @@ CREATE TABLE IF NOT EXISTS telefono (
     CONSTRAINT fk_dni_persona_tel FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS email;
 
 CREATE TABLE IF NOT EXISTS email(
     dni_Persona INTEGER,
@@ -42,7 +49,6 @@ CREATE TABLE IF NOT EXISTS email(
     CONSTRAINT fk_dni_persona_email FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS titulo;
 
 CREATE TABLE IF NOT EXISTS titulo (
     dni_Docente INTEGER,
@@ -51,7 +57,6 @@ CREATE TABLE IF NOT EXISTS titulo (
     CONSTRAINT fk_dni_docente_titulo FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS carrera;
 
 CREATE TABLE IF NOT EXISTS carrera (
     id_Carrera INTEGER,
@@ -59,8 +64,6 @@ CREATE TABLE IF NOT EXISTS carrera (
     modalidad TEXT NOT NULL CHECK (modalidad IN ('Virtual', 'Presencial', 'Hibrido')),
     CONSTRAINT pk_id_carrera PRIMARY KEY (id_Carrera)
 );
-
-DROP TABLE IF EXISTS planEstudio;
 
 CREATE TABLE IF NOT EXISTS planEstudio (
     id_Plan INTEGER,
@@ -72,7 +75,6 @@ CREATE TABLE IF NOT EXISTS planEstudio (
     CONSTRAINT fk_id_Carrera FOREIGN KEY (id_Carrera) REFERENCES carrera(id_Carrera) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS materia;
 
 CREATE TABLE IF NOT EXISTS materia (
     id_Materia INTEGER,
@@ -86,7 +88,6 @@ CREATE TABLE IF NOT EXISTS materia (
     CONSTRAINT fk_dni_administrador_Mat FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS token_password;
 CREATE TABLE IF NOT EXISTS token_password(
     token TEXT,
     email TEXT NOT NULL,

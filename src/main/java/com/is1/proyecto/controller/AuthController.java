@@ -14,8 +14,6 @@ import spark.ModelAndView;
 public class AuthController {
     public static Object login(Request req, Response res) {
 
-        SuperAdminService.cargaSuperAdmin();
-
         Map<String, Object> model = new HashMap<>();
 
         String username = req.queryParams("username");
