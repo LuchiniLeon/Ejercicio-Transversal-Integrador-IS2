@@ -9,19 +9,19 @@ import org.javalite.activejdbc.annotations.Table;
 public class Email extends Model {
 
     public String getMail() {
-        return getString("email"); // Obtiene el valor de la columna 'name'
+        return getString("email"); // Obtiene el correo electrónico
     }
 
     public void setMail(String name) {
-        set("email", name); // Establece el valor para la columna 'name'
+        set("email", name); //  Guarda el correo electrónico
     }
 
     public Integer getDni() {
-        return getInteger("dni_Persona"); // Obtiene el valor de la columna 'password'
+        return getInteger("dni_Persona"); //Obtiene el DNI asociado al email
     }
 
     public void setDni(Integer dni) {
-        set("dni_Persona", dni); // Establece el valor para la columna 'password'
+        set("dni_Persona", dni); // Guarda el DNI asociado al email
     }
 
 }
