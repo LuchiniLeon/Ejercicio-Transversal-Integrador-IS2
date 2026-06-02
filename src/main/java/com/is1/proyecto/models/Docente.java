@@ -13,6 +13,10 @@ public class Docente extends Persona {
         return getInteger("dni_Administrador");
     }
 
+    public Integer getDni(){
+        return getInteger("dni_Persona");
+    }
+
     public void setDni(Integer dni_Persona){
         set("dni_Persona", dni_Persona);
     }

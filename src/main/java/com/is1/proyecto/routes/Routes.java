@@ -14,6 +14,7 @@ import com.is1.proyecto.controller.PasswordRecoveryController;
 import com.is1.proyecto.controller.DocenteController;
 import com.is1.proyecto.controller.ProfileController;
 import com.is1.proyecto.controller.SuperAdminController;
+import com.is1.proyecto.controller.TallerController;
 import com.is1.proyecto.controller.UserController;
 import com.is1.proyecto.controller.EditorController;
 
@@ -66,6 +67,7 @@ public class Routes {
         // GET: Muestra las opciones para asignar un profesor
         get("/asignar/profesor", (req, res) -> AdminController.opcionesAsignacion(req, res), engine);
 
+        get("/taller/alta", (req,res) -> TallerController.formAlta(req, res), engine);
 
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
@@ -105,5 +107,7 @@ public class Routes {
 
         //POST: Reestablecimiento con token
         post("/reset-password", (req, res) -> PasswordRecoveryController.resetPasswordPost(req, res));
+
+        post("/taller/alta", (req, res)-> TallerController.alta(req, res));
     }
 }
