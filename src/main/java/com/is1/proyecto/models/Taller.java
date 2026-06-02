@@ -15,7 +15,7 @@ public class Taller extends Model{
     }
 
     public void setId(Integer id) { 
-        set("id_Taller", id); 
+        set("id_taller", id); 
     }
 
     public Boolean getVigente(){
