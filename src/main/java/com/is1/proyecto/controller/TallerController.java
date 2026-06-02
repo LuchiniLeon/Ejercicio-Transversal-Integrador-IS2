@@ -6,6 +6,7 @@ import spark.Response;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.is1.proyecto.models.Docente;
@@ -59,4 +60,37 @@ public class TallerController {
         }
     }
 
+    public static ModelAndView listaPorDocente(Request req, Response res){
+        Map<String, Object> model = new HashMap<>();
+
+
+        String message = req.queryParams("message");
+        if (message != null && !message.isEmpty())
+            model.put("successMessage", message);
+
+        String errorMessage = req.queryParams("error");
+        if (errorMessage != null && !errorMessage.isEmpty())
+            model.put("errorMessage", errorMessage);
+
+        // Usuario que esta logeado
+        String currentUsername = req.session().attribute("currentUserUsername");
+        
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Docente docente = Docente.findFirst("dni_Persona = ?", user.getDNI());
+
+        if (docente == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        List<Map<String, Object>> lista = TallerService.listarTalleresPorDocente(docente.getDni());
+
+        if(!lista.isEmpty()){
+            Map<String, Object> talleres = new HashMap<>();
+            talleres.put("lista", lista);
+            model.put("talleres", talleres);
+        }
+
+        return new ModelAndView(model, "taller-lista.mustache");
+    }
 }

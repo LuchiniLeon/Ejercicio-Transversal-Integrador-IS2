@@ -1,5 +1,10 @@
 package com.is1.proyecto.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.is1.proyecto.models.Taller;
 
 public class TallerService {
@@ -31,4 +36,26 @@ public class TallerService {
             throw new IllegalArgumentException("No se pudo guardar el taller");
         }
     }
+
+    // Lista todos los talleres que le pertenece a un docente.
+    public static List<Map<String, Object>> listarTalleresPorDocente(Integer dniDocente){
+        // Talleres de un docente en particular
+        List<Taller> talleres = Taller.where("dni_Docente = ?", dniDocente);
+
+        List<Map<String, Object>> lista = new ArrayList<>();
+
+        for(Taller taller : talleres){
+            Map<String, Object> t = new HashMap<>();
+            t.put("id", taller.getId());
+            t.put("titulo", taller.getTitulo());
+            t.put("horas", taller.getHoras());
+            t.put("vigente", taller.getVigente()? "Si" : "No");
+
+            lista.add(t);
+        }
+
+        return lista;
+
+    }
+    
 }
