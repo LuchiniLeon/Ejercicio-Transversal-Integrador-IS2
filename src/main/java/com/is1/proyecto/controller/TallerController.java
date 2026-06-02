@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.User;
+import com.is1.proyecto.service.TallerService;
 
 import spark.ModelAndView;
 
@@ -29,12 +30,12 @@ public class TallerController {
     }
 
     public static Object alta(Request req, Response res){
-        String titulo = req.queryParams("titulo");
-        String hora = req.queryParams("hora");
-        String vigente = req.queryParams("vigente");
-        String currentUsername = req.session().attribute("currentUsername");
 
         try{
+            String titulo = req.queryParams("titulo");
+            Integer hora = Integer.parseInt(req.queryParams("hora"));
+            Boolean vigente = req.queryParams("vigente").equals("1");
+            String currentUsername = req.session().attribute("currentUserUsername");
             User user = User.findFirst("nombreUsuario = ?", currentUsername);
             Docente docente = Docente.findFirst("dni_Persona = ?", user.getDNI());
 
@@ -51,7 +52,9 @@ public class TallerController {
             res.redirect("/taller/alta?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         } catch (Exception e) {
-            res.redirect("/taller/alta?error=Error interno del servidor");
+            e.printStackTrace();
+            String errorMsg = e.getMessage() != null ? e.getMessage() : "Error interno del servidor";
+            res.redirect("/taller/alta?error=" + URLEncoder.encode(errorMsg, StandardCharsets.UTF_8));
             return "";
         }
     }
