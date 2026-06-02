@@ -67,8 +67,11 @@ public class Routes {
         // GET: Muestra las opciones para asignar un profesor
         get("/asignar/profesor", (req, res) -> AdminController.opcionesAsignacion(req, res), engine);
 
+        // RUTAS PARA TALLER
         get("/taller/alta", (req,res) -> TallerController.formAlta(req, res), engine);
 
+        get("/taller/lista", (req,res) -> TallerController.listaPorDocente(req, res), engine);
+        
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
         // POST
@@ -108,6 +111,8 @@ public class Routes {
         //POST: Reestablecimiento con token
         post("/reset-password", (req, res) -> PasswordRecoveryController.resetPasswordPost(req, res));
 
+        // POST PARA TALLER
         post("/taller/alta", (req, res)-> TallerController.alta(req, res));
+
     }
 }
