@@ -47,6 +47,7 @@
                         </a>
                         <form action="/taller/eliminar/{{id}}" method="post">
                             <button type="submit"
+                                    onclick="return confirm('¿Estás seguro que querés eliminar este taller?')"
                                     class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 text-xs font-semibold">
                                 Eliminar
                             </button>

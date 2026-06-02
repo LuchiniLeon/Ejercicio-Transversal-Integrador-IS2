@@ -114,5 +114,6 @@ public class Routes {
 
         post("/taller/editar/:id", (req, res) -> TallerController.editar(req, res));
 
+        post("/taller/eliminar/:id", (req, res) -> TallerController.eliminar(req, res));
     }
 }
