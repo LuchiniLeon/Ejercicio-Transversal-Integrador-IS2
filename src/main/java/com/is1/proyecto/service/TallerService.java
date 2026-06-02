@@ -97,4 +97,13 @@ public class TallerService {
             throw new IllegalArgumentException("No se pudo guardar los cambios de taller");
         }
     }   
+
+    public static void eliminarTaller(Integer id) {
+        Taller taller = Taller.findById(id);
+        if (taller == null)
+            throw new IllegalArgumentException("Taller no encontrado");
+
+        if (!taller.delete())
+            throw new IllegalArgumentException("No se pudo eliminar el taller");
+    }
 }

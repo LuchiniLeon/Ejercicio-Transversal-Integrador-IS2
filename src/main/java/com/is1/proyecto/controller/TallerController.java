@@ -133,4 +133,21 @@ public class TallerController {
             return "";
         }
     }
+
+    public static Object eliminar(Request req, Response res) {
+        try {
+            Integer id = Integer.parseInt(req.params(":id"));
+            TallerService.eliminarTaller(id);
+            String msg = "Taller eliminado con éxito.";
+            res.redirect("/taller/lista?message=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
+            return "";
+        } catch (IllegalArgumentException e) {
+            res.redirect("/taller/lista?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            return "";
+        } catch (Exception e) {
+            e.printStackTrace();
+            res.redirect("/taller/lista?error=Error interno del servidor");
+            return "";
+        }
+    }
 }
