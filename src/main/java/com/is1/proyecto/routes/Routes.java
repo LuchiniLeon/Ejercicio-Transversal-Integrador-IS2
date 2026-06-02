@@ -1,11 +1,8 @@
 package com.is1.proyecto.routes;
 
-import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
 import static spark.Spark.get;
 import static spark.Spark.post;
-
-import java.util.HashMap;
 
 import com.is1.proyecto.controller.AdminController;
 import com.is1.proyecto.controller.AuthController;
@@ -72,6 +69,7 @@ public class Routes {
 
         get("/taller/lista", (req,res) -> TallerController.listaPorDocente(req, res), engine);
         
+        get("/taller/editar/:id", (req, res) -> TallerController.formEditar(req, res), engine);
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
         // POST
@@ -113,6 +111,8 @@ public class Routes {
 
         // POST PARA TALLER
         post("/taller/alta", (req, res)-> TallerController.alta(req, res));
+
+        post("/taller/editar/:id", (req, res) -> TallerController.editar(req, res));
 
     }
 }
