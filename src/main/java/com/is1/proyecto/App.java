@@ -23,8 +23,6 @@ public class App {
 
         DBFiltro.configure();
  
-        DBConfigSingleton.getInstance(); // ejecuta initDatabase() y cierra la conexión
-
         Routes.configure();
     } 
 } 
