@@ -1,5 +1,14 @@
 PRAGMA foreign_keys = ON;
 
+DROP TABLE IF EXISTS pertenece;
+DROP TABLE IF EXISTS nota;
+DROP TABLE IF EXISTS estudia;
+DROP TABLE IF EXISTS taller;
+DROP TABLE IF EXISTS participa;
+DROP TABLE IF EXISTS rinde;
+DROP TABLE IF EXISTS inscripcion_Materia;
+DROP TABLE IF EXISTS correlatividad;
+DROP TABLE IF EXISTS materia_Plan;
 DROP TABLE IF EXISTS inscripcion_Carrera;
 
 CREATE TABLE IF NOT EXISTS inscripcion_Carrera (
@@ -13,7 +22,6 @@ CREATE TABLE IF NOT EXISTS inscripcion_Carrera (
     CONSTRAINT fk_id_Carrera_insc FOREIGN KEY (id_Carrera) REFERENCES carrera(id_Carrera) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS materia_Plan;
 
 CREATE TABLE IF NOT EXISTS materia_Plan (
     id_Plan INTEGER,
@@ -25,7 +33,6 @@ CREATE TABLE IF NOT EXISTS materia_Plan (
     CONSTRAINT fk_id_Materia_matP FOREIGN KEY (id_Materia) REFERENCES materia(id_Materia) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS correlatividad;
 
 CREATE TABLE IF NOT EXISTS correlatividad (
     id_Materia_Primaria INTEGER,
@@ -48,7 +55,6 @@ CREATE TABLE IF NOT EXISTS inscripcion_Materia (
     CONSTRAINT fk_dni_Est_InscMat FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS rinde;
 
 CREATE TABLE IF NOT EXISTS rinde (
     id_Materia INTEGER,
@@ -57,8 +63,6 @@ CREATE TABLE IF NOT EXISTS rinde (
     CONSTRAINT fk_dni_estudiante_rinde FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_id_Mat_rinde FOREIGN KEY (id_Materia) REFERENCES materia(id_Materia) ON DELETE CASCADE
 );
-
-DROP TABLE IF EXISTS participa;
 
 CREATE TABLE IF NOT EXISTS participa (
     id_Materia INTEGER,
@@ -71,7 +75,16 @@ CREATE TABLE IF NOT EXISTS participa (
 );
 
 
-DROP TABLE IF EXISTS taller;
+CREATE TABLE IF NOT EXISTS participa_docente_taller (
+    id_Taller INTEGER,
+    dni_Docente INTEGER,
+    fecha_Inicio TEXT NOT NULL, -- No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
+    fecha_Fin TEXT NOT NULL, -- No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
+    CONSTRAINT pk_participa_docente PRIMARY KEY (id_Taller, dni_Docente),
+    CONSTRAINT fk_id_Taller_participa FOREIGN key (id_Taller) REFERENCES taller(id_Taller) ON DELETE CASCADE,
+    CONSTRAINT fk_dni_Doc_participa FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 
 CREATE TABLE IF NOT EXISTS taller (
     id_Taller INTEGER,
@@ -83,7 +96,7 @@ CREATE TABLE IF NOT EXISTS taller (
     CONSTRAINT fk_doc_Taller FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS estudia;
+
 
 CREATE TABLE IF NOT EXISTS estudia (
     dni_Estudiante INTEGER,
@@ -93,8 +106,6 @@ CREATE TABLE IF NOT EXISTS estudia (
     CONSTRAINT fk_ESt_Estudia FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS nota;
-
 CREATE TABLE IF NOT EXISTS nota (
     id_Nota INTEGER,
     condicion TEXT NOT NULL CHECK (condicion IN ('Libre', 'Regular', 'Promocional')),
@@ -102,16 +113,15 @@ CREATE TABLE IF NOT EXISTS nota (
     fecha_Examen TEXT NOT NULL, --No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
     dni_Estudiante INTEGER,
     id_Materia INTEGER,
-    id_Taller INTEGER,
     dni_Estudiante_Estudia INTEGER,
     CONSTRAINT pk_nota PRIMARY KEY (id_Nota),
     CONSTRAINT fk_id_Mat_Nota FOREIGN KEY (id_Materia, dni_Estudiante) REFERENCES rinde(id_Materia, dni_Estudiante) ON DELETE CASCADE,
     CONSTRAINT fk_id_Taller_Nota FOREIGN KEY (id_Taller, dni_Estudiante_Estudia) REFERENCES estudia(id_Taller, dni_Estudiante) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS pertenece;
 
-CREATE TABLE IF NOT EXISTS pertenece (
+
+CREATE TABLE IF NOT EXISTS nota_taller (
     id_Nota INTEGER,
     dni_Estudiante INTEGER,
     id_Taller INTEGER,
