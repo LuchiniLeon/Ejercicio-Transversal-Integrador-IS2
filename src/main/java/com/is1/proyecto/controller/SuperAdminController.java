@@ -5,9 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.is1.proyecto.models.SuperAdmin;
-import com.is1.proyecto.service.SuperAdminService;
-
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

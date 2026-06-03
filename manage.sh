@@ -58,6 +58,7 @@ instalar() {
 # Compila el proyecto y lo ejecuta
 # Si el usuario no posee las dependencias necesarias pide que el usuario las instale
 ejecutar() {
+        
         if [ -f .env ]; then
                 echo -e "${VERDE}Cargando variables de entorno desde .env...${RESET}"
                 set -a # Exporta automáticamente todas las variables definidas a continuación
@@ -73,7 +74,7 @@ ejecutar() {
                 else
                         xdg-open http://localhost:8080 || echo -e "${AMARILLO}Por favor abre en el navegador http://localhost:8080${RESET}"
                 fi
-
+                rm -f ./db/dev.db
                 mvn clean compile activejdbc-instrumentation:instrument exec:java -Dexec.mainClass="com.is1.proyecto.App"
         else
                 echo -e "${AMARILLO}--- Por favor utilice el metodo instalar() para tener todas las dependencias necesaria ---${RESET}"

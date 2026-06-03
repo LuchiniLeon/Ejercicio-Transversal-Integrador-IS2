@@ -36,6 +36,7 @@ public class Routes {
         // Requiere que el usuario esté autenticado.
         get("/dashboard", (req, res) -> DashboardController.dashboard(req, res), engine);
 
+        get("/login", (req, res) -> AuthController.vistaLogin(req, res), engine);
         // GET: Ruta para cerrar la sesión del usuario.
         get("/logout", (req, res) -> AuthController.logout(req, res));
 
