@@ -14,7 +14,6 @@ import spark.Response;
 public class NotaController {
 
     public static ModelAndView formAlta(Request req, Response res) {
-
         Map<String, Object> model = new HashMap<>();
 
         String message = req.queryParams("message");
@@ -31,35 +30,89 @@ public class NotaController {
     }
 
     public static Object alta(Request req, Response res) {
-
         try {
-
             String condicion = req.queryParams("condicion");
             Integer notaFinal = Integer.parseInt(req.queryParams("notaFinal"));
             String fechaExamen = req.queryParams("fechaExamen");
 
-            NotaService.crearNota(
-                    condicion,
-                    notaFinal,
-                    fechaExamen,
-                    null,
-                    null,
-                    null,
-                    null
-            );
-
-            String msg = "Nota creada correctamente";
+            NotaService.crearNota(condicion, notaFinal, fechaExamen, null, null, null, null);
 
             res.redirect("/nota/lista?message=" +
-                    URLEncoder.encode(msg, StandardCharsets.UTF_8));
-
+                    URLEncoder.encode("Nota creada correctamente", StandardCharsets.UTF_8));
             return "";
 
         } catch (Exception e) {
-
             res.redirect("/nota/alta?error=" +
                     URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            return "";
+        }
+    }
 
+    public static ModelAndView lista(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+
+        String message = req.queryParams("message");
+        if (message != null && !message.isEmpty()) {
+            model.put("successMessage", message);
+        }
+
+        String errorMessage = req.queryParams("error");
+        if (errorMessage != null && !errorMessage.isEmpty()) {
+            model.put("errorMessage", errorMessage);
+        }
+
+        model.put("notas", NotaService.listarNotas());
+
+        return new ModelAndView(model, "nota-lista.mustache");
+    }
+
+    public static ModelAndView formEditar(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+
+        try {
+            Integer id = Integer.parseInt(req.params(":id"));
+            Map<String, Object> nota = NotaService.obtenerNota(id);
+            model.putAll(nota);
+
+        } catch (Exception e) {
+            model.put("errorMessage", "Nota no encontrada");
+        }
+
+        return new ModelAndView(model, "nota-editar.mustache");
+    }
+
+    public static Object editar(Request req, Response res) {
+        try {
+            Integer id = Integer.parseInt(req.params(":id"));
+            String condicion = req.queryParams("condicion");
+            Integer notaFinal = Integer.parseInt(req.queryParams("notaFinal"));
+            String fechaExamen = req.queryParams("fechaExamen");
+
+            NotaService.editarNota(id, condicion, notaFinal, fechaExamen);
+
+            res.redirect("/nota/lista?message=" +
+                    URLEncoder.encode("Nota actualizada correctamente", StandardCharsets.UTF_8));
+            return "";
+
+        } catch (Exception e) {
+            res.redirect("/nota/lista?error=" +
+                    URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            return "";
+        }
+    }
+
+    public static Object eliminar(Request req, Response res) {
+        try {
+            Integer id = Integer.parseInt(req.params(":id"));
+            NotaService.eliminarNota(id);
+
+            res.redirect("/nota/lista?message=" +
+                    URLEncoder.encode("Nota eliminada correctamente", StandardCharsets.UTF_8));
+            return "";
+
+        } catch (Exception e) {
+            res.redirect("/nota/lista?error=" +
+                    URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         }
     }
