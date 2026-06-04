@@ -14,6 +14,7 @@ import com.is1.proyecto.controller.SuperAdminController;
 import com.is1.proyecto.controller.TallerController;
 import com.is1.proyecto.controller.UserController;
 import com.is1.proyecto.controller.EditorController;
+import com.is1.proyecto.controller.NotaController;
 
 public class Routes {
     
@@ -63,6 +64,17 @@ public class Routes {
 
         // GET: Muestra las opciones para asignar un profesor
         get("/asignar/profesor", (req, res) -> AdminController.opcionesAsignacion(req, res), engine);
+
+        // RUTAS PARA NOTAS
+        get("/user/nota", (req, res) -> NotaController.formAlta(req, res), engine);
+        get("/nota/alta", (req, res) -> NotaController.formAlta(req, res), engine);   
+        get("/nota/lista", (req, res) -> NotaController.lista(req, res), engine);
+        get("/nota/editar/:id", (req, res) -> NotaController.formEditar(req, res), engine);
+
+        post("/nota/alta", (req, res) -> NotaController.alta(req, res));
+        post("/nota/editar/:id", (req, res) -> NotaController.editar(req, res));
+        post("/nota/eliminar/:id", (req, res) -> NotaController.eliminar(req, res));
+        //Rutas post para menejar la carga de notas
 
         // RUTAS PARA TALLER
         get("/taller/alta", (req,res) -> TallerController.formAlta(req, res), engine);
