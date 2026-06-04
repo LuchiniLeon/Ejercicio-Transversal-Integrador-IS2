@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listado de Notas</title>
+</head>
+<body>
+
+<h1>Listado de notas</h1>
+
+{{#successMessage}}
+<p style="color: green;">{{successMessage}}</p>
+{{/successMessage}}
+
+{{#errorMessage}}
+<p style="color: red;">{{errorMessage}}</p>
+{{/errorMessage}}
+
+<a href="/nota/alta">Cargar nueva nota</a>
+
+<br><br>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Condición</th>
+        <th>Nota final</th>
+        <th>Fecha examen</th>
+        <th>DNI estudiante</th>
+        <th>Materia</th>
+        <th>Taller</th>
+        <th>Acciones</th>
+    </tr>
+
+    {{#notas}}
+    <tr>
+        <td>{{id}}</td>
+        <td>{{condicion}}</td>
+        <td>{{notaFinal}}</td>
+        <td>{{fechaExamen}}</td>
+        <td>{{dniEstudiante}}</td>
+        <td>{{idMateria}}</td>
+        <td>{{idTaller}}</td>
+        <td>
+            <a href="/nota/editar/{{id}}">Editar</a>
+
+            <form action="/nota/eliminar/{{id}}" method="post" style="display:inline;">
+                <button type="submit">Eliminar</button>
+            </form>
+        </td>
+    </tr>
+    {{/notas}}
+</table>
+
+</body>
+</html>

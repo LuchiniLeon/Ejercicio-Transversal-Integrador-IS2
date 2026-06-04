@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alta Nota</title>
+</head>
+<body>
+
+<h1>Cargar nota</h1>
+
+{{#message}}
+<p style="color: green;">{{message}}</p>
+{{/message}}
+
+{{#errorMessage}}
+<p style="color: red;">{{errorMessage}}</p>
+{{/errorMessage}}
+
+<form action="/nota/alta" method="post">
+    <label>Condición:</label>
+    <select name="condicion" required>
+        <option value="Libre">Libre</option>
+        <option value="Regular">Regular</option>
+        <option value="Promocional">Promocional</option>
+    </select>
+
+    <br><br>
+
+    <label>Nota final:</label>
+    <input type="number" name="notaFinal" min="1" max="10" required>
+
+    <br><br>
+
+    <label>Fecha examen:</label>
+    <input type="text" name="fechaExamen" placeholder="YYYY-MM-DD" required>
+
+    <br><br>
+
+    <button type="submit">Guardar nota</button>
+</form>
+
+<br>
+<a href="/nota/lista">Ver notas</a>
+
+</body>
+</html>

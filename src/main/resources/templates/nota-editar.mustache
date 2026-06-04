@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Nota</title>
+</head>
+<body>
+
+<h1>Editar nota</h1>
+
+{{#errorMessage}}
+<p style="color: red;">{{errorMessage}}</p>
+{{/errorMessage}}
+
+<form action="/nota/editar/{{id}}" method="post">
+    <label>Condición:</label>
+    <select name="condicion" required>
+        <option value="{{condicion}}">{{condicion}}</option>
+        <option value="Libre">Libre</option>
+        <option value="Regular">Regular</option>
+        <option value="Promocional">Promocional</option>
+    </select>
+
+    <br><br>
+
+    <label>Nota final:</label>
+    <input type="number" name="notaFinal" min="1" max="10" value="{{notaFinal}}" required>
+
+    <br><br>
+
+    <label>Fecha examen:</label>
+    <input type="text" name="fechaExamen" value="{{fechaExamen}}" required>
+
+    <br><br>
+
+    <button type="submit">Guardar cambios</button>
+</form>
+
+<br>
+<a href="/nota/lista">Volver al listado</a>
+
+</body>
+</html>
