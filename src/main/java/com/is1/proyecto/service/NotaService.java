@@ -68,5 +68,71 @@ public class NotaService {
 
         return lista;
     }
+    public static Map<String, Object> obtenerNota(Integer idNota) {
+
+    Nota nota = Nota.findById(idNota);
+
+    if (nota == null) {
+        throw new IllegalArgumentException("Nota no encontrada");
+    }
+
+    Map<String, Object> n = new HashMap<>();
+    n.put("id", nota.getIdNota());
+    n.put("condicion", nota.getCondicion());
+    n.put("notaFinal", nota.getNotaFinal());
+    n.put("fechaExamen", nota.getFechaExamen());
+    n.put("dniEstudiante", nota.getDniEstudiante());
+    n.put("idMateria", nota.getIdMateria());
+    n.put("idTaller", nota.getIdTaller());
+    n.put("dniEstudianteEstudia", nota.getDniEstudianteEstudia());
+
+    return n;
+}
+
+public static void editarNota(Integer idNota, String condicion, Integer notaFinal, String fechaExamen) {
+
+    if (condicion == null || condicion.trim().isEmpty()) {
+        throw new IllegalArgumentException("La condición no puede estar vacía");
+    }
+
+    if (!condicion.equals("Libre") && !condicion.equals("Regular") && !condicion.equals("Promocional")) {
+        throw new IllegalArgumentException("La condición debe ser Libre, Regular o Promocional");
+    }
+
+    if (notaFinal == null || notaFinal < 1 || notaFinal > 10) {
+        throw new IllegalArgumentException("La nota final debe estar entre 1 y 10");
+    }
+
+    if (fechaExamen == null || fechaExamen.trim().isEmpty()) {
+        throw new IllegalArgumentException("La fecha de examen no puede estar vacía");
+    }
+
+    Nota nota = Nota.findById(idNota);
+
+    if (nota == null) {
+        throw new IllegalArgumentException("Nota no encontrada");
+    }
+
+    nota.setCondicion(condicion.trim());
+    nota.setNotaFinal(notaFinal);
+    nota.setFechaExamen(fechaExamen.trim());
+
+    if (!nota.save()) {
+        throw new IllegalArgumentException("No se pudo guardar la modificación de la nota");
+    }
+}
+
+public static void eliminarNota(Integer idNota) {
+
+    Nota nota = Nota.findById(idNota);
+
+    if (nota == null) {
+        throw new IllegalArgumentException("Nota no encontrada");
+    }
+
+    if (!nota.delete()) {
+        throw new IllegalArgumentException("No se pudo eliminar la nota");
+    }
+}
 }
 
