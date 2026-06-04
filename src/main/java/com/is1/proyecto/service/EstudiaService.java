@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.javalite.activejdbc.Base;
 import com.is1.proyecto.models.Estudia;
 import com.is1.proyecto.models.Taller;
 
@@ -37,18 +38,15 @@ public class EstudiaService {
     }
 
     public static void desincribir(Integer dni_estudiante, Integer idtaller) {
-        Estudia inscripcion = Estudia.findFirst("dni_Estudiante = ? AND id_Taller = ?", dni_estudiante, idtaller);
-        
-        if(inscripcion == null){
-            throw new IllegalArgumentException("No estas inscriptos en este taller");
-        }
-
-        if(!inscripcion.delete()){
-            throw new IllegalArgumentException("No se pudo eliminar esta inscripcion");
-        }
+        int borrados = Base.exec(
+            "DELETE FROM estudia WHERE dni_Estudiante = ? AND id_taller = ?",
+            dni_estudiante, idtaller
+        );
+        if (borrados == 0)
+            throw new IllegalArgumentException("No estás inscripto en este taller");
     }
 
-    public static List<Map<String, Object>> talleresDisponibles(){
+    public static List<Map<String, Object>> talleresDisponibles(Integer dniEstudiante){
         // Todos los talleres disponible
         List<Taller> talleres = Taller.where("vigente = ?", 1);
 
@@ -56,13 +54,38 @@ public class EstudiaService {
 
         for(Taller t : talleres){
             Map<String, Object> map = new HashMap<>();
-            map.put("id_Taller", t.getId());
+            map.put("id", t.getId());
             map.put("titulo", t.getTitulo());
             map.put("horas", t.getHoras());
+
+            // Verificar si ya está inscripto
+            Estudia inscripto = Estudia.findFirst(
+                "dni_Estudiante = ? AND id_taller = ?", dniEstudiante, t.getId()
+            );
+            map.put("inscripto", inscripto != null);
 
             lista.add(map);
         }
 
+        return lista;
+    }
+
+    public static List<Map<String, Object>> listarTalleresDeEstudiante(Integer dniEstudiante) {
+        List<Estudia> inscripciones = Estudia.where("dni_Estudiante = ?", dniEstudiante);
+        List<Map<String, Object>> lista = new ArrayList<>();
+
+        for (Estudia e : inscripciones) {
+            Taller taller = Taller.findById(e.getId_Taller());
+            
+            if (taller != null) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", taller.getId());
+                map.put("titulo", taller.getTitulo());
+                map.put("horas", taller.getHoras());
+                lista.add(map);
+            }
+        }
+        
         return lista;
     }
 }
