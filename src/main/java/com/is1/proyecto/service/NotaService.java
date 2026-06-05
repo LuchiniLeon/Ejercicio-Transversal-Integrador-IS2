@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.is1.proyecto.models.Nota;
+import com.is1.proyecto.models.Taller;
 
 public class NotaService {
 
@@ -33,8 +34,29 @@ public class NotaService {
 
         if (dniEstudiante == null) {
             throw new IllegalArgumentException("Debe seleccionar un estudiante");
+        } 
+
+        if (dniEstudiante < 1000000 || dniEstudiante > 99999999) {
+             throw new IllegalArgumentException("El DNI debe tener entre 7 y 8 números");
+        }
+           
+        if (idMateria != null && idTaller != null) {
+             throw new IllegalArgumentException("La nota no puede pertenecer a una materia y a un taller");
         }
 
+
+        if (idMateria == null && idTaller == null) {
+           throw new IllegalArgumentException("Debe seleccionar una materia o un taller");
+        }
+
+        if (idTaller != null) {
+            Taller taller = Taller.findById(idTaller);
+
+            if (taller == null) {
+               throw new IllegalArgumentException("El taller seleccionado no existe");
+            }
+        }
+        
         Nota nota = new Nota();
         nota.setCondicion(condicion.trim());
         nota.setNotaFinal(notaFinal);

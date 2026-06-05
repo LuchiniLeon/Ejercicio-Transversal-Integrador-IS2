@@ -31,12 +31,24 @@ public class NotaController {
 
     public static Object alta(Request req, Response res) {
         try {
+            Integer dniEstudiante = Integer.parseInt(req.queryParams("dniEstudiante"));
             String condicion = req.queryParams("condicion");
             Integer notaFinal = Integer.parseInt(req.queryParams("notaFinal"));
             String fechaExamen = req.queryParams("fechaExamen");
 
-            NotaService.crearNota(condicion, notaFinal, fechaExamen, null, null, null, null);
+        
+            Integer idMateria = null;
+            if (req.queryParams("idMateria") != null && !req.queryParams("idMateria").isEmpty()) {
+                idMateria = Integer.parseInt(req.queryParams("idMateria"));
+            }
 
+            Integer idTaller = null;
+            if (req.queryParams("idTaller") != null && !req.queryParams("idTaller").isEmpty()) {
+                idTaller = Integer.parseInt(req.queryParams("idTaller"));
+            }
+
+            NotaService.crearNota(condicion, notaFinal, fechaExamen, dniEstudiante, idMateria, idTaller, null);
+            
             res.redirect("/nota/lista?message=" +
                     URLEncoder.encode("Nota creada correctamente", StandardCharsets.UTF_8));
             return "";

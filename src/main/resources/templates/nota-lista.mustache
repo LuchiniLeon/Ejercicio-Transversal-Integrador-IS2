@@ -2,20 +2,79 @@
 <html>
 <head>
     <title>Listado de Notas</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            max-width: 1000px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(51, 104, 202, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0d1b2a;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #0d6efd;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #0d1b2a;
+            color: white;
+            padding: 10px;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .ok { color: green; text-align: center; }
+        .error { color: red; text-align: center; }
+
+        button {
+            padding: 7px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Listado de notas</h1>
-
 {{#successMessage}}
-<p style="color: green;">{{successMessage}}</p>
+<p class="ok">{{successMessage}}</p>
 {{/successMessage}}
 
 {{#errorMessage}}
-<p style="color: red;">{{errorMessage}}</p>
+<p class="error">{{errorMessage}}</p>
 {{/errorMessage}}
 
-<a href="/nota/alta">Cargar nueva nota</a>
+<a class="btn" href="/nota/alta">Cargar nueva nota</a>
 
 <br><br>
 
@@ -50,6 +109,7 @@
     </tr>
     {{/notas}}
 </table>
+</div>
 
 </body>
 </html>

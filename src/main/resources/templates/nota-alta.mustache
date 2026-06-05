@@ -2,10 +2,73 @@
 <html>
 <head>
     <title>Alta Nota</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: white;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 40px;
+        }
+        
+        .card {
+            background: white;
+            width: 430px;
+            padding: 35px;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.25);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0d1b2a;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #0d6efd;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+        }
+
+        .error { color: red; text-align: center; }
+        .ok { color: green; text-align: center; }
+    </style>
 </head>
 <body>
 
+<div class="card">
 <h1>Cargar nota</h1>
+
 
 {{#message}}
 <p style="color: green;">{{message}}</p>
@@ -13,9 +76,34 @@
 
 {{#errorMessage}}
 <p style="color: red;">{{errorMessage}}</p>
-{{/errorMessage}}
+{{/errorMessage}} 
 
 <form action="/nota/alta" method="post">
+
+    <label>DNI estudiante:</label>
+<input type="number" name="dniEstudiante" min="1000000" max="99999999" required>
+
+<br><br>
+
+<label>Tipo de nota:</label>
+<select id="tipoNota" name="tipoNota" required onchange="actualizarCampos()">
+    <option value="">Seleccione...</option>
+    <option value="materia">Materia</option>
+    <option value="taller">Taller</option>
+</select>
+
+<br><br>
+
+<label>ID materia:</label>
+<input type="number" id="idMateria" name="idMateria" disabled>
+
+<br><br>
+
+<label>ID taller:</label>
+<input type="number" id="idTaller" name="idTaller" disabled>
+
+
+<br><br>
     <label>Condición:</label>
     <select name="condicion" required>
         <option value="Libre">Libre</option>
@@ -41,5 +129,31 @@
 <br>
 <a href="/nota/lista">Ver notas</a>
 
+<script>
+function actualizarCampos() {
+    const tipo = document.getElementById("tipoNota").value;
+    const materia = document.getElementById("idMateria");
+    const taller = document.getElementById("idTaller");
+
+    materia.disabled = true;
+    taller.disabled = true;
+
+    materia.value = "";
+    taller.value = "";
+
+    if (tipo === "materia") {
+        materia.disabled = false;
+        materia.required = true;
+        taller.required = false;
+    }
+
+    if (tipo === "taller") {
+        taller.disabled = false;
+        taller.required = true;
+        materia.required = false;
+    }
+}
+</script>
+</div>
 </body>
 </html>
