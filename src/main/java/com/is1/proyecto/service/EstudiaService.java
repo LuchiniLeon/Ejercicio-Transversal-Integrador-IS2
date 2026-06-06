@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.javalite.activejdbc.Base;
+
+import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Estudia;
+import com.is1.proyecto.models.ParticipaDocenteTaller;
+import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.Taller;
 
 public class EstudiaService {
@@ -38,6 +42,13 @@ public class EstudiaService {
     }
 
     public static void desincribir(Integer dni_estudiante, Integer idtaller) {
+        Taller taller = Taller.findById(idtaller);
+        
+        if (taller == null)
+            throw new IllegalArgumentException("Taller no encontrado");
+        if (!taller.getVigente())
+            throw new IllegalArgumentException("No podés desinscribirte de un taller que no está vigente");
+
         int borrados = Base.exec(
             "DELETE FROM estudia WHERE dni_Estudiante = ? AND id_taller = ?",
             dni_estudiante, idtaller
@@ -47,8 +58,8 @@ public class EstudiaService {
     }
 
     public static List<Map<String, Object>> talleresDisponibles(Integer dniEstudiante){
-        // Todos los talleres disponible
-        List<Taller> talleres = Taller.where("vigente = ?", 1);
+        // Todos los talleres
+        List<Taller> talleres = Taller.findAll();
 
         List<Map<String, Object>> lista = new ArrayList<>();
 
@@ -57,12 +68,31 @@ public class EstudiaService {
             map.put("id", t.getId());
             map.put("titulo", t.getTitulo());
             map.put("horas", t.getHoras());
+            map.put("vigente", t.getVigente() ? "Si" : "No");
+
+            // Docente titular
+            Docente docente = Docente.findFirst("dni_Persona = ?", t.getInteger("dni_Docente"));
+            Persona persona = docente.parent(Persona.class);
+            
+            map.put("docenteTitular", persona.getString("nombre") + " " + persona.getString("apellido"));
+            // Docentes participantes
+            List<ParticipaDocenteTaller> participantes = ParticipaDocenteTaller.where("id_Taller = ?", t.getId());
+            List<String> nombres = new ArrayList<>();
+            
+            for (ParticipaDocenteTaller p : participantes) {
+                Docente dp = Docente.findFirst("dni_Persona = ?", p.getDniDocente());
+                Persona pp = dp.parent(Persona.class);
+                nombres.add(pp.getString("nombre") + " " + pp.getString("apellido"));
+            }
+        
+            map.put("participantes", nombres.isEmpty() ? "—" : String.join(", ", nombres));
 
             // Verificar si ya está inscripto
             Estudia inscripto = Estudia.findFirst(
                 "dni_Estudiante = ? AND id_taller = ?", dniEstudiante, t.getId()
             );
             map.put("inscripto", inscripto != null);
+            map.put("puedeInscribirse", t.getVigente() && inscripto == null);
 
             lista.add(map);
         }
@@ -82,6 +112,26 @@ public class EstudiaService {
                 map.put("id", taller.getId());
                 map.put("titulo", taller.getTitulo());
                 map.put("horas", taller.getHoras());
+                map.put("vigente", taller.getVigente() ? "Si" : "No");
+
+                 // Docente titular
+                Docente docente = Docente.findFirst("dni_Persona = ?", taller.getInteger("dni_Docente"));
+                Persona persona = docente.parent(Persona.class);
+                
+                map.put("docenteTitular", persona.getString("nombre") + " " + persona.getString("apellido"));
+
+                // Docentes participantes
+                List<ParticipaDocenteTaller> participantes = ParticipaDocenteTaller.where("id_Taller = ?", taller.getId());
+                List<String> nombres = new ArrayList<>();
+                
+                for (ParticipaDocenteTaller p : participantes) {
+                    Docente dp = Docente.findFirst("dni_Persona = ?", p.getDniDocente());
+                    Persona pp = dp.parent(Persona.class);
+                    nombres.add(pp.getString("nombre") + " " + pp.getString("apellido"));
+                }
+            
+                map.put("participantes", nombres.isEmpty() ? "—" : String.join(", ", nombres));
+                
                 lista.add(map);
             }
         }
