@@ -8,6 +8,7 @@ import org.javalite.activejdbc.Base;
 import java.util.List;
 
 import com.is1.proyecto.models.Admin;
+import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.AdminService;
 
