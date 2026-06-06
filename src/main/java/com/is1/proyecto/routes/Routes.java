@@ -1,19 +1,20 @@
 package com.is1.proyecto.routes;
 
-import spark.template.mustache.MustacheTemplateEngine;
-import static spark.Spark.get;
-import static spark.Spark.post;
-
 import com.is1.proyecto.controller.AdminController;
 import com.is1.proyecto.controller.AuthController;
 import com.is1.proyecto.controller.DashboardController;
-import com.is1.proyecto.controller.PasswordRecoveryController;
 import com.is1.proyecto.controller.DocenteController;
+import com.is1.proyecto.controller.EditorController;
+import com.is1.proyecto.controller.MateriaController;
+import com.is1.proyecto.controller.PasswordRecoveryController;
 import com.is1.proyecto.controller.ProfileController;
 import com.is1.proyecto.controller.SuperAdminController;
 import com.is1.proyecto.controller.TallerController;
 import com.is1.proyecto.controller.UserController;
-import com.is1.proyecto.controller.EditorController;
+
+import static spark.Spark.get;
+import static spark.Spark.post;
+import spark.template.mustache.MustacheTemplateEngine;
 
 public class Routes {
     
@@ -70,6 +71,13 @@ public class Routes {
         get("/taller/lista", (req,res) -> TallerController.listaPorDocente(req, res), engine);
         
         get("/taller/editar/:id", (req, res) -> TallerController.formEditar(req, res), engine);
+
+        //RUTAS PARA MATERIAS
+        get("/materia/alta", (req, res) -> MateriaController.formAlta(req, res), engine);
+
+        get("/materia/lista", (req, res) -> MateriaController.lista(req, res), engine);
+
+        get("/materia/editar/:id", (req, res) -> MateriaController.formEditar(req, res), engine);
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
         // POST
@@ -115,5 +123,12 @@ public class Routes {
         post("/taller/editar/:id", (req, res) -> TallerController.editar(req, res));
 
         post("/taller/eliminar/:id", (req, res) -> TallerController.eliminar(req, res));
+
+        //POST PARA MATERIAS
+        post("/materia/alta", (req, res) -> MateriaController.alta(req, res));
+
+        post("/materia/editar/:id", (req, res) -> MateriaController.editar(req, res));
+
+        post("/materia/eliminar/:id", (req, res) -> MateriaController.eliminar(req, res));
     }
 }
