@@ -26,6 +26,9 @@
                 <tr>
                     <th class="px-4 py-3">Título</th>
                     <th class="px-4 py-3">Horas</th>
+                    <th class="px-4 py-3">Vigente</th>
+                    <th class="px-4 py-3">Docentes</th>
+                    <th class="px-4 py-3">Docentes participantes</th>
                     <th class="px-4 py-3">Acciones</th>
                 </tr>
             </thead>
@@ -34,20 +37,26 @@
                 <tr class="border-t border-gray-200 hover:bg-gray-50">
                     <td class="px-4 py-3">{{titulo}}</td>
                     <td class="px-4 py-3">{{horas}}</td>
+                    <td class="px-4 py-3">{{vigente}}</td>
+                    <td class="px-4 py-3">{{docenteTitular}}</td>
+                    <td class="px-4 py-3">{{participantes}}</td>
                     <td class="px-4 py-3 flex gap-2">
-                        {{#inscripto}}
-                        <button disabled class="bg-gray-400 text-white py-1 px-3 rounded text-xs font-semibold cursor-not-allowed">
-                            Inscripto ✓
-                        </button>
-                        {{/inscripto}}
-                        {{^inscripto}}
-                        <form action="/estudiante/talleres/{{id}}/inscribir" method="post">
-                            <button type="submit"
-                                    class="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 text-xs font-semibold">
-                                Inscribirse
-                            </button>
-                        </form>
-                        {{/inscripto}}
+                        {{#puedeInscribirse}}
+                            <form action="/estudiante/talleres/{{id}}/inscribir" method="post">
+                                <button type="submit"
+                                        class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 text-xs font-semibold">
+                                    Inscribirse
+                                </button>
+                            </form>
+                            {{/puedeInscribirse}}
+                            {{^puedeInscribirse}}
+                            {{#inscripto}}
+                            <span class="text-green-600 text-xs font-semibold">Inscripto</span>
+                            {{/inscripto}}
+                            {{^inscripto}}
+                            <span class="text-gray-400 text-xs">No disponible</span>
+                            {{/inscripto}}
+                            {{/puedeInscribirse}}
                     </td>
                 </tr>
                 {{/lista}}

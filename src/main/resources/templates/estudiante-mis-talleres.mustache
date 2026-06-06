@@ -28,6 +28,9 @@
                 <tr>
                     <th class="px-4 py-3">Título</th>
                     <th class="px-4 py-3">Horas</th>
+                    <th class="px-4 py-3">Vigente</th>
+                    <th class "px-4 py-3">Docente titular</th>
+                    <th class "px-4 py-3">Docentes participantes</th>
                     <th class="px-4 py-3">Acciones</th>
                 </tr>
             </thead>
@@ -36,6 +39,9 @@
                 <tr class="border-t border-gray-200 hover:bg-gray-50">
                     <td class="px-4 py-3">{{titulo}}</td>
                     <td class="px-4 py-3">{{horas}}</td>
+                    <td class="px-4 py-3">{{vigente}}</td>
+                    <td class="px-4 py-3">{{docenteTitular}}</td>
+                    <td class="px-4 py-3">{{participantes}}</td>
                     <td class="px-4 py-3">
                         <form action="/estudiante/talleres/{{id}}/desinscribir" method="post">
                             <button type="submit"
