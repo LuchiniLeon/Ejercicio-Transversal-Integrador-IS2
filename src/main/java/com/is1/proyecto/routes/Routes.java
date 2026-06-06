@@ -13,9 +13,9 @@ import com.is1.proyecto.controller.ProfileController;
 import com.is1.proyecto.controller.SuperAdminController;
 import com.is1.proyecto.controller.TallerController;
 import com.is1.proyecto.controller.UserController;
-import com.is1.proyecto.models.Estudiante;
 import com.is1.proyecto.controller.EditorController;
 import com.is1.proyecto.controller.EstudianteController;
+import com.is1.proyecto.controller.EstudiaController;
 
 public class Routes {
     
@@ -74,8 +74,18 @@ public class Routes {
         get("/taller/lista", (req,res) -> TallerController.listaPorDocente(req, res), engine);
         
         get("/taller/editar/:id", (req, res) -> TallerController.formEditar(req, res), engine);
-
         
+        get("/admin/taller/alta",(req, res) -> AdminController.formAltaTaller(req, res), engine);;
+
+        // RUTAS INSCRIPCION ALUMNO A TALLER
+        get("/estudiante/talleres", (req, res) -> EstudiaController.listaTaller(req, res), engine);
+
+        get("/estudiante/mis-talleres", (req, res) -> EstudiaController.misTalleres(req, res), engine);
+        
+        get("/admin/taller/lista",(req, res) -> AdminController.listaTalleres(req, res), engine);
+
+        get("/admin/taller/asignar", (req, res) -> AdminController.formAsignarDocenteTaller(req, res), engine);
+
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
         // POST
@@ -123,7 +133,13 @@ public class Routes {
         post("/taller/editar/:id", (req, res) -> TallerController.editar(req, res));
 
         post("/taller/eliminar/:id", (req, res) -> TallerController.eliminar(req, res));
-
         
+        post("/admin/taller/alta", (req, res) -> AdminController.altaTaller(req, res));
+
+        post("/admin/taller/asignar", (req, res) -> AdminController.asignarDocenteTaller(req, res));
+        // POST PARA INSCRIPCIONES DE ALUMNO A TALLER
+        post("/estudiante/talleres/:id/inscribir", (req, res) -> EstudiaController.inscribir(req, res));
+        
+        post("/estudiante/talleres/:id/desinscribir", (req, res) -> EstudiaController. desincribir(req, res));
     }
 }
