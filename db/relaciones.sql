@@ -1,4 +1,4 @@
-PRAGMA foreign_keys = ON;
+PRAGMA foreign_keys = OFF;
 
 DROP TABLE IF EXISTS pertenece;
 DROP TABLE IF EXISTS nota;
@@ -128,4 +128,4 @@ CREATE TABLE IF NOT EXISTS nota_taller (
     CONSTRAINT fk_Nota_Pertenece FOREIGN KEY (id_Nota) REFERENCES nota(id_Nota) ON DELETE CASCADE,
     CONSTRAINT fk_Taller_pertenece FOREIGN KEY (id_Taller) REFERENCES taller(id_Taller) ON DELETE CASCADE
 );
-
+PRAGMA foreign_keys = ON;
