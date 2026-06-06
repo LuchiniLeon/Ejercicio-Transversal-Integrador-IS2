@@ -32,6 +32,17 @@ public class NotaService {
             throw new IllegalArgumentException("La fecha de examen no puede estar vacía");
         }
 
+        try {
+            java.time.LocalDate fecha = java.time.LocalDate.parse(fechaExamen);
+
+            if (fecha.getYear() < 1900) {
+                throw new IllegalArgumentException("El año debe ser mayor o igual a 1900");
+            }
+
+            } catch (java.time.format.DateTimeParseException e) {
+                    throw new IllegalArgumentException("La fecha debe tener formato YYYY-MM-DD y ser válida");
+            }
+
         if (dniEstudiante == null) {
             throw new IllegalArgumentException("Debe seleccionar un estudiante");
         } 
