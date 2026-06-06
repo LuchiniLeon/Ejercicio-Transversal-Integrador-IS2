@@ -1,5 +1,6 @@
 package com.is1.proyecto.models;
 
+import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.BelongsTo;
 import org.javalite.activejdbc.annotations.IdName;
 import org.javalite.activejdbc.annotations.Table;
@@ -7,7 +8,7 @@ import org.javalite.activejdbc.annotations.Table;
 @Table("estudiante")
 @IdName("dni_Persona")
 @BelongsTo(foreignKeyName = "dni_Persona", parent = Persona.class)
-public class Estudiante extends Persona {
+public class Estudiante extends Model {
     
     public Integer getDniAdministrador(){ return getInteger("dni_Administrador"); }
 
