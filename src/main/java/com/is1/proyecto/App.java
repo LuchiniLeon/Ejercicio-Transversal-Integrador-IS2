@@ -3,10 +3,8 @@ package com.is1.proyecto; // Define el paquete de la aplicación, debe coincidir
 // Importaciones necesarias para la aplicación Spark
 import static spark.Spark.*; // Importa los métodos estáticos principales de Spark (get, post, before, after, etc.).
 
-import com.is1.proyecto.config.DBConfigSingleton;
 import com.is1.proyecto.config.DBFiltro;
 import com.is1.proyecto.routes.Routes;
-import com.is1.proyecto.service.SuperAdminService;
 
 /**
  * Clase principal de la aplicación Spark.
