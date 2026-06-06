@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Persona;
+import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.DocenteService;
 
 import spark.ModelAndView;
@@ -20,11 +21,20 @@ public class DocenteController {
         String dniStr = req.queryParams("dni");
         String legajoStr = req.queryParams("legajo");
         String cargo = req.queryParams("cargo");
-        String dniAdminStr = req.queryParams("dniAdmin");
 
         Integer dniInteger = null;
         Integer legajoInteger = null;
-        Integer dniAdminInt = null;
+
+        String usernameActual = req.session().attribute("currentUserUsername");
+
+        if(usernameActual == null){
+            res.redirect("/login?error=" + URLEncoder.encode("Debes iniciar sesión para realizar esta acción.", StandardCharsets.UTF_8));
+            return "";
+        }
+
+        User usuario = User.findFirst("nombreUsuario = ?", usernameActual);
+
+        Integer dniAdmin = usuario.getDNI();
 
         try{
             if(dniStr!=null && !dniStr.isEmpty()){
@@ -44,18 +54,9 @@ public class DocenteController {
             return "";
         }
 
-        try{
-            if(dniAdminStr!=null && !dniAdminStr.isEmpty()){
-                dniAdminInt = Integer.parseInt(dniAdminStr);
-            }
-        } catch (NumberFormatException e) {
-            res.redirect("/docente/alta?error=" + URLEncoder.encode("El DNI del administrador debe ser numérico", StandardCharsets.UTF_8));
-            return "";
-        }
-
         try {
             //Creamos un nuevo profesor
-            DocenteService.crearDocente(dniInteger, legajoInteger, cargo, dniAdminInt);
+            DocenteService.crearDocente(dniInteger, legajoInteger, cargo, dniAdmin);
 
             Persona persona = Persona.findFirst("dni = ?", dniInteger);
 
