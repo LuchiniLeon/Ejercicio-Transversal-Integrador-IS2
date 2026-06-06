@@ -8,10 +8,8 @@ import org.javalite.activejdbc.Base;
 import java.util.List;
 
 import com.is1.proyecto.models.Admin;
-import com.is1.proyecto.models.Docente;
-import com.is1.proyecto.models.Persona;
+import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.AdminService;
-import com.is1.proyecto.service.DocenteService;
 
 import spark.ModelAndView;
 import spark.Request;
@@ -79,5 +77,125 @@ public class AdminController {
     public static ModelAndView opcionesAsignacion(Request req, Response res) {
 
         return new ModelAndView(new HashMap<>(), "opciones_asignacion.mustache");
+    }
+
+    public static ModelAndView formAltaTaller(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+        
+        String currentUsername = req.session().attribute("currentUserUsername");
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+    
+        if (admin == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        model.put("docentes", AdminService.obtenerDocentes());
+
+        return new ModelAndView(model, "/alta_admin.mustache");
+    }
+
+    public static Object altaTaller(Request req, Response res) {
+        try {
+            String currentUsername = req.session().attribute("currentUserUsername");
+            User user = User.findFirst("nombreUsuario = ?", currentUsername);
+            Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+        
+            if (admin == null) {
+                res.redirect("/dashboard");
+                return "";
+            }
+
+            String titulo = req.queryParams("titulo");
+            Integer hora = Integer.parseInt(req.queryParams("hora"));
+            Boolean vigente = req.queryParams("vigente").equals("1");
+            Integer dniDocente = Integer.parseInt(req.queryParams("dniDocente"));
+
+            AdminService.crearTallerComoAdmin(titulo, hora, vigente, dniDocente);
+        
+            String msg = "Taller '" + titulo + "' creado con éxito.";
+            res.redirect("/admin/taller/lista?message=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
+        
+            return "";
+        } catch (IllegalArgumentException e) {
+            res.redirect("/admin/taller/alta?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            return "";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errorMsg = e.getMessage() != null ? e.getMessage() : "Error interno del servidor";
+            res.redirect("/admin/taller/alta?error=" + URLEncoder.encode(errorMsg, StandardCharsets.UTF_8));
+            
+            return "";
+        }
+    }
+
+    public static ModelAndView listaTalleres(Request req, Response res) {
+    String currentUsername = req.session().attribute("currentUserUsername");
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+        if (admin == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("talleres", AdminService.obtenerTalleres());
+
+        String successMessage = req.queryParams("message");
+        if (successMessage != null && !successMessage.isEmpty()) {
+            model.put("successMessage", successMessage);
+        }
+
+        return new ModelAndView(model, "admin_lista-talleres.mustache");
+    }
+
+    public static ModelAndView formAsignarDocenteTaller(Request req, Response res) {
+        String currentUsername = req.session().attribute("currentUserUsername");
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+        if (admin == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("docentes", AdminService.obtenerDocentes());
+        model.put("talleres", AdminService.obtenerTalleres());
+
+        String errorMessage = req.queryParams("error");
+        if (errorMessage != null && !errorMessage.isEmpty()) model.put("errorMessage", errorMessage);
+
+        return new ModelAndView(model, "asignar_docente-taller.mustache");
+    }
+
+    public static Object asignarDocenteTaller(Request req, Response res) {
+        try {
+            String currentUsername = req.session().attribute("currentUserUsername");
+            User user = User.findFirst("nombreUsuario = ?", currentUsername);
+            Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+            if (admin == null) {
+                res.redirect("/dashboard");
+                return "";
+            }
+
+            Integer idTaller = Integer.parseInt(req.queryParams("idTaller"));
+            Integer dniDocente = Integer.parseInt(req.queryParams("dniDocente"));
+
+            AdminService.asignarDocenteATaller(idTaller, dniDocente);
+            String msg = "Docente asignado al taller con éxito.";
+            res.redirect("/admin/taller/lista?message=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
+            return "";
+            
+        } catch (IllegalArgumentException e) {
+            res.redirect("/admin/taller/asignar?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            return "";
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errorMsg = e.getMessage() != null ? e.getMessage() : "Error interno del servidor";
+            res.redirect("/admin/taller/asignar?error=" + URLEncoder.encode(errorMsg, StandardCharsets.UTF_8));
+            return "";
+        }
     }
 }
