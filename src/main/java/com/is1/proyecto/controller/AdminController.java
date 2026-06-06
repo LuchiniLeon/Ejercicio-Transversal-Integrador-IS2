@@ -21,22 +21,31 @@ public class AdminController {
    
     public static Object alta(Request req, Response res){
 
-        Integer dni_Persona = req.attribute("dni");
-        String cargo = req.attribute("cargo");
-        String sector = req.attribute("sector");
+        String dni = req.queryParams("dni");
+        String cargo = req.queryParams("cargo");
+        String sector = req.queryParams("sector");
+
+        Integer dni_Persona = null;
+        try {
+            if (dni != null && !dni.isEmpty()) {
+                dni_Persona = Integer.parseInt(dni);
+            }
+        } catch (NumberFormatException e) {
+            res.redirect("/admin/alta?error=" + URLEncoder.encode("El DNI debe ser numérico", StandardCharsets.UTF_8));
+            return "";
+        }
 
         try{
             AdminService.crearAdmin(dni_Persona, cargo, sector);
-            
-            List<Map> result = Base.findAll("SELECT name, apellido FROM persona WHERE(persona.dni = ?)");
 
+            Persona persona = Persona.findFirst("dni = ?", dni_Persona);
+            
             String nombre = "";
             String apellido = "";
 
-            if(!result.isEmpty()){
-                Map persona = result.get(0);
-                nombre = (String) persona.get("nombre");
-                apellido = (String) persona.get("apellido");
+            if(persona!=null){
+                nombre = persona.getNombre();
+                apellido = persona.getApellido();
             }
 
             String msg = "Administrador: " + nombre + " " + apellido + " habilitado con éxito.";
@@ -53,6 +62,7 @@ public class AdminController {
             return "";
 
         } catch (Exception e) {
+            e.printStackTrace();
             res.status(500);
             res.redirect("/admin/alta?error=Error interno del servidor");
             return "";

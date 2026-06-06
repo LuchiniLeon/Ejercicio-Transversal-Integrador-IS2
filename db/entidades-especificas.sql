@@ -1,5 +1,4 @@
-PRAGMA foreign_keys = ON;
-
+PRAGMA foreign_keys = OFF;
 
 DROP TABLE IF EXISTS token_password;
 DROP TABLE IF EXISTS titulo;
@@ -44,7 +43,7 @@ CREATE TABLE IF NOT EXISTS telefono (
 
 CREATE TABLE IF NOT EXISTS email(
     dni_Persona INTEGER,
-    email TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
     CONSTRAINT pk_dni_email PRIMARY KEY (dni_Persona),
     CONSTRAINT fk_dni_persona_email FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -96,3 +95,4 @@ CREATE TABLE IF NOT EXISTS token_password(
     CONSTRAINT pk_token PRIMARY KEY (token),
     CONSTRAINT fk_token_email FOREIGN KEY (email) REFERENCES email(email) ON DELETE CASCADE
 );
+PRAGMA foreign_keys = ON;
