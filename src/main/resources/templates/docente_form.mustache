@@ -23,20 +23,8 @@
         {{/errorMessage}}
 
         <form action="/docente/alta" method="post" class="space-y-4">
-            <div>
-                <label for="nombre" class="block text-gray-700 text-sm font-medium mb-1">Nombre del nuevo docente (*):</label>
-                <input type="text" id="nombre" name="nombre" required placeholder="Ej. Rafael"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-
              <div>
-                <label for="apellido" class="block text-gray-700 text-sm font-medium mb-1">Apellido del nuevo docente (*):</label>
-                <input type="text" id="apellido" name="apellido" required placeholder="Ej. Gonzales"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-
-             <div>
-                <label for="dni" class="block text-gray-700 text-sm font-medium mb-1">DNI (*):</label>
+                <label for="dni" class="block text-gray-700 text-sm font-medium mb-1">DNI del nuevo Docente (*):</label>
                 <input type="text" id="dni" name="dni" required pattern="\d*" title="Solo números." placeholder="Ej. 12345678"
                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
@@ -47,49 +35,25 @@
                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
-          {{!  <div>
-                <label for="correo" class="block text-gray-700 text-sm font-medium mb-1">Correo electronico (*):</label>
-                <input type="email" id="correo" name="correo" required placeholder="hola@gmail.com"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-
             <div>
-                <label for="telefono" class="block text-gray-700 text-sm font-medium mb-1">Numero de telefono:</label>
-                <input type="text" id="telefono" name="telefono" pattern="\d*" title="Solo números." placeholder="Ej. 358-2222888"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-
-            <div>
-                <label for="dirección" class="block text-gray-700 text-sm font-medium mb-1">Dirección:</label>
-                <input type="text" id="direccion" name="direccion" placeholder="Ej: Calle paloma 2000"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            }}
-            <div>
-                <label for="cargo" class="block text-gray-700 text-sm font-medium mb-1">Cargo:</label>
+                <label for="cargo" class="block text-gray-700 text-sm font-medium mb-1">Cargo: (*)</label>
                 <input type="text" id="cargo" name="cargo" placeholder="Ej: Titular, Adjunto"
                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-            {{!
+
             <div>
-                <label for="name" class="block text-gray-700 text-sm font-medium mb-1">Nombre de usuario (*):</label>
-                <input type="text" id="name" name="name" required placeholder="Ej: rgonzales"
+                <label for="dni" class="block text-gray-700 text-sm font-medium mb-1">DNI del Administrador (*):</label>
+                <input type="text" id="dniAdmin" name="dniAdmin" required pattern="\d*" title="Solo números." placeholder="Ej. 12345678"
                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
             
-            <div>
-                <label for="password" class="block text-gray-700 text-sm font-medium mb-1">Contraseña inicial (*):</label>
-                <input type="password" id="password" name="password" required minlength="6" placeholder="Ej: Password"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            }}
             <p class="text-xs text-gray-500">(*) Campos obligatorios.</p>
 
                 <div class="flex gap-4 mt-6">
-                <a href="/dashboard" 
-                   class="w-1/2 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
-                    Cancelar
-                </a>
+                    <a href="/dashboard" 
+                    class="w-1/2 inline-block bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                        Cancelar
+                    </a>
 
                 <button type="submit"
                         class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">

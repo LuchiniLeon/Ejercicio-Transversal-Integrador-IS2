@@ -3,47 +3,52 @@ package com.is1.proyecto.service;
 import org.javalite.activejdbc.Base;
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.is1.proyecto.models.Admin;
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.User;
 
 public class DocenteService {
     
-     public static void crearDocente(
-        String dniStr, String legajoStr, String cargo, 
-        String dni_adminStr, String nombre, String apellido,
-        String fecha
-        ) {
+     public static void crearDocente(Integer dniInt, Integer legajoInt, String cargo, Integer dniAdmin) {
 
         // VALIDACIONES
 
-        if (
-            dniStr == null || dniStr.isEmpty() ||
-            legajoStr == null || legajoStr.isEmpty() ||
-            dni_adminStr == null || dni_adminStr.isEmpty() ||
-            nombre == null || nombre.isEmpty() ||
-            apellido == null || apellido.isEmpty() ||
-            fecha == null || fecha.isEmpty())
-            {
-
+        if (dniInt == null ||
+            dniAdmin == null ||
+            legajoInt == null ||
+            cargo == null || cargo.isEmpty()){
             throw new IllegalArgumentException("Faltan campos obligatorios");
         }
 
-        Integer dni, legajo, dni_Admin;
 
-        try {
-            dni = Integer.valueOf(dniStr.trim());
-            legajo = Integer.valueOf(legajoStr.trim());
-            dni_Admin = Integer.valueOf(dni_adminStr.trim());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("DNI y Legajo deben ser números válidos");
+        if (Persona.findFirst("dni = ?", dniInt) == null) {
+            throw new IllegalStateException("El DNI del docente no existe");
         }
 
-        if (Persona.findFirst("dni = ?", dni) != null) {
-            throw new IllegalStateException("El DNI ya existe");
+        if(Admin.findFirst("dni_Persona = ?", dniAdmin) == null){
+            throw new IllegalStateException("El dni no existe o no corresponde a un administrador");
         }
     
-        // CREACIÓN
+              //Abre la transacción acá
+        Base.openTransaction();
+
+        try{
+            //CREACION DE DOCENTE
+            Docente docente = new Docente();
+            docente.setCargo(cargo);
+            docente.setLegajo(legajoInt);
+            docente.setDni(dniInt);
+            docente.setDniAdministrador(dniAdmin);
+            docente.insert();
+
+            //Si todo salió bien dentro del try, confirma para que pase a la bd
+            Base.commitTransaction(); 
+        }catch (Exception e){
+            //Si falló algo en el try, deshacemos todo para no dejar nada a medias en la bd
+            Base.rollbackTransaction();
+            throw e;
+        }
 
     }
 }

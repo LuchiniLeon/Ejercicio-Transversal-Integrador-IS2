@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.is1.proyecto.models.Docente;
+import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.service.DocenteService;
 
 import spark.ModelAndView;
@@ -16,24 +17,55 @@ public class DocenteController {
 
   public static Object alta(Request req, Response res) {
 
-        String nombre = req.queryParams("nombre");
-        String apellido = req.queryParams("apellido");
-        String fecha = req.queryParams("fecha");
         String dniStr = req.queryParams("dni");
-        //String direccion = req.queryParams("direccion");
-        //String telefonoStr = req.queryParams("telefono");
         String legajoStr = req.queryParams("legajo");
         String cargo = req.queryParams("cargo");
-        //String name = req.queryParams("name");
-        //String password = req.queryParams("password");
-        String dni_adminStr = req.queryParams("dni_Admin");
+        String dniAdminStr = req.queryParams("dniAdmin");
+
+        Integer dniInteger = null;
+        Integer legajoInteger = null;
+        Integer dniAdminInt = null;
+
+        try{
+            if(dniStr!=null && !dniStr.isEmpty()){
+                dniInteger = Integer.parseInt(dniStr);
+            }
+        } catch (NumberFormatException e) {
+            res.redirect("/docente/alta?error=" + URLEncoder.encode("El DNI debe ser numérico", StandardCharsets.UTF_8));
+            return "";
+        }
+
+         try{
+            if(legajoStr!=null && !legajoStr.isEmpty()){
+                legajoInteger = Integer.parseInt(legajoStr);
+            }
+        } catch (NumberFormatException e) {
+            res.redirect("/docente/alta?error=" + URLEncoder.encode("El legajo debe ser numérico", StandardCharsets.UTF_8));
+            return "";
+        }
+
+        try{
+            if(dniAdminStr!=null && !dniAdminStr.isEmpty()){
+                dniAdminInt = Integer.parseInt(dniAdminStr);
+            }
+        } catch (NumberFormatException e) {
+            res.redirect("/docente/alta?error=" + URLEncoder.encode("El DNI del administrador debe ser numérico", StandardCharsets.UTF_8));
+            return "";
+        }
 
         try {
             //Creamos un nuevo profesor
-            DocenteService.crearDocente(
-                dniStr, legajoStr, cargo, dni_adminStr,
-                nombre, apellido, fecha
-            );
+            DocenteService.crearDocente(dniInteger, legajoInteger, cargo, dniAdminInt);
+
+            Persona persona = Persona.findFirst("dni = ?", dniInteger);
+
+            String nombre = "";
+            String apellido = "";
+
+            if(persona!=null){
+                nombre = persona.getNombre();
+                apellido = persona.getApellido();
+            }
 
             String msg = "Profesor " + nombre + " " + apellido + " registrado con éxito.";
             res.redirect("/docente/alta?message=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
@@ -50,6 +82,7 @@ public class DocenteController {
             return "";
 
         } catch (Exception e) {
+            e.printStackTrace();
             res.status(500);
             res.redirect("/docente/alta?error=Error interno del servidor");
             return "";
