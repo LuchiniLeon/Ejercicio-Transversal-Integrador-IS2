@@ -9,21 +9,20 @@ import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.DocenteService;
+import com.is1.proyecto.service.EstudianteService;
 
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class DocenteController {
-
-  public static Object alta(Request req, Response res) {
+public class EstudianteController {
+     public static Object alta(Request req, Response res) {
 
         String dniStr = req.queryParams("dni");
-        String legajoStr = req.queryParams("legajo");
-        String cargo = req.queryParams("cargo");
+        String estadoAcademico = req.queryParams("estadoAcademico");
+        String ingresoStr = req.queryParams("ingreso");
 
         Integer dniInteger = null;
-        Integer legajoInteger = null;
 
         String usernameActual = req.session().attribute("currentUserUsername");
 
@@ -41,22 +40,13 @@ public class DocenteController {
                 dniInteger = Integer.parseInt(dniStr);
             }
         } catch (NumberFormatException e) {
-            res.redirect("/docente/alta?error=" + URLEncoder.encode("El DNI debe ser numérico", StandardCharsets.UTF_8));
-            return "";
-        }
-
-         try{
-            if(legajoStr!=null && !legajoStr.isEmpty()){
-                legajoInteger = Integer.parseInt(legajoStr);
-            }
-        } catch (NumberFormatException e) {
-            res.redirect("/docente/alta?error=" + URLEncoder.encode("El legajo debe ser numérico", StandardCharsets.UTF_8));
+            res.redirect("/estudiante/alta?error=" + URLEncoder.encode("El DNI debe ser numérico", StandardCharsets.UTF_8));
             return "";
         }
 
         try {
-            //Creamos un nuevo profesor
-            DocenteService.crearDocente(dniInteger, legajoInteger, cargo, dniAdmin);
+            //Creamos un nuevo estudiante
+            EstudianteService.crearEstudiante(dniInteger, estadoAcademico, ingresoStr, dniAdmin);
 
             Persona persona = Persona.findFirst("dni = ?", dniInteger);
 
@@ -68,24 +58,24 @@ public class DocenteController {
                 apellido = persona.getApellido();
             }
 
-            String msg = "Profesor " + nombre + " " + apellido + " registrado con éxito.";
-            res.redirect("/docente/alta?message=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
+            String msg = "Estudiante " + nombre + " " + apellido + " registrado con éxito.";
+            res.redirect("/estudiante/alta?message=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
             return "";
 
         } catch (IllegalArgumentException e) {
             res.status(400);
-            res.redirect("/docente/alta?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            res.redirect("/estudiante/alta?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
 
         } catch (IllegalStateException e) {
             res.status(409);
-            res.redirect("/docente/alta?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            res.redirect("/estudiante/alta?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
 
         } catch (Exception e) {
             e.printStackTrace();
             res.status(500);
-            res.redirect("/docente/alta?error=Error interno del servidor");
+            res.redirect("/estudiante/alta?error=Error interno del servidor");
             return "";
         }
     }   
@@ -104,6 +94,6 @@ public class DocenteController {
             model.put("errorMessage", errorMessage);
         }
     
-        return new ModelAndView(model, "docente_form.mustache");
+        return new ModelAndView(model, "estudiante_form.mustache");
     }
 }
