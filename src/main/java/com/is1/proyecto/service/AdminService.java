@@ -1,12 +1,9 @@
 package com.is1.proyecto.service;
 
 import org.javalite.activejdbc.Base;
-import org.mindrot.jbcrypt.BCrypt;
 
 import com.is1.proyecto.models.Admin;
-import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Persona;
-import com.is1.proyecto.models.User;
 
 
 public class AdminService {
