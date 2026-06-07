@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Materia;
+import com.is1.proyecto.models.Persona;
 
 public class MateriaService {
 
@@ -62,6 +63,38 @@ public class MateriaService {
             m.put("nombre", materia.getNombre());
             m.put("horasTotales", materia.getHorasTotales());
             m.put("dniDocente", materia.getDniDocente());
+
+            if (materia.parent(Docente.class) != null) {
+                Docente docente = materia.parent(Docente.class);
+                m.put("nombreDocente", docente.parent(Persona.class).getString("nombre") + " " + docente.parent(Persona.class).getString("apellido"));
+            } else {
+                m.put("nombreDocente", "Sin docente asignado");
+            }
+
+            lista.add(m);
+        }
+
+        return lista;
+    }
+
+    public static List<Map<String, Object>> listarMateriasPorDocente(Integer dniDocente) {
+        List<Materia> materias = Materia.where("dni_Docente = ?", dniDocente);
+        List<Map<String, Object>> lista = new ArrayList<>();
+
+        for (Materia materia : materias) {
+            Map<String, Object> m = new HashMap<>();
+            m.put("id", materia.getIdMateria());
+            m.put("codigo", materia.getCodigo());
+            m.put("nombre", materia.getNombre());
+            m.put("horasTotales", materia.getHorasTotales());
+            m.put("dniDocente", materia.getDniDocente());
+
+            if (materia.parent(Docente.class) != null) {
+                Docente docente = materia.parent(Docente.class);
+                m.put("nombreDocente", docente.parent(Persona.class).getString("nombre") + " " + docente.parent(Persona.class).getString("apellido"));
+            } else {
+                m.put("nombreDocente", "Sin docente asignado");
+            }
 
             lista.add(m);
         }
