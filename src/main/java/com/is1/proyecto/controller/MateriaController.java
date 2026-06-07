@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.is1.proyecto.models.Docente;
+import com.is1.proyecto.models.User;
+import com.is1.proyecto.service.AdminService;
 import com.is1.proyecto.service.MateriaService;
 
 import spark.ModelAndView;
@@ -92,12 +95,34 @@ public class MateriaController {
             model.put("errorMessage", errorMessage);
         }
 
-        List<Map<String, Object>> materias = MateriaService.listarMaterias();
+        String currentUsername = req.session().attribute("currentUserUsername");
+        List<Map<String, Object>> materias;
+        boolean isDocente = false;
 
-        Map<String, Object> materiasWrapper = new HashMap<>();
-        materiasWrapper.put("lista", materias);
+        if (currentUsername != null && !currentUsername.isEmpty()) {
+            User user = User.findFirst("nombreUsuario = ?", currentUsername);
+            if (user != null) {
+                Docente docente = Docente.findFirst("dni_Persona = ?", user.getDNI());
+                if (docente != null) {
+                    materias = MateriaService.listarMateriasPorDocente(docente.getDni());
+                    model.put("pageTitle", "Mis materias");
+                    model.put("subtitle", "Solo las materias asignadas a mí");
+                    isDocente = true;
+                } else {
+                    materias = MateriaService.listarMaterias();
+                    model.put("pageTitle", "Materias");
+                }
+            } else {
+                materias = MateriaService.listarMaterias();
+                model.put("pageTitle", "Materias");
+            }
+        } else {
+            materias = MateriaService.listarMaterias();
+            model.put("pageTitle", "Materias");
+        }
 
-        model.put("materias", materiasWrapper);
+        model.put("isDocente", isDocente);
+        model.put("materias", materias);
 
         return new ModelAndView(model, "materia-lista.mustache");
     }
@@ -123,6 +148,15 @@ public class MateriaController {
             } else {
                 model.putAll(materia);
             }
+
+            List<Map<String, Object>> docentes = AdminService.obtenerDocentes();
+            Integer currentDniDocente = materia != null ? (Integer) materia.get("dniDocente") : null;
+            for (Map<String, Object> docente : docentes) {
+                if (currentDniDocente != null && currentDniDocente.equals(docente.get("dni"))) {
+                    docente.put("selected", true);
+                }
+            }
+            model.put("docentes", docentes);
 
         } catch (Exception e) {
 
