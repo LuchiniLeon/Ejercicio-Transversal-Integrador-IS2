@@ -6,160 +6,182 @@
     <title>Bienvenido al Planificador</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat min-h-screen w-full flex items-center justify-center p-4 relative">
+
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl z-10">
         
         <div class="flex items-center justify-between mb-6">
             <div class="w-20 hidden sm:block"></div> 
 
-            <h1 class="text-3xl font-bold text-gray-800 text-center flex-1">Calendario de {{nombreMes}} de {{anio}}</h1>
+            {{#calendario}}
+                <h1 class="text-3xl font-bold text-gray-800 text-center flex-1">Horarios de {{dia}} de {{nombreMes}} del {{anio}}</h1>
+            {{/calendario}}
+
+            {{^calendario}}
+            <div class="flex items-center justify-between bg-white p-4 shadow-sm rounded-t-lg border-b border-gray-200 flex-1">
+                <a href="/planificador/tarea?mes={{mesAnt}}&anio={{anioAnt}}" 
+                   class="p-2 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-full transition-colors font-bold text-lg select-none">
+                    &lt;
+                </a>
+                <h1 class="text-2xl font-bold text-gray-800 text-center flex-1 tracking-wide mx-4">
+                    Calendario de {{nombreMes}} de {{anio}}
+                </h1>
+                <a href="/planificador/tarea?mes={{mesSig}}&anio={{anioSig}}" 
+                   class="p-2 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-full transition-colors font-bold text-lg select-none">
+                    &gt;
+                </a>
+            </div>
+            {{/calendario}}
 
             <div class="flex items-center gap-2 sm:w-20 justify-end">
-                <a href="/settings" class="text-gray-500 hover:text-green-600 p-2 rounded-full hover:bg-green-50 transition duration-300" title="Configuraciones">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.767a1.123 1.123 0 0 0-.417 1.03c.004.074.006.148.006.222 0 .074-.002.148-.006.222a1.123 1.123 0 0 0 .417 1.03l1.003.767a1.125 1.125 0 0 1 .26 1.43l-1.296 2.247a1.125 1.125 0 0 1-1.37.49l-1.216-.456a1.125 1.125 0 0 0-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281a1.125 1.125 0 0 0-.646-.87a6.555 6.555 0 0 1-.22-.127a1.125 1.125 0 0 0-1.074-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.004-.767a1.122 1.122 0 0 0 .417-1.03a6.57 6.57 0 0 1-.006-.222c0-.074.002-.148.006-.222a1.122 1.122 0 0 0-.417-1.03l-1.004-.767a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.49l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128c.332-.183.582-.495.646-.869L9.593 3.94Z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    </svg>
-                </a >
-
-                <a href="/profile" class="text-gray-500 hover:text-blue-600 p-1.5 rounded-full hover:bg-blue-50 transition duration-300" title="Mi Perfil">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    </svg>
+                <a href="/settings" class="text-gray-500 hover:text-green-600 p-2 rounded-full hover:bg-green-50 transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.767a1.123 1.123 0 0 0-.417 1.03c.004.074.006.148.006.222 0 .074-.002.148-.006.222a1.123 1.123 0 0 0 .417 1.03l1.003.767a1.125 1.125 0 0 1 .26 1.43l-1.296 2.247a1.125 1.125 0 0 1-1.37.49l-1.216-.456a1.125 1.125 0 0 0-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281a1.125 1.125 0 0 0-.646-.87a6.555 6.555 0 0 1-.22-.127a1.125 1.125 0 0 0-1.074-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.004-.767a1.122 1.122 0 0 0 .417-1.03a6.57 6.57 0 0 1-.006-.222c0-.074.002-.148.006-.222a1.122 1.122 0 0 0-.417-1.03l-1.004-.767a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.49l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128c.332-.183.582-.495.646-.869L9.593 3.94Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+                </a>
+                <a href="/profile" class="text-gray-500 hover:text-blue-600 p-1.5 rounded-full hover:bg-blue-50 transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
                 </a>
             </div>
         </div>
-        
-        <div class="grid grid-cols-7 gap-2 text-center font-bold">
-            <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
-        </div>
-        <div class="grid grid-cols-7 gap-2 mt-2">
-            {{#espacio}}
-                <div class="p-2"></div>
-            {{/espacio}}
 
-            {{#diaMes}}
-                <a href="/planificador/calendario?dia={{numeroDia}}" class="block w-full position-relative">
-                    <button type="button" class="w-full p-2 rounded text-center cursor-pointer transition-all flex flex-col items-center justify-between min-h-[50px]
-                        {{#tieneTareas}}bg-indigo-100 hover:bg-indigo-200 border border-indigo-300 text-indigo-900{{/tieneTareas}}
-                        {{^tieneTareas}}bg-purple-100 hover:bg-purple-200 text-purple-900{{/tieneTareas}}">
-                        
-                        <span class="font-bold text-sm">{{numeroDia}}</span>
-                        
-                        {{#tieneTareas}}
-                            <span class="w-2 h-2 bg-indigo-600 rounded-full mt-1" title="Tienes tareas este día"></span>
-                        {{/tieneTareas}}
-                    </button>
-                </a>
-            {{/diaMes}}
-        </div>
+        {{^calendario}}
+            <div class="grid grid-cols-7 gap-2 text-center font-bold text-gray-600 mb-2">
+                <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
+            </div>
+            
+            <div class="grid grid-cols-7 gap-2 mt-2">
+                {{#espacio}}
+                    <div class="p-2 border border-transparent"></div>
+                {{/espacio}}
 
-
-        {{#calendario}}
-            <div class="mt-6 p-4 bg-white rounded-lg shadow">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Horarios Disponibles:</h3>
-                
-                <div class="space-y-2">
-                    {{#horas}}
-                        <a href="/planificador/calendario?dia={{dia}}&accion=nuevo&hora_sel={{horaTexto}}" class="block">
-                            <div class="p-3 border border-gray-200 rounded-md flex items-center justify-between font-medium transition-colors cursor-pointer
-                                {{#tieneTarea}}bg-purple-100 hover:bg-purple-200 text-purple-900{{/tieneTarea}}
-                                {{^tieneTarea}}bg-gray-50 hover:bg-purple-50 text-gray-700{{/tieneTarea}}">
-                                
-                                <div class="flex items-center gap-4 flex-1">
-                                    <span class="w-16 text-sm font-semibold shrink-0 {{#tieneTarea}}text-purple-700{{/tieneTarea}}{{^tieneTarea}}text-gray-600{{/tieneTarea}}">
-                                        {{horaTexto}}
-                                    </span>
-
-                                    {{#tieneTarea}}
-                                        <p class="text-sm font-bold truncate">{{descripcionTarea}}</p>
-                                    {{/tieneTarea}}
-                                </div>
-                                
-                                {{^tieneTarea}}
-                                    <span class="text-xs text-purple-400 font-normal bg-purple-50 px-2 py-1 rounded">
-                                        + Hacer planes a esta hora
-                                    </span>
-                                {{/tieneTarea}}
-                                
+                {{#diaMes}}
+                    <a href="/planificador/calendario?dia={{numeroDia}}" class="block w-full">
+                        <div class="w-full p-2 rounded-lg border transition-all flex flex-col items-start justify-start min-h-[120px] 
+                            {{#tieneTareas}}bg-indigo-50 hover:bg-indigo-100 border-indigo-200{{/tieneTareas}}
+                            {{^tieneTareas}}bg-gray-50 hover:bg-gray-100 border-gray-100{{/tieneTareas}}">
+                            
+                            <span class="font-bold text-sm text-gray-700 mb-1">{{numeroDia}}</span>
+                            
+                            <div class="w-full space-y-1">
+                                {{#listaTareas}}
+                                    <div class="text-[10px] bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded truncate font-medium">
+                                        {{descripcionTarea}}
+                                    </div>
+                                {{/listaTareas}}
                             </div>
-                        </a>
-                    {{/horas}}
-                </div>
+                        </div>
+                    </a>
+                {{/diaMes}}
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
+                <a href="/dashboard" class="bg-indigo-600 text-white py-2.5 px-6 rounded-lg hover:bg-indigo-700 transition font-semibold text-sm shadow-sm flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>
+                    Volver al Dashboard
+                </a>
+                <a href="/logout" class="bg-red-500 text-white py-2.5 px-6 rounded-lg hover:bg-red-600 transition font-semibold text-sm shadow-sm">
+                    Cerrar Sesión
+                </a>
             </div>
         {{/calendario}}
 
-        {{#form}}
-            <div class="fixed inset-0 z-40 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4">
-        
-                <!-- Tarjeta blanca del formulario -->
-                <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
-                    
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Nueva Tarea para el {{dia}} (Hora: {{horaFormulario}})</h3>
-                    
-                    <!-- Tu formulario apuntando a guardar -->
-                    <form action="/planificador/save" method="post" class="space-y-4">
-                        
-                        <!-- Inputs invisibles para mandar la fecha a Java sin que el usuario los edite -->
-                        <input type="hidden" name="dia" value="{{dia}}">
-                        <input type="hidden" name="mes" value="{{mes}}">
-                        <input type="hidden" name="anio" value="{{anio}}">
-
-                        <div>
-                            <label for="hora_inicio" class="block text-gray-700 text-sm font-medium mb-1">Hora Inicio:</label>
-                            <!-- ¡Magia! El valor ya viene precargado con la hora que clickeó -->
-                            <input type="text" id="hora_inicio" name="hora_inicio" value="{{horaFormulario}}" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-
-                        <div>
-                            <label for="hora_fin" class="block text-gray-700 text-sm font-medium mb-1">Hora Fin:</label>
-                            <input type="text" id="hora_fin" name="hora_fin" placeholder="Ej: 4am" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        
-                        <div>
-                            <label for="tarea" class="block text-gray-700 text-sm font-medium mb-1">Descripción de la Tarea:</label>
-                            <input type="text" id="tarea" name="tarea" placeholder="¿Qué vas a hacer?" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-
-                        <!-- Botones de Acción -->
-                        <div class="flex gap-4 mt-6">
-                            <a href="/planificador/calendario?dia={{dia}}" 
-                            class="w-1/2 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center font-medium">
-                                Cancelar
+        {{#calendario}}
+            <div class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100 shadow-inner">
+                <div class="max-h-[400px] overflow-y-auto pr-2 scrollbar-thin">
+                    <div class="space-y-2">
+                        {{#horas}}
+                           <a href="/planificador/calendario?dia={{dia}}&accion=nuevo&hora_sel={{horaMilitar}}" class="block">
+                                <div class="p-3 border border-gray-200 rounded-md flex items-center justify-between font-medium transition-colors cursor-pointer
+                                    {{#tieneTarea}}bg-purple-100 hover:bg-purple-200 text-purple-900{{/tieneTarea}}
+                                    {{^tieneTarea}}bg-white hover:bg-purple-50 text-gray-700{{/tieneTarea}}">
+                                    
+                                    <div class="flex items-center gap-4 flex-1">
+                                        <span class="w-16 text-sm font-semibold shrink-0 {{#tieneTarea}}text-purple-700{{/tieneTarea}}{{^tieneTarea}}text-gray-600{{/tieneTarea}}">
+                                            {{horaTexto}}
+                                        </span>
+                                        {{#tieneTarea}}
+                                            <p class="text-sm font-bold truncate">{{descripcionTarea}}</p>
+                                        {{/tieneTarea}}
+                                    </div>
+                                    
+                                    {{^tieneTarea}}
+                                        <span class="text-xs text-purple-400 font-normal bg-purple-50 px-2 py-1 rounded">
+                                            + Hacer planes a esta hora
+                                        </span>
+                                    {{/tieneTarea}}
+                                </div>
                             </a>
-                            <button type="submit" class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 font-medium">
-                                Guardar
-                            </button>
-                        </div>
-
-                    </form>
+                        {{/horas}}
+                    </div>
                 </div>
             </div>
-        {{/form}}
+            
+            <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between">
+                <a href="/planificador/tarea" class="bg-gray-500 text-white py-2.5 px-6 rounded-md hover:bg-gray-600 font-medium transition shadow-sm">
+                    Volver al Mes
+                </a>
+                <a href="/logout" class="bg-red-500 text-white py-2.5 px-6 rounded-md hover:bg-red-600 transition font-semibold text-sm shadow-sm">
+                    Cerrar Sesión
+                </a>
+            </div>
+        {{/calendario}}
 
-        <div class="mt-8 mb-8 border-t border-gray-100 pt-6">
+    </div> {{#form}}
+    <div class="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 backdrop-blur-xs">
+        <div class="bg-[#1f1f1f] text-gray-200 rounded-2xl shadow-2xl p-6 w-full max-w-md border border-zinc-800">
+            
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-2">
+                    <div class="space-y-1 opacity-60 p-1">
+                        <div class="w-4 h-0.5 bg-gray-300"></div>
+                        <div class="w-4 h-0.5 bg-gray-300"></div>
+                    </div>
+                </div>
+                <a href="/planificador/calendario?dia={{dia}}" class="text-gray-400 hover:text-white transition-colors text-xl font-semibold px-2">✕</a>
+            </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-                    <a href="/planificador/save?hora={{.}}" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
-                        Guardar
-                    </a>
-                    <a href="/planificador/tarea" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
+            <form action="/planificador/save" method="post" class="space-y-5">
+                <input type="hidden" name="dia" value="{{dia}}">
+                <input type="hidden" name="mes" value="{{mes}}">
+                <input type="hidden" name="anio" value="{{anio}}">
+
+                <div class="relative mb-6">
+                    <input type="text" id="tarea" name="tarea" placeholder="Añadir título" required autocomplete="off"
+                        class="w-full bg-transparent text-xl font-semibold text-white placeholder-gray-500 border-b-2 border-zinc-700 focus:border-blue-500 focus:outline-none pb-1 transition-colors">
+                </div>
+
+                <div class="flex gap-2 text-sm font-medium mb-4">
+                    <span class="bg-[#04385c] text-blue-300 px-3 py-1.5 rounded-lg">Evento</span>
+                    <span class="text-gray-400 hover:bg-zinc-800 px-3 py-1.5 rounded-lg transition-colors">Tarea</span>
+                </div>
+
+                <div class="flex items-start gap-4">
+                    <span class="text-gray-400 text-lg mt-1 shrink-0">🕒</span>
+                    <div class="flex-1">
+                        <div class="text-sm text-gray-400 mb-1">
+                            Día seleccionado: <span class="text-white font-medium">{{dia}}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="hora_inicio" name="hora_inicio" value="{{horaFormulario}}" required
+                                class="w-20 bg-zinc-800 text-white text-center py-1 px-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm">
+                            <span class="text-gray-500">—</span>
+                            <input type="text" id="hora_fin" name="hora_fin" placeholder="Ej: 14" required
+                                class="w-20 bg-zinc-800 text-white text-center py-1 px-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 mt-6 pt-2">
+                    <a href="/planificador/calendario?dia={{dia}}" 
+                       class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors">
                         Cancelar
                     </a>
-                </div>               
-
+                    <button type="submit" class="px-6 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white rounded-xl shadow-md transition-colors">
+                        Guardar
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <div class="flex justify-center border-t border-gray-150 pt-4">
-            <a href="/logout" class="w-full max-w-xs text-center inline-block bg-red-500 text-white py-3 px-6 rounded-md hover:bg-red-600 transition duration-300 font-semibold shadow-md">
-                Cerrar Sesión
-            </a>
-        </div>
-
     </div>
+    {{/form}}
+
 </body>
 </html>
