@@ -116,14 +116,12 @@ CREATE TABLE IF NOT EXISTS nota (
 );
 
 
-
 CREATE TABLE IF NOT EXISTS nota_taller (
-    id_Nota INTEGER,
     dni_Estudiante INTEGER,
     id_Taller INTEGER,
-    CONSTRAINT pk_pertenece PRIMARY KEY (id_Nota, dni_Estudiante, id_Taller),
-    CONSTRAINT fk_Est_pertenece FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT fk_Nota_Pertenece FOREIGN KEY (id_Nota) REFERENCES nota(id_Nota) ON DELETE CASCADE,
-    CONSTRAINT fk_Taller_pertenece FOREIGN KEY (id_Taller) REFERENCES taller(id_Taller) ON DELETE CASCADE
+    nota REAL,
+    CONSTRAINT pk_nota_taller PRIMARY KEY (dni_Estudiante, id_Taller),
+    CONSTRAINT fk_Est_nota_taller FOREIGN KEY (dni_Estudiante) REFERENCES estudiante(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_Taller_nota_taller FOREIGN KEY (id_Taller) REFERENCES taller(id_Taller) ON DELETE CASCADE
 );
 PRAGMA foreign_keys = ON;
