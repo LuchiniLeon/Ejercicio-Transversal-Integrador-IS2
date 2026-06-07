@@ -23,8 +23,24 @@ public class DBFiltro {
         }
         dbConfig.closeConnection();
 
-        before((req, res) -> dbConfig.openConnection());
-        after((req, res) -> dbConfig.closeConnection());
+       before((req, res) -> {
+            try {
+                dbConfig.openConnection();
+            } catch (Exception e) {
+                // Si ya hay una conexión abierta, la ignoramos
+                if (!e.getMessage().contains("existing connection")) {
+                    throw e;
+                }
+            }
+        });
+        
+        after((req, res) -> {
+            try {
+                dbConfig.closeConnection();
+            } catch (Exception e) {
+                // ignorar si ya estaba cerrada
+            }
+        });
     }
         
 }

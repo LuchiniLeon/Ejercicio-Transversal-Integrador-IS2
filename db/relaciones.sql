@@ -78,8 +78,6 @@ CREATE TABLE IF NOT EXISTS participa (
 CREATE TABLE IF NOT EXISTS participa_docente_taller (
     id_Taller INTEGER,
     dni_Docente INTEGER,
-    fecha_Inicio TEXT NOT NULL, -- No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
-    fecha_Fin TEXT NOT NULL, -- No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
     CONSTRAINT pk_participa_docente PRIMARY KEY (id_Taller, dni_Docente),
     CONSTRAINT fk_id_Taller_participa FOREIGN key (id_Taller) REFERENCES taller(id_Taller) ON DELETE CASCADE,
     CONSTRAINT fk_dni_Doc_participa FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
