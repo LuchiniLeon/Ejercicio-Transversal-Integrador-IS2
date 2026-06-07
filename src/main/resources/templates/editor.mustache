@@ -6,55 +6,37 @@
     <title>Editor de Mi Perfil</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
-   <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+<body class="bg-[url('/imagenes/CocoCercadecamara.jpeg')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
+   
+   <div class="bg-white/70 backdrop-blur-md border border-white/50 p-8 rounded-2xl shadow-2xl w-full max-w-md">
+        
         <div class="mb-6 text-center">
-            <div class="inline-block bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-sm font-semibold mb-2">Usuario</div>
-            <h2 class="text-2xl text-gray-700 font-bold">{{name}}</h2>
+            <div class="inline-block bg-gray-800/20 text-gray-800 py-1 px-3 rounded-full text-sm font-semibold mb-2">Usuario</div>
+            <h2 class="text-2xl text-gray-800 font-bold">{{name}}</h2>
         </div>
 
         {{#modificarUsuario}}
             <div class="mb-8 max-w-md mx-auto">
                 <form action="/editor?modo=oculto" method="GET" class="flex gap-2">
                     <div class="relative flex-grow">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                        </div>
-                        
-                        <input type="text" 
-                            name="buscarUsuario" 
-                            value="{{busquedaActual}}" 
-                            placeholder="Buscar por nombre de usuario..." 
-                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                        <input type="text" name="buscarUsuario" value="{{busquedaActual}}" placeholder="Buscar usuario..." 
+                            class="w-full pl-4 pr-4 py-2 border border-gray-400 rounded-lg text-sm text-gray-800 bg-white/50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-600">
                     </div>
-                    
-                    <button type="submit" 
-                            class="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors shadow-sm">
-                        Buscar
-                    </button>
-                    
+                    <button type="submit" class="bg-gray-800 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-gray-900 transition-colors">Buscar</button>
                     {{#busquedaActual}}
-                    <a href="/editor?modo=oculto" 
-                    class="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 flex items-center justify-center transition-colors" 
-                    title="Limpiar búsqueda">
-                        ✕
-                    </a>
+                        <a href="/editor?modo=oculto" class="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 flex items-center justify-center transition-colors">✕</a>
                     {{/busquedaActual}}
                 </form>
             </div>
 
             <div class="space-y-3 max-w-md mx-auto mb-6">
                 {{#listaUsuarios}}
-                    <div class="bg-gray-50 p-3 rounded-lg shadow-sm border-l-4 border-indigo-500 flex justify-between items-center">
+                    <div class="bg-white/50 p-3 rounded-lg shadow-sm border-l-4 border-gray-600 flex justify-between items-center">
                         <div>
-                            <p class="font-bold text-sm text-gray-700">@{{nombreUsuario}}</p>
-                            <p class="text-xs text-gray-500">{{nombre}} {{apellido}}</p>
+                            <p class="font-bold text-sm text-gray-800">@{{nombreUsuario}}</p>
+                            <p class="text-xs text-gray-600">{{nombre}} {{apellido}}</p>
                         </div>
-                        <a href="/editor?modo=oculto&buscarUsuario={{nombreUsuario}}" class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded hover:bg-indigo-200 font-medium transition-colors">
-                            Seleccionar
-                        </a>
+                        <a href="/editor?modo=oculto&buscarUsuario={{nombreUsuario}}" class="text-xs bg-gray-800 text-white px-2 py-1 rounded hover:bg-gray-900 font-medium transition-colors">Seleccionar</a>
                     </div>
                 {{/listaUsuarios}}
             </div>
@@ -63,125 +45,79 @@
         <form action="{{#modificarUsuario}}/save-admin{{/modificarUsuario}}{{^modificarUsuario}}/save-usuario{{/modificarUsuario}}" method="POST">
 
             <input type="hidden" name="buscarUsuario" value="{{name}}"> 
-            {{#modificarUsuario}}
-                <input type="hidden" name="modificarUsuario" value="true">
-            {{/modificarUsuario}}
+            {{#modificarUsuario}}<input type="hidden" name="modificarUsuario" value="true">{{/modificarUsuario}}
+            {{#esDocente}}<input type="hidden" name="esDocente" value="true">{{/esDocente}}
+            {{#esAdministrador}}<input type="hidden" name="esAdministrador" value="true">{{/esAdministrador}}
+            {{#esEstudiante}}<input type="hidden" name="esEstudiante" value="true">{{/esEstudiante}}
 
-            {{#esDocente}}
-                <input type="hidden" name="esDocente" value="true">
-            {{/esDocente}}
+            <div class="flex items-center gap-4">
+                    <label class="w-1/3 text-gray-700 text-sm font-medium text-right">Nombre:</label>
+                    <input type="text" name="nombre" value="{{nombre}}" required class="w-2/3 px-3 py-1.5 border border-gray-400 rounded-md bg-white/50 text-gray-800 focus:ring-2 focus:ring-gray-600">
+                </div>
 
-            {{#esAdministrador}}
-                <input type="hidden" name="esAdministrador" value="true">
-            {{/esAdministrador}}
+                <div class="flex items-center gap-4">
+                    <label class="w-1/3 text-gray-700 text-sm font-medium text-right">Apellido:</label>
+                    <input type="text" name="apellido" value="{{apellido}}" required class="w-2/3 px-3 py-1.5 border border-gray-400 rounded-md bg-white/50 text-gray-800 focus:ring-2 focus:ring-gray-600">
+                </div>
 
-            {{#esEstudiante}}
-                <input type="hidden" name="esEstudiante" value="true">
-            {{/esEstudiante}}
-
-            <div class="mb-6 text-center">
-                <label for="nombre" class="block text-gray-700 text-sm font-medium mb-1">Nombre</label>
-                <input type="text" name="nombre" value="{{nombre}}" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                    placeholder="Ingresá tu nombre">
-            </div>
-
-            <div class="mb-6 text-center">
-                <label for="apellido" class="block text-gray-700 text-sm font-medium mb-1">Apellido</label>
-                <input type="text" name="apellido" value="{{apellido}}" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                    placeholder="Ingresá tu apellido">
-            </div>
-
-            <div class="mb-6 text-center">
-                <label for="fecha" class="block text-gray-700 text-sm font-medium mb-1">Fecha de Nacimiento</label>
-                <input type="text" name="fecha" value="{{fecha}}" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                    placeholder="Ingresá tu fecha de nacimiento">
-            </div>
+                <div class="flex items-center gap-4">
+                    <label class="w-1/3 text-gray-700 text-sm font-medium text-right">Nacimiento:</label>
+                    <input type="text" name="fecha" value="{{fecha}}" required class="w-2/3 px-3 py-1.5 border border-gray-400 rounded-md bg-white/50 text-gray-800 focus:ring-2 focus:ring-gray-600">
+                </div>
 
             {{#modificarUsuario}}
                <div class="mb-6 text-center">
-                    <label for="dni" class="block text-gray-700 text-sm font-medium mb-1">DNI (Inmutable)</label>
-                    <input type="text" 
-                        name="dni" 
-                        value="{{dni}}" 
-                        readonly 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center bg-gray-100 text-gray-500 font-medium cursor-not-allowed"
-                        placeholder="Ingresá tu dni">
+                    <label class="block text-gray-700 text-sm font-medium mb-1">DNI (Inmutable)</label>
+                    <input type="text" value="{{dni}}" readonly class="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-200 text-gray-500 text-center cursor-not-allowed">
                 </div>
 
                 {{#esDocente}}
                     <div class="mb-6 text-center">
-                        <label for="legajo" class="block text-gray-700 text-sm font-medium mb-1">Legajo</label>
-                        <input type="text" name="legajo" value="{{legajo}}" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                            placeholder="Ingresá tu legajo">
+                        <label class="block text-gray-700 text-sm font-medium mb-1">Legajo</label>
+                        <input type="text" name="legajo" value="{{legajo}}" required class="w-full px-4 py-2 border border-gray-400 rounded-md bg-white/50 text-gray-800 text-center focus:ring-2 focus:ring-gray-600">
                     </div>
-
                     <div class="mb-6 text-center">
-                        <label for="cargo" class="block text-gray-700 text-sm font-medium mb-1">Cargo</label>
-                        <input type="text" name="cargoDoc" value="{{cargoDoc}}" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                            placeholder="Ingresá tu cargo">
+                        <label class="block text-gray-700 text-sm font-medium mb-1">Cargo</label>
+                        <input type="text" name="cargoDoc" value="{{cargoDoc}}" required class="w-full px-4 py-2 border border-gray-400 rounded-md bg-white/50 text-gray-800 text-center focus:ring-2 focus:ring-gray-600">
                     </div>
                 {{/esDocente}}
 
                 {{#esAdministrador}}
                     {{^esSuperAdministrador}}   
                         <div class="mb-6 text-center">
-                            <label for="cargo" class="block text-gray-700 text-sm font-medium mb-1">Cargo</label>
-                            <input type="text" name="cargoAdm" value="{{cargoAdm}}" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                                placeholder="Ingresá tu cargo">
+                            <label class="block text-gray-700 text-sm font-medium mb-1">Cargo</label>
+                            <input type="text" name="cargoAdm" value="{{cargoAdm}}" required class="w-full px-4 py-2 border border-gray-400 rounded-md bg-white/50 text-gray-800 text-center focus:ring-2 focus:ring-gray-600">
                         </div>
-
                         <div class="mb-6 text-center">
-                            <label for="sector" class="block text-gray-700 text-sm font-medium mb-1">Sector</label>
-                            <input type="text" name="sector" value="{{sector}}" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                                placeholder="Ingresá tu sector">
+                            <label class="block text-gray-700 text-sm font-medium mb-1">Sector</label>
+                            <input type="text" name="sector" value="{{sector}}" required class="w-full px-4 py-2 border border-gray-400 rounded-md bg-white/50 text-gray-800 text-center focus:ring-2 focus:ring-gray-600">
                         </div>
-
                     {{/esSuperAdministrador}}
                 {{/esAdministrador}}
 
                 {{#esEstudiante}}
                     <div class="mb-6 text-center">
-                        <label for="ingreso" class="block text-gray-700 text-sm font-medium mb-1">Ingreso</label>
-                        <input type="text" name="ingreso" value="{{ingreso}}" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                            placeholder="Ingresá tu ingreso">
+                        <label class="block text-gray-700 text-sm font-medium mb-1">Ingreso</label>
+                        <input type="text" name="ingreso" value="{{ingreso}}" required class="w-full px-4 py-2 border border-gray-400 rounded-md bg-white/50 text-gray-800 text-center focus:ring-2 focus:ring-gray-600">
                     </div>
-
                     <div class="mb-6 text-center">
-                        <label for="estado" class="block text-gray-700 text-sm font-medium mb-1">Estado</label>
-                        <input type="text" name="estado" value="{{estado}}" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                            placeholder="Ingresá tu estado">
+                        <label class="block text-gray-700 text-sm font-medium mb-1">Estado</label>
+                        <input type="text" name="estado" value="{{estado}}" required class="w-full px-4 py-2 border border-gray-400 rounded-md bg-white/50 text-gray-800 text-center focus:ring-2 focus:ring-gray-600">
                     </div>
-
                 {{/esEstudiante}}
             {{/modificarUsuario}}
 
            <div class="flex gap-4 mt-6"> 
                 {{^modificarUsuario}}
-                    <a href="/mensaje-advertencia"
-                    class="w-1/3 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center text-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        Pedir Cambios
-                    </a>
+                    <a href="/mensaje-advertencia" class="w-1/3 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center text-sm flex items-center justify-center transition">Pedir Cambios</a>
                 {{/modificarUsuario}} 
-                <button type="submit" 
-                class="{{#modificarUsuario}}w-1/2{{/modificarUsuario}}{{^modificarUsuario}}w-1/3{{/modificarUsuario}} bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 text-center text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all">
-                    Guardar Cambios
-                </button>
+                
+                <button type="submit" class="{{#modificarUsuario}}w-1/2{{/modificarUsuario}}{{^modificarUsuario}}w-1/3{{/modificarUsuario}} bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 text-center text-sm font-medium transition">Guardar Cambios</button>
 
-                <a href="/dashboard" 
-                class="{{#modificarUsuario}}w-1/2{{/modificarUsuario}}{{^modificarUsuario}}w-1/3{{/modificarUsuario}} bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center text-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all">
-                    Cancelar
-                </a>
+                <a href="/dashboard" class="{{#modificarUsuario}}w-1/2{{/modificarUsuario}}{{^modificarUsuario}}w-1/3{{/modificarUsuario}} bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center text-sm flex items-center justify-center transition">Cancelar</a>
             </div>
 
-        </form> </div>
+        </form> 
+   </div>
 </body>
 </html>
