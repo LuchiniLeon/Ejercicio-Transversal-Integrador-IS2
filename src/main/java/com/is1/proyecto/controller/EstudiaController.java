@@ -6,14 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import spark.Request;
-import spark.Response;
-
 import com.is1.proyecto.models.Estudiante;
 import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.EstudiaService;
 
 import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
 
 public class EstudiaController {
     
@@ -30,7 +29,17 @@ public class EstudiaController {
             model.put("errorMessage", errorMessage);
 
         String currentUsername = req.session().attribute("currentUserUsername");
+        if (currentUsername == null || currentUsername.isEmpty()) {
+            res.redirect("/login");
+            return null;
+        }
+
         User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        if (user == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
         Estudiante estudiante = Estudiante.findFirst("dni_Persona = ?", user.getDNI());
 
         if (estudiante == null) {
@@ -39,11 +48,9 @@ public class EstudiaController {
         }
 
         List<Map<String, Object>> lista = EstudiaService.talleresDisponibles(estudiante.getDni());
-        if(!lista.isEmpty()){
-            Map<String, Object> talleres = new HashMap<>();
-            talleres.put("lista", lista);
-            model.put("talleres", talleres);
-        }
+        Map<String, Object> talleres = new HashMap<>();
+        talleres.put("lista", lista);
+        model.put("talleres", talleres);
 
         return new ModelAndView(model, "lista-talleres-estudiantes.mustache");
     }
@@ -52,7 +59,17 @@ public class EstudiaController {
         Map<String, Object> model = new HashMap<>();
 
         String currentUsername = req.session().attribute("currentUserUsername");
+        if (currentUsername == null || currentUsername.isEmpty()) {
+            res.redirect("/login");
+            return null;
+        }
+
         User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        if (user == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
         Estudiante estudiante = Estudiante.findFirst("dni_Persona = ?", user.getDNI());
 
         if (estudiante == null) {
@@ -72,7 +89,17 @@ public class EstudiaController {
             Integer id_taller = Integer.parseInt(req.params(":id"));
             // Estudiante logueado
             String currentUsername = req.session().attribute("currentUserUsername");
+            if (currentUsername == null || currentUsername.isEmpty()) {
+                res.redirect("/login");
+                return "";
+            }
+
             User user = User.findFirst("nombreUsuario = ?", currentUsername);
+            if (user == null) {
+                res.redirect("/dashboard");
+                return "";
+            }
+
             Estudiante estudiante = Estudiante.findFirst("dni_Persona = ?", user.getDNI());
 
             if(estudiante == null){
@@ -99,7 +126,17 @@ public class EstudiaController {
         try{
             Integer id_taller = Integer.parseInt(req.params(":id"));
             String currentUsername = req.session().attribute("currentUserUsername");
+            if (currentUsername == null || currentUsername.isEmpty()) {
+                res.redirect("/login");
+                return "";
+            }
+
             User user = User.findFirst("nombreUsuario = ?", currentUsername);
+            if (user == null) {
+                res.redirect("/dashboard");
+                return "";
+            }
+
             Estudiante estudiante = Estudiante.findFirst("dni_Persona = ?", user.getDNI());
 
             if (estudiante == null) {

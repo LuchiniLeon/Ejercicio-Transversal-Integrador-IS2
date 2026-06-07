@@ -9,10 +9,9 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public abstract class ProfileController {
+public class ProfileController {
 
-
-public static ModelAndView profile(Request req, Response res) {
+    public static ModelAndView profile(Request req, Response res) {
 
         Map<String, Object> model = new HashMap<>();
 
