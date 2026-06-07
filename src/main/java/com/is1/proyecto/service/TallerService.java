@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.is1.proyecto.models.Docente;
+import com.is1.proyecto.models.Estudia;
+import com.is1.proyecto.models.ParticipaDocenteTaller;
+import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.Taller;
 
 public class TallerService {
@@ -50,6 +54,22 @@ public class TallerService {
             t.put("horas", taller.getHoras());
             t.put("vigente", taller.getVigente()? "Si" : "No");
 
+            // Participantes
+            List<ParticipaDocenteTaller> participantes = ParticipaDocenteTaller.where("id_Taller = ?", taller.getId());
+            List<String> nombres = new ArrayList<>();
+            
+            for(ParticipaDocenteTaller p : participantes){
+                Docente d = Docente.findFirst("dni_Persona = ?", p.getDniDocente());
+                Persona persona = d.parent(Persona.class);
+                nombres.add(persona.getString("nombre") + " " + persona.getString("apellido"));
+            }
+            
+            t.put("participantes", nombres.isEmpty() ? "—" : String.join(", ", nombres));
+
+            // Cantidad de alumnos
+            long cantAlumnos = Estudia.count("id_taller = ?", taller.getId());
+            t.put("cantAlumnos", cantAlumnos);
+            
             lista.add(t);
         }
 
