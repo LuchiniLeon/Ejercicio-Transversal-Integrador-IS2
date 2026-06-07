@@ -9,7 +9,7 @@ import org.javalite.activejdbc.annotations.Table;
 @Table("administrador")
 @IdName("dni_Persona")
 
-public class SuperAdmin extends Model{
+public class SuperAdmin{
 
     public SuperAdmin(){
 
