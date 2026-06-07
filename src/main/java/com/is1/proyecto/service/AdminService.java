@@ -84,6 +84,7 @@ public class AdminService {
             Docente docente = t.parent(Docente.class);
             Persona persona = docente.parent(Persona.class);
             Map<String, Object> map = new HashMap<>();
+            map.put("idTaller", t.getInteger("id_Taller"));
             map.put("titulo", t.getString("titulo"));
             map.put("hora", t.getInteger("hora"));
             map.put("vigente", t.getBoolean("vigente") ? "Sí" : "No");

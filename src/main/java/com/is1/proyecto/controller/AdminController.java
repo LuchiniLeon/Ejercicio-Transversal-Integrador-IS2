@@ -186,6 +186,7 @@ public class AdminController {
             String currentUsername = req.session().attribute("currentUserUsername");
             User user = User.findFirst("nombreUsuario = ?", currentUsername);
             Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+
             if (admin == null) {
                 res.redirect("/dashboard");
                 return "";
@@ -200,6 +201,7 @@ public class AdminController {
             return "";
             
         } catch (IllegalArgumentException e) {
+            e.printStackTrace();
             res.redirect("/admin/taller/asignar?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         } catch (Exception e) {
