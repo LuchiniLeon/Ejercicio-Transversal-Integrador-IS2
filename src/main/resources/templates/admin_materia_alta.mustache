@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Alta de Materia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Alta de Materia</h1>
+
+        {{#errorMessage}}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{errorMessage}}</span>
+        </div>
+        {{/errorMessage}}
+
+        <form action="/admin/materia/alta" method="post" class="space-y-4">
+            <div>
+                <label for="codigo" class="block text-gray-700 text-sm font-medium mb-1">Código (*):</label>
+                <input type="number" id="codigo" name="codigo" required placeholder="Ej. 101"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="nombre" class="block text-gray-700 text-sm font-medium mb-1">Nombre (*):</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ej. Programación I"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="horasTotales" class="block text-gray-700 text-sm font-medium mb-1">Horas Totales (*):</label>
+                <input type="number" id="horasTotales" name="horasTotales" required min="1" placeholder="Ej. 120"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="dniDocente" class="block text-gray-700 text-sm font-medium mb-1">Docente (*):</label>
+                <select id="dniDocente" name="dniDocente" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    {{#docentes}}
+                        <option value="{{dni}}">{{nombre}} {{apellido}} — Legajo {{legajo}}</option>
+                    {{/docentes}}
+                </select>
+            </div>
+
+            <div>
+                <label for="idCarrera" class="block text-gray-700 text-sm font-medium mb-1">Carrera (*):</label>
+                <select id="idCarrera" name="idCarrera" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="" disabled selected>Seleccioná una carrera</option>
+                    {{#carreras}}
+                        <option value="{{id}}">{{nombre}} — {{duracion}} años — {{modalidad}}</option>
+                    {{/carreras}}
+                </select>
+            </div>
+
+            <p class="text-xs text-gray-500">(*) Campos obligatorios.</p>
+
+            <div class="flex gap-4 mt-6">
+                <a href="/dashboard"
+                   class="w-1/2 inline-block bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center">
+                    Volver
+                </a>
+
+                <button type="submit"
+                        class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+                    Guardar Materia
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
