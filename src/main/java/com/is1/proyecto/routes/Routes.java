@@ -15,6 +15,8 @@ import com.is1.proyecto.controller.TallerController;
 import com.is1.proyecto.controller.UserController;
 import com.is1.proyecto.controller.EditorController;
 import com.is1.proyecto.controller.NotaController;
+import com.is1.proyecto.controller.EstudianteController;
+import com.is1.proyecto.controller.EstudiaController;
 
 public class Routes {
     
@@ -24,6 +26,8 @@ public class Routes {
         // GET
         // GET: Muestra el formulario de creación de cuenta.
         get("/user/create", (req, res) -> UserController.formCreate(req, res), engine);
+
+        get("/estudiante/alta", (req,res) -> EstudianteController.formAlta(req, res), engine);
 
         get("/docente/alta", (req, res) -> DocenteController.formAlta(req, res), engine);
 
@@ -82,6 +86,18 @@ public class Routes {
         get("/taller/lista", (req,res) -> TallerController.listaPorDocente(req, res), engine);
         
         get("/taller/editar/:id", (req, res) -> TallerController.formEditar(req, res), engine);
+        
+        get("/admin/taller/alta",(req, res) -> AdminController.formAltaTaller(req, res), engine);;
+
+        // RUTAS INSCRIPCION ALUMNO A TALLER
+        get("/estudiante/talleres", (req, res) -> EstudiaController.listaTaller(req, res), engine);
+
+        get("/estudiante/mis-talleres", (req, res) -> EstudiaController.misTalleres(req, res), engine);
+        
+        get("/admin/taller/lista",(req, res) -> AdminController.listaTalleres(req, res), engine);
+
+        get("/admin/taller/asignar", (req, res) -> AdminController.formAsignarDocenteTaller(req, res), engine);
+
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
         // POST
@@ -101,6 +117,8 @@ public class Routes {
 
         // POST: Maneja el envío del formulario de Alta de Profesor (HU001)
         post("/docente/alta", (req, res) -> DocenteController.alta(req, res));
+
+        post("/estudiante/alta", (req, res) -> EstudianteController.alta(req, res));
 
         post("/superadmin/alta", (req, res) -> SuperAdminController.alta(req, res));
 
@@ -127,5 +145,13 @@ public class Routes {
         post("/taller/editar/:id", (req, res) -> TallerController.editar(req, res));
 
         post("/taller/eliminar/:id", (req, res) -> TallerController.eliminar(req, res));
+        
+        post("/admin/taller/alta", (req, res) -> AdminController.altaTaller(req, res));
+
+        post("/admin/taller/asignar", (req, res) -> AdminController.asignarDocenteTaller(req, res));
+        // POST PARA INSCRIPCIONES DE ALUMNO A TALLER
+        post("/estudiante/talleres/:id/inscribir", (req, res) -> EstudiaController.inscribir(req, res));
+        
+        post("/estudiante/talleres/:id/desinscribir", (req, res) -> EstudiaController. desincribir(req, res));
     }
 }
