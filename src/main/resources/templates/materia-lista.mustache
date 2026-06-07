@@ -9,12 +9,12 @@
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-5xl">
 
         <div class="flex items-center justify-between mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Materias</h1>
-
-            <a href="/materia/alta"
-               class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 font-semibold">
-                + Nueva Materia
-            </a>
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">{{#pageTitle}}{{pageTitle}}{{/pageTitle}}{{^pageTitle}}Materias{{/pageTitle}}</h1>
+                {{#subtitle}}
+                <p class="text-sm text-gray-600 mt-1">{{subtitle}}</p>
+                {{/subtitle}}
+            </div>
         </div>
 
         {{#successMessage}}
@@ -29,7 +29,6 @@
         </div>
         {{/errorMessage}}
 
-        {{#materias}}
         <table class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg overflow-hidden">
             <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
                 <tr>
@@ -37,43 +36,25 @@
                     <th class="px-4 py-3">Nombre</th>
                     <th class="px-4 py-3">Horas Totales</th>
                     <th class="px-4 py-3">Docente</th>
-                    <th class="px-4 py-3">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {{#lista}}
+                {{#materias}}
                 <tr class="border-t border-gray-200 hover:bg-gray-50">
                     <td class="px-4 py-3">{{codigo}}</td>
                     <td class="px-4 py-3">{{nombre}}</td>
                     <td class="px-4 py-3">{{horasTotales}}</td>
-                    <td class="px-4 py-3">{{dniDocente}}</td>
-                    <td class="px-4 py-3 flex gap-2">
-
-                        <a href="/materia/editar/{{id}}"
-                           class="bg-yellow-400 text-white py-1 px-3 rounded hover:bg-yellow-500 text-xs font-semibold">
-                            Editar
-                        </a>
-
-                        <form action="/materia/eliminar/{{id}}" method="post">
-                            <button type="submit"
-                                    onclick="return confirm('¿Estás seguro que querés eliminar esta materia?')"
-                                    class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 text-xs font-semibold">
-                                Eliminar
-                            </button>
-                        </form>
-
-                    </td>
+                    <td class="px-4 py-3">{{nombreDocente}}</td>
                 </tr>
-                {{/lista}}
+                {{/materias}}
             </tbody>
         </table>
-        {{/materias}}
 
-        {{^materias.lista}}
+        {{^materias}}
         <p class="text-center text-gray-500 mt-8 font-semibold">
             No hay materias cargadas todavía.
         </p>
-        {{/materias.lista}}
+        {{/materias}}
 
         <div class="mt-6">
             <a href="/dashboard"
