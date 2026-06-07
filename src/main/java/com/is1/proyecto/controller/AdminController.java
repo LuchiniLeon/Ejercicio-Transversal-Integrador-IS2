@@ -88,6 +88,7 @@ public class AdminController {
         return new ModelAndView(new HashMap<>(), "opciones_asignacion.mustache");
     }
 
+    //Taller
     public static ModelAndView formAltaTaller(Request req, Response res) {
         Map<String, Object> model = new HashMap<>();
         
@@ -209,4 +210,158 @@ public class AdminController {
             return "";
         }
     }
+
+    //Materias
+    //get formulario ALta Materia
+    public static ModelAndView formAltaMateria(Request req, Response res) {
+
+        String currentUsername = req.session().attribute("currentUserUsername");
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+
+        if (admin == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        Map<String, Object> model = new HashMap<>();
+
+        model.put("docentes", AdminService.obtenerDocentes());
+
+        String errorMessage = req.queryParams("error");
+        if (errorMessage != null && !errorMessage.isEmpty()) {
+            model.put("errorMessage", errorMessage);
+        }
+
+        return new ModelAndView(model, "admin_materia_alta.mustache");
+    }
+
+    //post alta materia
+    public static Object altaMateria(Request req, Response res) {
+
+        try {
+
+            String currentUsername = req.session().attribute("currentUserUsername");
+            User user = User.findFirst("nombreUsuario = ?", currentUsername);
+            Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+
+            if (admin == null) {
+                res.redirect("/dashboard");
+                return "";
+            }
+
+            Integer codigo = Integer.parseInt(req.queryParams("codigo"));
+            String nombre = req.queryParams("nombre");
+            Integer horasTotales = Integer.parseInt(req.queryParams("horasTotales"));
+            Integer dniDocente = Integer.parseInt(req.queryParams("dniDocente"));
+
+            AdminService.crearMateriaComoAdmin(codigo, nombre, horasTotales, admin.getDni(), dniDocente);
+
+            String msg = "Materia creada con éxito";
+
+            res.redirect("/admin/materia/lista?message="
+                    + URLEncoder.encode(msg, StandardCharsets.UTF_8));
+
+            return "";
+
+        } catch (Exception e) {
+
+            res.redirect("/admin/materia/alta?error="
+                    + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+
+            return "";
+        }
+    }
+    
+    //lista materias
+    public static ModelAndView listaMaterias(Request req, Response res) {
+
+        String currentUsername = req.session().attribute("currentUserUsername");
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+
+        if (admin == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        Map<String, Object> model = new HashMap<>();
+
+        model.put("materias", AdminService.obtenerMaterias());
+
+        String successMessage = req.queryParams("message");
+
+        if (successMessage != null && !successMessage.isEmpty()) {
+            model.put("successMessage", successMessage);
+        }
+
+        return new ModelAndView(model, "admin_lista-materias.mustache");
+    }
+
+    //get formulario asignar docente a materia
+    public static ModelAndView formAsignarDocenteMateria(Request req, Response res) {
+
+        String currentUsername = req.session().attribute("currentUserUsername");
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+
+        if (admin == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        Map<String, Object> model = new HashMap<>();
+
+        model.put("docentes", AdminService.obtenerDocentes());
+        model.put("materias", AdminService.obtenerMaterias());
+
+        String errorMessage = req.queryParams("error");
+
+        if (errorMessage != null && !errorMessage.isEmpty()) {
+            model.put("errorMessage", errorMessage);
+        }
+
+        return new ModelAndView(model, "asignar_docente-materia.mustache");
+    }
+
+    //post asignar docente a materia
+    public static Object asignarDocenteMateria(Request req, Response res) {
+
+        try {
+
+            String currentUsername = req.session().attribute("currentUserUsername");
+            User user = User.findFirst("nombreUsuario = ?", currentUsername);
+            Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+
+            if (admin == null) {
+                res.redirect("/dashboard");
+                return "";
+            }
+
+            Integer idMateria = Integer.parseInt(req.queryParams("idMateria"));
+
+            Integer dniDocente = Integer.parseInt(req.queryParams("dniDocente"));
+
+            AdminService.asignarDocenteAMateria(
+                    idMateria,
+                    dniDocente);
+
+            String msg = "Docente asignado a la materia con éxito.";
+
+            res.redirect("/admin/materia/lista?message="
+                    + URLEncoder.encode(msg, StandardCharsets.UTF_8));
+            return "";
+        } catch (IllegalArgumentException e) {
+            res.redirect("/admin/materia/asignar?error="
+                    + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            return "";
+        } catch (Exception e) {
+
+            res.redirect("/admin/materia/asignar?error="
+                    + URLEncoder.encode("Error interno del servidor",
+                            StandardCharsets.UTF_8));
+            return "";
+        }
+    }
+    
 }
