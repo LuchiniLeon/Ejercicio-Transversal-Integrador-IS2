@@ -59,6 +59,8 @@ CREATE TABLE IF NOT EXISTS titulo (
 
 CREATE TABLE IF NOT EXISTS carrera (
     id_Carrera INTEGER,
+    --NUEVO!!!!!!
+    nombre TEXT NOT NULL,
     duracion INTEGER NOT NULL,
     modalidad TEXT NOT NULL CHECK (modalidad IN ('Virtual', 'Presencial', 'Hibrido')),
     CONSTRAINT pk_id_carrera PRIMARY KEY (id_Carrera)
@@ -80,9 +82,13 @@ CREATE TABLE IF NOT EXISTS materia (
     codigo INTEGER UNIQUE NOT NULL,
     horasTotales INTEGER NOT NULL,
     nombre TEXT NOT NULL,
+    --NUEVO!!!!!
+    id_Carrera INTEGER NOT NULL,
     dni_Administrador INTEGER NOT NULL,
     dni_Docente INTEGER NOT NULL,
     CONSTRAINT pk_id_materia PRIMARY KEY (id_Materia),
+    --NUEVO!!!!!
+    CONSTRAINT fk_id_carrera_materia FOREIGN KEY (id_Carrera) REFERENCES carrera(id_Carrera) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_dni_docente_materia FOREIGN KEY (dni_Docente) REFERENCES docente(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_dni_administrador_Mat FOREIGN KEY (dni_Administrador) REFERENCES administrador(dni_Persona) ON UPDATE CASCADE ON DELETE CASCADE
 );
