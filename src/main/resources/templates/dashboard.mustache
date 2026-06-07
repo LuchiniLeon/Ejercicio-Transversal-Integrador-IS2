@@ -93,6 +93,12 @@
                     <a href="/admin/materia/lista" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
                         Ver materias
                     </a>
+                    <a href="/admin/carrera/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
+                        Cargar carrera
+                    </a>
+                    <a href="/admin/carrera/lista" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
+                        Ver carreras
+                    </a>
                     <a href="/admin/taller/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
                         Cargar taller
                     </a>
@@ -135,11 +141,21 @@
 
             {{#esEstudiante}}
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                    {{#tieneInscripcionCarrera}}
                     <a href="/inscripcion/materia" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
                         Inscribirse Materia
                     </a>
+                    {{/tieneInscripcionCarrera}}
+                    {{^tieneInscripcionCarrera}}
+                    <span class="text-center bg-gray-300 text-gray-500 py-3 px-2 rounded-md font-semibold shadow-sm text-xs flex items-center justify-center cursor-not-allowed" title="Primero inscribite a una carrera">
+                        Inscribirse Materia
+                    </span>
+                    {{/tieneInscripcionCarrera}}
                     <a href="/inscripcion/carrera" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
                         Inscribirse Carrera
+                    </a>
+                    <a href="/estudiante/mis-materias" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
+                        Mis Materias
                     </a>
                     <a href="/estudiante/talleres" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
                         Inscribirse Taller

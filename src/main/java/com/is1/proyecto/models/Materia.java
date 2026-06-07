@@ -1,12 +1,16 @@
 package com.is1.proyecto.models;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.BelongsTo;
+import org.javalite.activejdbc.annotations.BelongsToParents;
 import org.javalite.activejdbc.annotations.IdName;
 import org.javalite.activejdbc.annotations.Table;
 
 @Table("materia")
 @IdName("id_Materia")
-@BelongsTo(foreignKeyName = "dni_Docente", parent = Docente.class)
+@BelongsToParents({
+    @BelongsTo(foreignKeyName = "dni_Docente", parent = Docente.class),
+    @BelongsTo(foreignKeyName = "id_Carrera", parent = Carrera.class)
+})
 public class Materia extends Model {
 
     public Integer getIdMateria() {
@@ -51,5 +55,17 @@ public class Materia extends Model {
 
     public void setDniDocente(Integer dniDocente) {
         set("dni_Docente", dniDocente);
+    }
+
+    public Integer getIdCarrera() {
+        return getInteger("id_Carrera");
+    }
+
+    public void setIdCarrera(Integer idCarrera) {
+        set("id_Carrera", idCarrera);
+    }
+
+    public Carrera getCarrera() {
+        return parent(Carrera.class);
     }
 }

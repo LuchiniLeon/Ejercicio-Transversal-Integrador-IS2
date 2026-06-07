@@ -2,12 +2,16 @@ package com.is1.proyecto.routes;
 
 import com.is1.proyecto.controller.AdminController;
 import com.is1.proyecto.controller.AuthController;
+import com.is1.proyecto.controller.CarreraInscripcionController;
 import com.is1.proyecto.controller.DashboardController;
 import com.is1.proyecto.controller.DocenteController;
 import com.is1.proyecto.controller.EditorController;
 import com.is1.proyecto.controller.EstudiaController;
 import com.is1.proyecto.controller.EstudianteController;
 import com.is1.proyecto.controller.MateriaController;
+import com.is1.proyecto.controller.EstadoAcademicoController;
+import com.is1.proyecto.controller.MateriaInscripcionController;
+import com.is1.proyecto.controller.NotaController;
 import com.is1.proyecto.controller.PasswordRecoveryController;
 import com.is1.proyecto.controller.ProfileController;
 import com.is1.proyecto.controller.SuperAdminController;
@@ -86,10 +90,26 @@ public class Routes {
 
         get("/admin/materia/lista",(req, res) -> AdminController.listaMaterias(req, res),engine);
 
+        get("/admin/carrera/alta", (req, res) -> AdminController.formAltaCarrera(req, res), engine);
+        get("/admin/carrera/lista", (req, res) -> AdminController.listaCarreras(req, res), engine);
+
         get("/admin/materia/asignar",(req, res) -> AdminController.formAsignarDocenteMateria(req, res),engine);
         //----------- ver
         
         get("/admin/taller/alta",(req, res) -> AdminController.formAltaTaller(req, res), engine);;
+
+        // RUTAS INSCRIPCION ALUMNO A MATERIA
+        get("/inscripcion/materia", (req, res) -> MateriaInscripcionController.listaMaterias(req, res), engine);
+        get("/estudiante/mis-materias", (req, res) -> MateriaInscripcionController.misMaterias(req, res), engine);
+        get("/estado/materia", (req, res) -> EstadoAcademicoController.estadoMateria(req, res), engine);
+
+        // RUTAS INSCRIPCION ALUMNO A CARRERA
+        get("/inscripcion/carrera", (req, res) -> CarreraInscripcionController.listaCarreras(req, res), engine);
+        get("/estado/carrera", (req, res) -> CarreraInscripcionController.estadoCarrera(req, res), engine);
+        get("/estado/taller", (req, res) -> EstadoAcademicoController.estadoTaller(req, res), engine);
+
+        // RUTAS NOTAS (docente — esqueleto para integración futura)
+        get("/nota/alta", (req, res) -> NotaController.formAlta(req, res), engine);
 
         // RUTAS INSCRIPCION ALUMNO A TALLER
         get("/estudiante/talleres", (req, res) -> EstudiaController.listaTaller(req, res), engine);
@@ -156,12 +176,25 @@ public class Routes {
         //admin MATERIAS
         post("/admin/materia/alta",(req, res) -> AdminController.altaMateria(req, res));
 
+        post("/admin/carrera/alta", (req, res) -> AdminController.altaCarrera(req, res));
+
         post("/admin/materia/asignar",(req, res) -> AdminController.asignarDocenteMateria(req, res));
         
         //TALLER
         post("/admin/taller/alta", (req, res) -> AdminController.altaTaller(req, res));
 
         post("/admin/taller/asignar", (req, res) -> AdminController.asignarDocenteTaller(req, res));
+
+        // POST PARA INSCRIPCIONES DE ALUMNO A MATERIA
+        post("/inscripcion/materia/:id/inscribir", (req, res) -> MateriaInscripcionController.inscribir(req, res));
+        post("/inscripcion/materia/:id/desinscribir", (req, res) -> MateriaInscripcionController.desincribir(req, res));
+
+        // POST PARA INSCRIPCIONES DE ALUMNO A CARRERA
+        post("/inscripcion/carrera/:id/inscribir", (req, res) -> CarreraInscripcionController.inscribir(req, res));
+
+        // POST NOTAS (docente — esqueleto para integración futura)
+        post("/nota/alta", (req, res) -> NotaController.alta(req, res));
+
         // POST PARA INSCRIPCIONES DE ALUMNO A TALLER
         post("/estudiante/talleres/:id/inscribir", (req, res) -> EstudiaController.inscribir(req, res));
         

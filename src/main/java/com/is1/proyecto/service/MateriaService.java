@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.is1.proyecto.models.Carrera;
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Materia;
 import com.is1.proyecto.models.Persona;
 
 public class MateriaService {
 
-    public static void crearMateria(Integer codigo, String nombre, Integer horasTotales, Integer dniAdministrador, Integer dniDocente) {
+    public static void crearMateria(Integer codigo, String nombre, Integer horasTotales, Integer dniAdministrador, Integer dniDocente, Integer idCarrera) {
 
-        // Sus respectivas validaciones ;)
         if (codigo == null) {
             throw new IllegalArgumentException("El codigo es obligatorio");
         }
@@ -34,7 +34,15 @@ public class MateriaService {
             throw new IllegalArgumentException("Debe asignarse un docente");
         }
 
-        //Crear la materia 
+        if (idCarrera == null) {
+            throw new IllegalArgumentException("Debe seleccionarse una carrera");
+        }
+
+        Carrera carrera = Carrera.findById(idCarrera);
+        if (carrera == null) {
+            throw new IllegalArgumentException("La carrera seleccionada no existe");
+        }
+
         Materia materia = new Materia();
 
         materia.setCodigo(codigo);
@@ -42,6 +50,7 @@ public class MateriaService {
         materia.setHorasTotales(horasTotales);
         materia.setDniAdministrador(dniAdministrador);
         materia.setDniDocente(dniDocente);
+        materia.setIdCarrera(idCarrera);
 
         if (!materia.save()) {
             throw new IllegalArgumentException("No se pudo guardar la materia");
@@ -63,6 +72,13 @@ public class MateriaService {
             m.put("nombre", materia.getNombre());
             m.put("horasTotales", materia.getHorasTotales());
             m.put("dniDocente", materia.getDniDocente());
+            m.put("idCarrera", materia.getIdCarrera());
+
+            if (materia.getCarrera() != null) {
+                m.put("nombreCarrera", materia.getCarrera().getNombre());
+            } else {
+                m.put("nombreCarrera", "Sin carrera asignada");
+            }
 
             if (materia.parent(Docente.class) != null) {
                 Docente docente = materia.parent(Docente.class);
@@ -88,6 +104,13 @@ public class MateriaService {
             m.put("nombre", materia.getNombre());
             m.put("horasTotales", materia.getHorasTotales());
             m.put("dniDocente", materia.getDniDocente());
+            m.put("idCarrera", materia.getIdCarrera());
+
+            if (materia.getCarrera() != null) {
+                m.put("nombreCarrera", materia.getCarrera().getNombre());
+            } else {
+                m.put("nombreCarrera", "Sin carrera asignada");
+            }
 
             if (materia.parent(Docente.class) != null) {
                 Docente docente = materia.parent(Docente.class);
@@ -118,11 +141,16 @@ public class MateriaService {
         m.put("horasTotales", materia.getHorasTotales());
         m.put("dniAdministrador", materia.getDniAdministrador());
         m.put("dniDocente", materia.getDniDocente());
+        m.put("idCarrera", materia.getIdCarrera());
+
+        if (materia.getCarrera() != null) {
+            m.put("nombreCarrera", materia.getCarrera().getNombre());
+        }
 
         return m;
     }
 
-    public static void editarMateria(Integer idMateria, Integer codigo, String nombre, Integer horasTotales, Integer dniDocente) {
+    public static void editarMateria(Integer idMateria, Integer codigo, String nombre, Integer horasTotales, Integer dniDocente, Integer idCarrera) {
 
         Materia materia = Materia.findById(idMateria);
         //verifico primero si la materia existe, sino no tiene sentido 
@@ -146,6 +174,7 @@ public class MateriaService {
         materia.setNombre(nombre.trim());
         materia.setHorasTotales(horasTotales);
         materia.setDniDocente(dniDocente);
+        materia.setIdCarrera(idCarrera);
 
         if (!materia.save()) {
             throw new IllegalArgumentException("No se pudieron guardar los cambios");
