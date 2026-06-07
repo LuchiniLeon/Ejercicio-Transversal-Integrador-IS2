@@ -5,6 +5,7 @@ import com.is1.proyecto.controller.AuthController;
 import com.is1.proyecto.controller.DashboardController;
 import com.is1.proyecto.controller.DocenteController;
 import com.is1.proyecto.controller.EditorController;
+import com.is1.proyecto.controller.EstudianteController;
 import com.is1.proyecto.controller.MateriaController;
 import com.is1.proyecto.controller.PasswordRecoveryController;
 import com.is1.proyecto.controller.ProfileController;
@@ -24,6 +25,8 @@ public class Routes {
         // GET
         // GET: Muestra el formulario de creación de cuenta.
         get("/user/create", (req, res) -> UserController.formCreate(req, res), engine);
+
+        get("/estudiante/alta", (req,res) -> EstudianteController.formAlta(req, res), engine);
 
         get("/docente/alta", (req, res) -> DocenteController.formAlta(req, res), engine);
 
@@ -97,6 +100,8 @@ public class Routes {
 
         // POST: Maneja el envío del formulario de Alta de Profesor (HU001)
         post("/docente/alta", (req, res) -> DocenteController.alta(req, res));
+
+        post("/estudiante/alta", (req, res) -> EstudianteController.alta(req, res));
 
         post("/superadmin/alta", (req, res) -> SuperAdminController.alta(req, res));
 
