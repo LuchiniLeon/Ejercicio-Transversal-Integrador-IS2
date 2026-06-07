@@ -4,53 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mensaje de Advertencia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
-   <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+<body class="bg-[url('/imagenes/CocosMiradaTiernaCerca.jpeg')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
+   
+   <!-- Contenedor principal -->
+   <div class="bg-white/10 backdrop-blur-md border border-white/20 p-10 rounded-2xl shadow-2xl w-full max-w-2xl">
         
-        <div class="mb-6 text-center">
-            <div class="inline-block bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-sm font-semibold mb-2">Usuario</div>
-            <h2 class="text-2xl text-gray-700 font-bold">{{name}}</h2>
+        <div class="mb-8 text-center">
+            <div class="inline-block bg-white/20 text-white py-1 px-4 rounded-full text-sm font-semibold mb-2">Usuario</div>
+            <h2 class="text-3xl text-white font-bold">{{name}}</h2>
         </div>
 
-        <div class="bg-red-100 border-l-4 border-red-500 border-t-4 border-red-500 text-gray-800 p-5 mb-6 rounded-lg shadow-sm" role="alert">
-            <p class="font-bold text-xl text-center mb-2">Querido Usuario</p>
-            <p class="text-center text-sm leading-relaxed">Le informamos que al momento de realizar la solicitud de cambio de datos sencibles</p>
-            <p class="text-center text-sm leading-relaxed font-medium mt-1">usted deberá acercarse a las oficinas correspondientes con la documentación física pertinente,</p>
-            <p class="text-center text-sm leading-relaxed mt-1">en un plazo de máximo <span class="font-bold">3 días hábiles</span>(a partir del día de la solicitud).</p>
-            <p class="text-center text-sm leading-relaxed font-medium mt-1">En caso de arrepentimiento o de imposibilidad de asistencia,</p>
-            <p class="text-center text-sm leading-relaxed font-medium mt-1">solicitamos notificarlo con antelación.</p>
-            <p class="text-center text-sm leading-relaxed mt-2 font-semibold">Horarios de atención presencial: </p>
-            <p class="text-center text-sm leading-relaxed mt-2 font-semibold">Lunes a Viernes </p>
-            <div class="text-center text-sm mt-2 bg-white bg-opacity-50 py-1 rounded">
+        <!-- Bloque rojo translúcido con texto oscuro -->
+        <div class="bg-red-500/20 border-l-4 border-red-500 text-white p-6 mb-6 rounded-lg shadow-sm backdrop-blur-sm" role="alert">
+            <p class="font-bold text-2xl text-center mb-3">Querido Usuario</p>
+            <p class="text-center text-md leading-relaxed">Le informamos que al momento de realizar la solicitud de cambio de datos sensibles</p>
+            <p class="text-center text-md leading-relaxed font-semibold mt-2">usted deberá acercarse a las oficinas correspondientes con la documentación física pertinente,</p>
+            <p class="text-center text-md leading-relaxed mt-2">en un plazo de máximo <span class="font-bold text-white">3 días hábiles</span> (a partir del día de la solicitud).</p>
+            <p class="text-center text-md leading-relaxed font-semibold mt-2">En caso de arrepentimiento o de imposibilidad de asistencia, solicitamos notificarlo con antelación.</p>
+            <p class="text-center text-md leading-relaxed mt-4 font-bold">Horarios de atención presencial: Lunes a Viernes</p>
+            <div class="text-center text-md mt-3 bg-black/10 py-2 rounded">
                 <p>Mañana: <span class="font-bold">8:00 a 12:00 hs</span></p>
                 <p>Tarde: <span class="font-bold">14:00 a 17:00 hs</span></p>
             </div>
         </div>
 
-        <div class="bg-yellow-100 border-l-4 border-yellow-500 border-t-4 border-yellow-500 text-gray-800 p-5 mb-6 rounded-lg shadow-sm" role="alert">
-            <p class="font-bold text-lg text-center mb-2">Al presionar Continuar usted se compromete a:</p>
-            <ul class="text-sm list-disc list-inside space-y-1 text-gray-700">
+        <!-- Bloque amarillo translúcido con texto oscuro -->
+        <div class="bg-yellow-500/20 border-l-4 border-yellow-500 text-gray-900 p-6 mb-8 rounded-lg shadow-sm backdrop-blur-sm" role="alert">
+            <p class="font-bold text-xl text-center mb-3 text-gray-900">Al presionar Continuar usted se compromete a:</p>
+            <ul class="text-md list-disc list-inside space-y-2 text-gray-900 font-semibold">
                 <li>Asistir a las oficinas según el horario estipulado.</li>
                 <li>Llevar los documentos necesarios para avalar el cambio.</li>
-                <li>Notificar retrasos (en caso de no poder asistir en los 3 días hábiles) al siguiente email:</li>
+                <li>Notificar retrasos al siguiente email:</li>
             </ul>
-            <h2 class="text-xl text-blue-900 font-bold text-center mt-3 bg-white bg-opacity-60 py-1 rounded break-all px-2">{{email}}</h2>
-        </div> <form>
-            <div class="flex gap-4 mt-6 justify-center"> 
+            <h2 class="text-xl font-bold text-center mt-4 bg-white/40 py-2 rounded break-all px-2 text-gray-950">{{email}}</h2>
+        </div> 
+
+        <form>
+            <div class="flex gap-6 mt-2 justify-center"> 
                 <a href="/pedido-cambio"
-                   class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                   class="w-1/2 bg-blue-600/90 text-white py-3 px-6 rounded-md hover:bg-blue-700 text-center font-bold text-md transition-colors backdrop-blur-sm">
                     Continuar
                 </a>
-
                 <a href="/dashboard" 
-                   class="w-1/2 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors">
+                   class="w-1/2 bg-red-600/90 text-white py-3 px-6 rounded-md hover:bg-red-700 text-center font-bold text-md transition-colors backdrop-blur-sm">
                     Cancelar
                 </a>
             </div>
         </form>
-
     </div>
 </body>
 </html>

@@ -4,132 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Mi Perfil</h1>
+<body class="bg-[url('/imagenes/PuflitoMiradaTierna.jpeg')] bg-cover bg-no-repeat flex items-center justify-center min-h-screen p-4">
+    
+    <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl shadow-2xl w-full max-w-2xl">
+        
+        <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">Mi Perfil</h1>
 
         <div class="mb-6 text-center">
-            <div class="inline-block bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-sm font-semibold mb-2">Usuario</div>
-            <h2 class="text-2xl text-gray-700 font-bold">{{name}}</h2>
+            <div class="inline-block bg-gray/20 text-white py-1 px-3 rounded-full text-sm font-semibold mb-2">Usuario</div>
+            <h2 class="text-2xl text-gray font-bold">{{name}}</h2>
         </div>
 
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p class="text-sm text-gray-500">Nombre Completo</p>
-                    <p class="font-medium text-gray-800">{{nombre}} {{apellido}}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500">DNI</p>
-                    <p class="font-medium text-gray-800">{{dni}}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500">Fecha de Nacimiento</p>
-                    <p class="font-medium text-gray-800">{{fecha}}</p>
-                </div>
-         </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+                <p class="text-sm text-gray">Nombre Completo</p>
+                <p class="font-medium text-gray">{{nombre}} {{apellido}}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray">DNI</p>
+                <p class="font-medium text-gray">{{dni}}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray">Fecha de Nacimiento</p>
+                <p class="font-medium text-gray">{{fecha}}</p>
+            </div>
+        </div>
 
         {{#esDocente}}
-        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
+        <div class="bg-white/10 rounded-lg p-6 border border-white/20 mb-6">
+            <h3 class="text-xl font-semibold text-gray mb-4 border-b border-white/20 pb-2">Información Académica</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p class="text-sm text-gray-500">Legajo</p>
-                    <p class="font-medium text-gray-800">{{legajo}}</p>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">Cargo</p>
-                    <p class="font-medium text-blue-600">{{cargoDoc}}</p>
-                </div>
+                <div><p class="text-sm text-gray">Legajo</p><p class="font-medium text-white">{{legajo}}</p></div>
+                <div><p class="text-sm text-gray">Cargo</p><p class="font-medium text-blue-300">{{cargoDoc}}</p></div>
             </div>
         </div>
         {{/esDocente}}
 
         {{#esAdministrador}}
-        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
-            
+        <div class="bg-white/10 rounded-lg p-6 border border-white/20 mb-6">
+            <h3 class="text-xl font-semibold text-gray mb-4 border-b border-white/20 pb-2">Información Académica</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p class="text-sm text-gray-500">Cargo</p>
-                    <p class="font-medium text-gray-800">{{cargoAdm}}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500">Sector</p>
-                    <p class="font-medium text-blue-600">{{sector}}</p>
-                </div>
+                <div><p class="text-sm text-gray">Cargo</p><p class="font-medium text-white">{{cargoAdm}}</p></div>
+                <div><p class="text-sm text-gray">Sector</p><p class="font-medium text-blue-300">{{sector}}</p></div>
             </div>
         </div>
         {{/esAdministrador}}
 
         {{#esEstudiante}}
-        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
-            
+        <div class="bg-white/10 rounded-lg p-6 border border-white/20 mb-6">
+            <h3 class="text-xl font-semibold text-gray mb-4 border-b border-white/20 pb-2">Información Académica</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p class="text-sm text-gray-500">Fecha Ingreso</p>
-                    <p class="font-medium text-gray-800">{{ingreso}}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500">Estado Académico</p>
-                    <p class="font-medium text-blue-600">{{estado}}</p>
-                </div>
+                <div><p class="text-sm text-gray">Fecha Ingreso</p><p class="font-medium text-white">{{ingreso}}</p></div>
+                <div><p class="text-sm text-gray">Estado Académico</p><p class="font-medium text-blue-300">{{estado}}</p></div>
             </div>
         </div>
         {{/esEstudiante}}
 
-        {{^esDocente}}
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-            <div class="flex">
-                <div class="ml-3">
-                    <p class="text-sm text-yellow-700">
-                        Este usuario no tiene un perfil de docente asociado.
-                    </p>
-                </div>
-            </div>
+        {{^esDocente}}{{^esAdministrador}}{{^esEstudiante}}
+        <div class="bg-yellow-500/20 border-l-4 border-yellow-500 p-4 mb-6 rounded">
+            <p class="text-sm text-yellow-100">No se ha encontrado información académica asociada a tu cuenta.</p>
         </div>
-        {{/esDocente}}
-
-        {{^esAdministrador}}
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-            <div class="flex">
-                <div class="ml-3">
-                    <p class="text-sm text-yellow-700">
-                        Este usuario no tiene un perfil de administrador asociado.
-                    </p>
-                </div>
-            </div>
-        </div>
-        {{/esAdministrador}}
-
-        {{^esEstudiante}}
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-            <div class="flex">
-                <div class="ml-3">
-                    <p class="text-sm text-yellow-700">
-                        Este usuario no tiene un perfil de estudiante asociado.
-                    </p>
-                </div>
-            </div>
-        </div>
-        {{/esEstudiante}}
+        {{/esEstudiante}}{{/esAdministrador}}{{/esDocente}}
 
         <div class="flex gap-4 mt-6">
-            <a href="/dashboard" 
-            class="w-1/2 inline-block bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
-                Volver al Panel
-            </a>
-            
-            <a href="/editor" 
-            class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                Editar Datos
-            </a>
+            <a href="/dashboard" class="w-1/2 bg-red-600/80 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center backdrop-blur-sm transition">Volver al Panel</a>
+            <a href="/editor" class="w-1/2 bg-blue-600/80 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center backdrop-blur-sm transition">Editar Datos</a>
         </div>
 
     </div>
