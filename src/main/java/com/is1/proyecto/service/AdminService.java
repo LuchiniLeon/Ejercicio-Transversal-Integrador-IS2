@@ -138,17 +138,25 @@ public class AdminService {
     }
 
     //MATERIAS
-    public static void crearMateriaComoAdmin(Integer codigo,String nombre,Integer horasTotales,Integer dniAdministrador,Integer dniDocente) {
+    public static void crearMateriaComoAdmin(Integer codigo,String nombre,Integer horasTotales,Integer dniAdministrador,Integer dniDocente, Integer idCarrera) {
         if (Docente.findFirst("dni_Persona = ?", dniDocente) == null) {
             throw new IllegalArgumentException("El docente asignado no existe");
         }
 
-        MateriaService.crearMateria(codigo,nombre,horasTotales,dniAdministrador,dniDocente);
+        MateriaService.crearMateria(codigo,nombre,horasTotales,dniAdministrador,dniDocente,idCarrera);
 
     }
 
     public static List<Map<String, Object>> obtenerMaterias() {
         return MateriaService.listarMaterias();
+    }
+
+    public static void crearCarreraComoAdmin(Integer idCarrera, String nombre, Integer duracion, String modalidad) {
+        CarreraInscripcionService.crearCarrera(idCarrera, nombre, duracion, modalidad);
+    }
+
+    public static List<Map<String, Object>> obtenerCarreras() {
+        return CarreraInscripcionService.listarCarreras();
     }
 
     public static void asignarDocenteAMateria(Integer idMateria,Integer dniDocente) {

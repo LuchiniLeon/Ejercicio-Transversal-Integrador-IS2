@@ -2,12 +2,18 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Alta de Materia</title>
+    <title>Alta de Carrera</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Alta de Materia</h1>
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Alta de Carrera</h1>
+
+        {{#successMessage}}
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{successMessage}}</span>
+        </div>
+        {{/successMessage}}
 
         {{#errorMessage}}
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -15,43 +21,33 @@
         </div>
         {{/errorMessage}}
 
-        <form action="/admin/materia/alta" method="post" class="space-y-4">
+        <form action="/admin/carrera/alta" method="post" class="space-y-4">
             <div>
-                <label for="codigo" class="block text-gray-700 text-sm font-medium mb-1">Código (*):</label>
-                <input type="number" id="codigo" name="codigo" required placeholder="Ej. 101"
+                <label for="idCarrera" class="block text-gray-700 text-sm font-medium mb-1">ID Carrera (*):</label>
+                <input type="number" id="idCarrera" name="idCarrera" required placeholder="Ej. 1"
                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <div>
                 <label for="nombre" class="block text-gray-700 text-sm font-medium mb-1">Nombre (*):</label>
-                <input type="text" id="nombre" name="nombre" required placeholder="Ej. Programación I"
+                <input type="text" id="nombre" name="nombre" required placeholder="Ej. Ingeniería"
                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <div>
-                <label for="horasTotales" class="block text-gray-700 text-sm font-medium mb-1">Horas Totales (*):</label>
-                <input type="number" id="horasTotales" name="horasTotales" required min="1" placeholder="Ej. 120"
+                <label for="duracion" class="block text-gray-700 text-sm font-medium mb-1">Duración (*):</label>
+                <input type="number" id="duracion" name="duracion" required min="1" placeholder="Ej. 5"
                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <div>
-                <label for="dniDocente" class="block text-gray-700 text-sm font-medium mb-1">Docente (*):</label>
-                <select id="dniDocente" name="dniDocente" required
+                <label for="modalidad" class="block text-gray-700 text-sm font-medium mb-1">Modalidad (*):</label>
+                <select id="modalidad" name="modalidad" required
                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    {{#docentes}}
-                        <option value="{{dni}}">{{nombre}} {{apellido}} — Legajo {{legajo}}</option>
-                    {{/docentes}}
-                </select>
-            </div>
-
-            <div>
-                <label for="idCarrera" class="block text-gray-700 text-sm font-medium mb-1">Carrera (*):</label>
-                <select id="idCarrera" name="idCarrera" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="" disabled selected>Seleccioná una carrera</option>
-                    {{#carreras}}
-                        <option value="{{id}}">{{nombre}} — {{duracion}} años — {{modalidad}}</option>
-                    {{/carreras}}
+                    <option value="" disabled selected>Seleccioná una modalidad</option>
+                    <option value="Virtual">Virtual</option>
+                    <option value="Presencial">Presencial</option>
+                    <option value="Hibrido">Híbrido</option>
                 </select>
             </div>
 
@@ -65,7 +61,7 @@
 
                 <button type="submit"
                         class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-                    Guardar Materia
+                    Guardar Carrera
                 </button>
             </div>
         </form>

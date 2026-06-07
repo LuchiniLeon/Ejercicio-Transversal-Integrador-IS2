@@ -227,6 +227,7 @@ public class AdminController {
         Map<String, Object> model = new HashMap<>();
 
         model.put("docentes", AdminService.obtenerDocentes());
+        model.put("carreras", AdminService.obtenerCarreras());
 
         String errorMessage = req.queryParams("error");
         if (errorMessage != null && !errorMessage.isEmpty()) {
@@ -234,6 +235,79 @@ public class AdminController {
         }
 
         return new ModelAndView(model, "admin_materia_alta.mustache");
+    }
+
+    public static ModelAndView formAltaCarrera(Request req, Response res) {
+        String currentUsername = req.session().attribute("currentUserUsername");
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+
+        if (admin == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        Map<String, Object> model = new HashMap<>();
+
+        String successMessage = req.queryParams("message");
+        if (successMessage != null && !successMessage.isEmpty()) {
+            model.put("successMessage", successMessage);
+        }
+
+        String errorMessage = req.queryParams("error");
+        if (errorMessage != null && !errorMessage.isEmpty()) {
+            model.put("errorMessage", errorMessage);
+        }
+
+        return new ModelAndView(model, "admin_carrera_alta.mustache");
+    }
+
+    public static Object altaCarrera(Request req, Response res) {
+        try {
+            String currentUsername = req.session().attribute("currentUserUsername");
+            User user = User.findFirst("nombreUsuario = ?", currentUsername);
+            Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+
+            if (admin == null) {
+                res.redirect("/dashboard");
+                return "";
+            }
+
+            Integer idCarrera = Integer.parseInt(req.queryParams("idCarrera"));
+            String nombre = req.queryParams("nombre");
+            Integer duracion = Integer.parseInt(req.queryParams("duracion"));
+            String modalidad = req.queryParams("modalidad");
+
+            AdminService.crearCarreraComoAdmin(idCarrera, nombre, duracion, modalidad);
+
+            String msg = "Carrera creada con éxito";
+            res.redirect("/admin/carrera/lista?message=" + URLEncoder.encode(msg, StandardCharsets.UTF_8));
+            return "";
+        } catch (Exception e) {
+            res.redirect("/admin/carrera/alta?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            return "";
+        }
+    }
+
+    public static ModelAndView listaCarreras(Request req, Response res) {
+        String currentUsername = req.session().attribute("currentUserUsername");
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Admin admin = Admin.findFirst("dni_Persona = ?", user.getDNI());
+
+        if (admin == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("carreras", AdminService.obtenerCarreras());
+
+        String successMessage = req.queryParams("message");
+        if (successMessage != null && !successMessage.isEmpty()) {
+            model.put("successMessage", successMessage);
+        }
+
+        return new ModelAndView(model, "admin_lista-carreras.mustache");
     }
 
     //post alta materia
@@ -254,8 +328,9 @@ public class AdminController {
             String nombre = req.queryParams("nombre");
             Integer horasTotales = Integer.parseInt(req.queryParams("horasTotales"));
             Integer dniDocente = Integer.parseInt(req.queryParams("dniDocente"));
+            Integer idCarrera = Integer.parseInt(req.queryParams("idCarrera"));
 
-            AdminService.crearMateriaComoAdmin(codigo, nombre, horasTotales, admin.getDni(), dniDocente);
+            AdminService.crearMateriaComoAdmin(codigo, nombre, horasTotales, admin.getDni(), dniDocente, idCarrera);
 
             String msg = "Materia creada con éxito";
 
