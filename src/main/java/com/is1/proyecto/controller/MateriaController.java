@@ -44,8 +44,9 @@ public class MateriaController {
             Integer horasTotales = Integer.parseInt(req.queryParams("horasTotales"));
             Integer dniAdministrador = Integer.parseInt(req.queryParams("dniAdministrador"));
             Integer dniDocente = Integer.parseInt(req.queryParams("dniDocente"));
+            Integer idCarrera = Integer.parseInt(req.queryParams("idCarrera"));
 
-            MateriaService.crearMateria(codigo, nombre, horasTotales, dniAdministrador, dniDocente);
+            MateriaService.crearMateria(codigo, nombre, horasTotales, dniAdministrador, dniDocente, idCarrera);
 
             String msg = "Materia creada con éxito";
 
@@ -158,6 +159,15 @@ public class MateriaController {
             }
             model.put("docentes", docentes);
 
+            List<Map<String, Object>> carreras = AdminService.obtenerCarreras();
+            Integer currentIdCarrera = materia != null ? (Integer) materia.get("idCarrera") : null;
+            for (Map<String, Object> carrera : carreras) {
+                if (currentIdCarrera != null && currentIdCarrera.equals(carrera.get("id"))) {
+                    carrera.put("selected", true);
+                }
+            }
+            model.put("carreras", carreras);
+
         } catch (Exception e) {
 
             model.put("errorMessage", "Materia no encontrada");
@@ -175,13 +185,15 @@ public class MateriaController {
             String nombre = req.queryParams("nombre");
             Integer horasTotales = Integer.parseInt(req.queryParams("horasTotales"));
             Integer dniDocente = Integer.parseInt(req.queryParams("dniDocente"));
+            Integer idCarrera = Integer.parseInt(req.queryParams("idCarrera"));
 
             MateriaService.editarMateria(
                     id,
                     codigo,
                     nombre,
                     horasTotales,
-                    dniDocente);
+                    dniDocente,
+                    idCarrera);
 
             String msg = "Materia actualizada con éxito";
 
