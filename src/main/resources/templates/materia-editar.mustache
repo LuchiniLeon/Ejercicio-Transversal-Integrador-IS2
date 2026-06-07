@@ -36,9 +36,13 @@
             </div>
 
             <div>
-                <label for="dniDocente" class="block text-gray-700 text-sm font-medium mb-1">DNI Docente (*):</label>
-                <input type="number" id="dniDocente" name="dniDocente" required value="{{dniDocente}}"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label for="dniDocente" class="block text-gray-700 text-sm font-medium mb-1">Docente (*):</label>
+                <select id="dniDocente" name="dniDocente" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    {{#docentes}}
+                        <option value="{{dni}}" {{#selected}}selected{{/selected}}>{{nombre}} {{apellido}} — Legajo {{legajo}}</option>
+                    {{/docentes}}
+                </select>
             </div>
 
             <p class="text-xs text-gray-500">(*) Campos obligatorios.</p>
