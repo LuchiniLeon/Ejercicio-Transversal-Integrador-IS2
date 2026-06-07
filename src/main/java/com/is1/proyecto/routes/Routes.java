@@ -1,11 +1,8 @@
 package com.is1.proyecto.routes;
 
-import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
 import static spark.Spark.get;
 import static spark.Spark.post;
-
-import java.util.HashMap;
 
 import com.is1.proyecto.controller.AdminController;
 import com.is1.proyecto.controller.AuthController;
@@ -14,8 +11,11 @@ import com.is1.proyecto.controller.PasswordRecoveryController;
 import com.is1.proyecto.controller.DocenteController;
 import com.is1.proyecto.controller.ProfileController;
 import com.is1.proyecto.controller.SuperAdminController;
+import com.is1.proyecto.controller.TallerController;
 import com.is1.proyecto.controller.UserController;
 import com.is1.proyecto.controller.EditorController;
+import com.is1.proyecto.controller.EstudianteController;
+import com.is1.proyecto.controller.EstudiaController;
 
 public class Routes {
     
@@ -25,6 +25,8 @@ public class Routes {
         // GET
         // GET: Muestra el formulario de creación de cuenta.
         get("/user/create", (req, res) -> UserController.formCreate(req, res), engine);
+
+        get("/estudiante/alta", (req,res) -> EstudianteController.formAlta(req, res), engine);
 
         get("/docente/alta", (req, res) -> DocenteController.formAlta(req, res), engine);
 
@@ -36,6 +38,7 @@ public class Routes {
         // Requiere que el usuario esté autenticado.
         get("/dashboard", (req, res) -> DashboardController.dashboard(req, res), engine);
 
+        get("/login", (req, res) -> AuthController.vistaLogin(req, res), engine);
         // GET: Ruta para cerrar la sesión del usuario.
         get("/logout", (req, res) -> AuthController.logout(req, res));
 
@@ -62,6 +65,26 @@ public class Routes {
         //GET: Reestablecimiento con token
         get("/reset-password", (req, res) -> PasswordRecoveryController.resetPasswordGet(req, res), engine);
 
+        // GET: Muestra las opciones para asignar un profesor
+        get("/asignar/profesor", (req, res) -> AdminController.opcionesAsignacion(req, res), engine);
+
+        // RUTAS PARA TALLER
+        get("/taller/alta", (req,res) -> TallerController.formAlta(req, res), engine);
+
+        get("/taller/lista", (req,res) -> TallerController.listaPorDocente(req, res), engine);
+        
+        get("/taller/editar/:id", (req, res) -> TallerController.formEditar(req, res), engine);
+        
+        get("/admin/taller/alta",(req, res) -> AdminController.formAltaTaller(req, res), engine);;
+
+        // RUTAS INSCRIPCION ALUMNO A TALLER
+        get("/estudiante/talleres", (req, res) -> EstudiaController.listaTaller(req, res), engine);
+
+        get("/estudiante/mis-talleres", (req, res) -> EstudiaController.misTalleres(req, res), engine);
+        
+        get("/admin/taller/lista",(req, res) -> AdminController.listaTalleres(req, res), engine);
+
+        get("/admin/taller/asignar", (req, res) -> AdminController.formAsignarDocenteTaller(req, res), engine);
 
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
@@ -83,6 +106,8 @@ public class Routes {
         // POST: Maneja el envío del formulario de Alta de Profesor (HU001)
         post("/docente/alta", (req, res) -> DocenteController.alta(req, res));
 
+        post("/estudiante/alta", (req, res) -> EstudianteController.alta(req, res));
+
         post("/superadmin/alta", (req, res) -> SuperAdminController.alta(req, res));
 
         post("/admin/alta", (req, res) -> AdminController.alta(req, res));
@@ -101,5 +126,20 @@ public class Routes {
 
         //POST: Reestablecimiento con token
         post("/reset-password", (req, res) -> PasswordRecoveryController.resetPasswordPost(req, res));
+
+        // POST PARA TALLER
+        post("/taller/alta", (req, res)-> TallerController.alta(req, res));
+
+        post("/taller/editar/:id", (req, res) -> TallerController.editar(req, res));
+
+        post("/taller/eliminar/:id", (req, res) -> TallerController.eliminar(req, res));
+        
+        post("/admin/taller/alta", (req, res) -> AdminController.altaTaller(req, res));
+
+        post("/admin/taller/asignar", (req, res) -> AdminController.asignarDocenteTaller(req, res));
+        // POST PARA INSCRIPCIONES DE ALUMNO A TALLER
+        post("/estudiante/talleres/:id/inscribir", (req, res) -> EstudiaController.inscribir(req, res));
+        
+        post("/estudiante/talleres/:id/desinscribir", (req, res) -> EstudiaController. desincribir(req, res));
     }
 }

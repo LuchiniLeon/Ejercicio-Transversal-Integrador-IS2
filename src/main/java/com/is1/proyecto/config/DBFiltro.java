@@ -4,30 +4,44 @@ import static spark.Spark.after;
 import static spark.Spark.before;
 import static spark.Spark.halt;
 
+import com.is1.proyecto.service.SuperAdminService;
+
 public class DBFiltro {
 
-     public static void configure() {
+    public static void configure() {
 
         DBConfigSingleton dbConfig = DBConfigSingleton.getInstance();
+        final boolean[] iniciado = {false};
 
-        before((req, res) -> {
+        // Inicializar BD ANTES de que llegue cualquier request
+        dbConfig.openConnection();
+        dbConfig.initDatabase();
+        try {
+            SuperAdminService.cargaSuperAdmin();
+        } catch (Exception e) {
+            System.err.println("Error SuperAdmin: " + e.getMessage());
+        }
+        dbConfig.closeConnection();
+
+       before((req, res) -> {
             try {
-                dbConfig.openConnection(); 
-                System.out.println(req.url());
-
+                dbConfig.openConnection();
             } catch (Exception e) {
-                System.err.println("Error al abrir conexión: " + e.getMessage());
-                halt(500, "Error interno del servidor");
+                // Si ya hay una conexión abierta, la ignoramos
+                if (!e.getMessage().contains("existing connection")) {
+                    throw e;
+                }
             }
         });
-
+        
         after((req, res) -> {
             try {
-                dbConfig.closeConnection(); 
+                dbConfig.closeConnection();
             } catch (Exception e) {
-                System.err.println("Error al cerrar conexión: " + e.getMessage());
+                // ignorar si ya estaba cerrada
             }
         });
     }
-    
+        
 }
+

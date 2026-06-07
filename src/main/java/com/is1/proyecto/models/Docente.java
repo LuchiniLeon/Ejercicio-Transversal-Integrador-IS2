@@ -1,14 +1,25 @@
 package com.is1.proyecto.models;
 
+import org.javalite.activejdbc.Model;
+import org.javalite.activejdbc.annotations.BelongsTo;
 import org.javalite.activejdbc.annotations.IdName;
 import org.javalite.activejdbc.annotations.Table;
 
 @Table("docente")
 @IdName("dni_Persona")
-public class Docente extends Persona {
+@BelongsTo(foreignKeyName = "dni_Persona", parent = Persona.class)
+public class Docente extends Model {
 
     public Integer getDniAdministrador(){
         return getInteger("dni_Administrador");
+    }
+
+    public void setDniAdministrador(Integer dniAdmin){
+        set("dni_Administrador", dniAdmin);
+    }
+
+    public Integer getDni(){
+        return getInteger("dni_Persona");
     }
 
     public void setDni(Integer dni_Persona){

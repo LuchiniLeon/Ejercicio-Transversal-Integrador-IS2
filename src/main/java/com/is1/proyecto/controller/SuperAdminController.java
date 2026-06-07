@@ -5,7 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.is1.proyecto.models.SuperAdmin;
 import com.is1.proyecto.service.SuperAdminService;
 
 import spark.ModelAndView;
@@ -16,6 +15,7 @@ public class SuperAdminController {
 
     public static Object alta(Request req, Response res){
         try{
+            AdminController.alta(req, res);//Redirijo al admincontroller para crear el admin
             return "";
         } catch (IllegalArgumentException e) {
             res.status(400);
@@ -28,6 +28,7 @@ public class SuperAdminController {
             return "";
 
         } catch (Exception e) {
+            e.printStackTrace();
             res.status(500);
             res.redirect("/superadmin/alta?error=Error interno del servidor");
             return "";

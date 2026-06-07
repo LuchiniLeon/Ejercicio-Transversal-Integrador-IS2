@@ -1,5 +1,7 @@
-PRAGMA foreign_keys = ON;
+PRAGMA foreign_keys = OFF;
 
+DROP TABLE IF EXISTS administrador;
+DROP TABLE IF EXISTS usuario;
 DROP TABLE IF EXISTS persona;
 
 CREATE TABLE IF NOT EXISTS persona (
@@ -14,7 +16,6 @@ CREATE TABLE IF NOT EXISTS persona (
     CONSTRAINT pk_dni_persona PRIMARY KEY (dni)
 );
 
-DROP TABLE IF EXISTS usuario;
 
 CREATE TABLE IF NOT EXISTS usuario (
     nombreUsuario TEXT NOT  NULL,
@@ -24,7 +25,6 @@ CREATE TABLE IF NOT EXISTS usuario (
     CONSTRAINT fk_dni_persona_usuario FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS administrador;
 
 CREATE TABLE IF NOT EXISTS administrador (
     dni_Persona INTEGER, 
@@ -34,3 +34,4 @@ CREATE TABLE IF NOT EXISTS administrador (
     CONSTRAINT pk_dni_persona_administrador PRIMARY KEY (dni_Persona),
     CONSTRAINT fk_dni_persona_administrador FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON UPDATE CASCADE ON DELETE CASCADE
 );
+PRAGMA foreign_keys = ON;
