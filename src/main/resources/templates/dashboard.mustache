@@ -30,84 +30,6 @@
             </div>
 
             <h1 class="text-3xl font-bold text-white text-center mb-10">Panel de Control</h1>
-            
-            {{#esAdministrador}}
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <a href="/editor?modo=oculto" class="col-span-1 sm:col-span-3 text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
-                        Editar Usuario
-                    </a>
-                    <a href="/docente/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
-                        Cargar nuevo Docente
-                    </a>
-                    <a href="/estudiante/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
-                        Cargar nuevo Estudiante
-                    </a>
-                    <a href="/asignar/profesor" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
-                        Asignar profesor
-                    </a>
-                        <a href="/admin/taller/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
-                        Cargar taller
-                    </a>
-                    </a>
-                        <a href="/admin/taller/lista" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-sm flex items-center justify-center">
-                        Ver talleres
-                    </a>
-                </div>
-            {{/esAdministrador}}
-
-            {{#esSuperAdmin}}
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
-                    <a href="/superadmin/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm flex items-center justify-center">
-                        Cargar nuevo Administrador
-                    </a>
-                    <a href="/editor?modo=oculto" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm flex items-center justify-center">
-                        Editar Usuario
-                    </a>
-                </div>
-            {{/esSuperAdmin}}
-
-            {{#esDocente}}
-                <div class="grid grid-cols-3 gap-4 max-w-md mx-auto">
-                    <a href="/taller/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm flex items-center justify-center">
-                        Cargar nuevo taller
-                    </a>
-
-                    <a href="/taller/lista" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm flex items-center justify-center">
-                        Ver mis talleres
-                    </a>
-
-                    <a href="/nota/alta" class="text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm flex items-center justify-center">
-                        Cargar Nota
-                    </a>
-                </div>
-            {{/esDocente}}
-
-            {{#esEstudiante}}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-                    <a href="/inscripcion/materia" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
-                        Inscribirse Materia
-                    </a>
-                    <a href="/inscripcion/carrera" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
-                        Inscribirse Carrera
-                    </a>
-                    <a href="/estudiante/talleres" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
-                        Inscribirse Taller
-                    </a>
-                    <a href="/estado/carrera" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
-                        Estado Carrera
-                    </a>
-                    <a href="/estado/materia" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
-                        Estado Materia
-                    </a>
-                    <a href="/estado/taller" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
-                        Estado Taller
-                    </a>
-
-                    <a href="/estudiante/mis-talleres" class="text-center bg-indigo-600 text-white py-3 px-2 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold shadow-sm text-xs flex items-center justify-center">
-                        Mis Talleres
-                    </a>
-                </div>                
-            {{/esEstudiante}}
 
             <!-- LISTA DE ENLACES (Mantenemos tus variables aquí) -->
             <div class="border-t border-gray-100 pt-6">
@@ -116,7 +38,9 @@
                         <a href="/editor?modo=oculto" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Editar Usuario</a>
                         <a href="/docente/alta" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Cargar nuevo Docente</a>
                         <a href="/estudiante/alta" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Cargar nuevo Estudiante</a>
+                        <a href="/admin/taller/alta" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Cargar nuevo taller</a>
                         <a href="/asignar/profesor" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Asignar profesor</a>
+                        <a href="/admin/taller/lista" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Ver talleres</a>
                     </div>
                 {{/esAdministrador}}
                 {{#esSuperAdmin}}
@@ -136,10 +60,13 @@
                     <div class="flex flex-col space-y-1">
                         <a href="/inscripcion/materia" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Inscribirse Materia</a>
                         <a href="/inscripcion/carrera" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Inscribirse Carrera</a>
-                        <a href="/estado/carrera" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Estado Carrera</a>
+                        <a href="/estudiante/talleres" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Inscribirse Taller</a>
                         <a href="/estado/materia" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Estado Materia</a>
+                        <a href="/estado/carrera" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Estado Carrera</a>
                         <a href="/estado/taller" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Estado Taller</a>
+                        <a href="/estudiante/mis-talleres" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Mis Talleres</a>
                         <a href="/planificador/tarea" class="block py-2.5 px-4 text-sm font-medium text-gray-100 hover:text-white hover:bg-white/20 rounded-lg transition duration-200">Planificador Tarea</a>
+                        
                     </div>
                 {{/esEstudiante}}
             </div>
