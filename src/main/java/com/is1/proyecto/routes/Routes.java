@@ -77,12 +77,17 @@ public class Routes {
         get("/taller/editar/:id", (req, res) -> TallerController.formEditar(req, res), engine);
 
         //RUTAS PARA MATERIAS
-        get("/materia/alta", (req, res) -> MateriaController.formAlta(req, res), engine);
-
         get("/materia/lista", (req, res) -> MateriaController.lista(req, res), engine);
 
         get("/materia/editar/:id", (req, res) -> MateriaController.formEditar(req, res), engine);
-        //----------- cambiar
+
+        //RUTAS ADMIN MATERIAS
+        get("/admin/materia/alta",(req, res) -> AdminController.formAltaMateria(req, res),engine);
+
+        get("/admin/materia/lista",(req, res) -> AdminController.listaMaterias(req, res),engine);
+
+        get("/admin/materia/asignar",(req, res) -> AdminController.formAsignarDocenteMateria(req, res),engine);
+        //----------- ver
         
         get("/admin/taller/alta",(req, res) -> AdminController.formAltaTaller(req, res), engine);;
 
@@ -144,13 +149,16 @@ public class Routes {
         post("/taller/eliminar/:id", (req, res) -> TallerController.eliminar(req, res));
 
         //POST PARA MATERIAS
-        post("/materia/alta", (req, res) -> MateriaController.alta(req, res));
-
         post("/materia/editar/:id", (req, res) -> MateriaController.editar(req, res));
 
         post("/materia/eliminar/:id", (req, res) -> MateriaController.eliminar(req, res));
-        //------- cambiar
+        //------- ver
+        //admin MATERIAS
+        post("/admin/materia/alta",(req, res) -> AdminController.altaMateria(req, res));
+
+        post("/admin/materia/asignar",(req, res) -> AdminController.asignarDocenteMateria(req, res));
         
+        //TALLER
         post("/admin/taller/alta", (req, res) -> AdminController.altaTaller(req, res));
 
         post("/admin/taller/asignar", (req, res) -> AdminController.asignarDocenteTaller(req, res));
