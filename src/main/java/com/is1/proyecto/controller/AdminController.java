@@ -4,14 +4,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import org.javalite.activejdbc.Base;
-import java.util.List;
 
-import com.is1.proyecto.models.Admin;
-import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.service.AdminService;
-import com.is1.proyecto.service.DocenteService;
 
 import spark.ModelAndView;
 import spark.Request;
@@ -87,7 +82,10 @@ public class AdminController {
 
     //Metodo que recibe la peticion para mostrar la plantilla de opciones de asignacion a profesores
     public static ModelAndView opcionesAsignacion(Request req, Response res) {
-
+        //model.put("materias", MateriaService.listarMaterias());
+        //model.put("docentes", DocenteService.listarDocentes());
         return new ModelAndView(new HashMap<>(), "opciones_asignacion.mustache");
     }
+
+    
 }
