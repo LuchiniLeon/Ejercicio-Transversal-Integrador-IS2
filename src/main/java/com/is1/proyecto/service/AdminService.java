@@ -67,7 +67,7 @@ public class AdminService {
         }
         return resultado;
     }
-
+//TALLERES
     public static void crearTallerComoAdmin(String titulo, Integer hora, Boolean vigente, Integer dniDocente) {
         if (Docente.findFirst("dni_Persona = ?", dniDocente) == null) {
             throw new IllegalArgumentException("El docente asignado no existe");
@@ -135,5 +135,39 @@ public class AdminService {
         if (!p.save()){
             throw new IllegalArgumentException("No se pudo guardar la asignación");
         } 
+    }
+
+    //MATERIAS
+    public static void crearMateriaComoAdmin(Integer codigo,String nombre,Integer horasTotales,Integer dniAdministrador,Integer dniDocente, Integer idCarrera) {
+        if (Docente.findFirst("dni_Persona = ?", dniDocente) == null) {
+            throw new IllegalArgumentException("El docente asignado no existe");
+        }
+
+        MateriaService.crearMateria(codigo,nombre,horasTotales,dniAdministrador,dniDocente,idCarrera);
+
+    }
+
+    public static List<Map<String, Object>> obtenerMaterias() {
+        return MateriaService.listarMaterias();
+    }
+
+    public static void crearCarreraComoAdmin(Integer idCarrera, String nombre, Integer duracion, String modalidad) {
+        CarreraInscripcionService.crearCarrera(idCarrera, nombre, duracion, modalidad);
+    }
+
+    public static List<Map<String, Object>> obtenerCarreras() {
+        return CarreraInscripcionService.listarCarreras();
+    }
+
+    public static void asignarDocenteAMateria(Integer idMateria,Integer dniDocente) {
+        if (idMateria == null) {
+         throw new IllegalArgumentException("Debe seleccionar una materia");
+        }
+
+        if (dniDocente == null) {
+            throw new IllegalArgumentException("Debe seleccionar un docente");
+        }
+
+        MateriaService.asignarDocenteAMateria(idMateria,dniDocente);
     }
 }

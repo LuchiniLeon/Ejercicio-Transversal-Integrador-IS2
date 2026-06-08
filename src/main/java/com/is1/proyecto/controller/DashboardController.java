@@ -8,6 +8,7 @@ import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Estudiante;
 import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.User;
+import com.is1.proyecto.service.CarreraInscripcionService;
 
 import spark.Request;
 import spark.Response;
@@ -47,7 +48,10 @@ public class DashboardController {
             if(!docentes.isEmpty()) model.put("esDocente", true);
 
             java.util.List<Estudiante> estudiantes = Estudiante.where("dni_Persona = ?", user.getDNI());
-            if(!estudiantes.isEmpty()) model.put("esEstudiante", true);
+            if(!estudiantes.isEmpty()) {
+                model.put("esEstudiante", true);
+                model.put("tieneInscripcionCarrera", CarreraInscripcionService.tieneInscripcionCarrera(user.getDNI()));
+            }
         }
         
         if(esSuper){
