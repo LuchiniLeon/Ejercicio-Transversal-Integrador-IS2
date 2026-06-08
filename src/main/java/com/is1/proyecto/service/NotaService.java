@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.is1.proyecto.models.Nota;
 import com.is1.proyecto.models.Taller;
+import com.is1.proyecto.models.Materia;
 
 public class NotaService {
 
@@ -140,6 +141,8 @@ public class NotaService {
             throw e;
         }
     }
+
+
  
 
     public static List<Map<String, Object>> listarNotas() {
@@ -161,6 +164,62 @@ public class NotaService {
 
         return lista;
     }
+
+    public static List<Map<String, Object>> listarNotasDeEstudiante(Integer dniEstudiante) {
+       List<Map<String, Object>> lista = new ArrayList<>();
+
+       List<Nota> notas = Nota.where("dni_Estudiante = ?", dniEstudiante);
+
+       for (Nota nota : notas) {
+            Map<String, Object> n = new HashMap<>();
+
+            n.put("id", nota.getIdNota());
+            n.put("condicion", nota.getCondicion());
+            n.put("notaFinal", nota.getNotaFinal());
+            n.put("fechaExamen", nota.getFechaExamen());
+
+            Integer idMateria = nota.getIdMateria();
+
+            if (idMateria != null) {
+                Materia materia = Materia.findById(idMateria);
+
+                n.put("tipo", "Materia");
+
+                if (materia != null) {
+                   n.put("nombre", materia.getNombre());
+                } else {
+                   n.put("nombre", "Materia no encontrada");
+                }
+
+            } else {
+                NotaTaller notaTaller = NotaTaller.findFirst(
+                    "id_Nota = ? AND dni_Estudiante = ?",
+                    nota.getIdNota(),
+                    dniEstudiante
+                );
+
+                n.put("tipo", "Taller");
+
+                if (notaTaller != null) {
+                    Taller taller = Taller.findById(notaTaller.getIdTaller());
+
+                    if (taller != null) {
+                        n.put("nombre", taller.getTitulo());
+                    } else {
+                        n.put("nombre", "Taller no encontrado");
+                    }
+                } else {
+                    n.put("nombre", "Taller no encontrado");
+                }
+            }
+
+            lista.add(n);
+        }
+
+        return lista;
+    }
+ 
+    
     public static Map<String, Object> obtenerNota(Integer idNota) {
 
     Nota nota = Nota.findById(idNota);

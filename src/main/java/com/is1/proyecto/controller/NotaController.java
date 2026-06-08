@@ -11,6 +11,8 @@ import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.TallerService;
 import com.is1.proyecto.service.MateriaService;
 import com.is1.proyecto.service.NotaService;
+import com.is1.proyecto.models.Estudiante;
+
 
 import spark.ModelAndView;
 import spark.Request;
@@ -190,6 +192,35 @@ public class NotaController {
                     URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         }
+    }
+
+    public static ModelAndView notasEstudiante(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+
+        String currentUsername = req.session().attribute("currentUserUsername");
+
+        if (currentUsername == null || currentUsername.isEmpty()) {
+           res.redirect("/login");
+           return null;
+        }
+
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+
+        if (user == null) {
+           res.redirect("/dashboard");
+           return null;
+        }
+
+        Estudiante estudiante = Estudiante.findFirst("dni_Persona = ?", user.getDNI());
+
+        if (estudiante == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        model.put("notas", NotaService.listarNotasDeEstudiante(estudiante.getDni()));
+
+        return new ModelAndView(model, "estudiante-notas.mustache");
     }
 
     public static ModelAndView lista(Request req, Response res) {

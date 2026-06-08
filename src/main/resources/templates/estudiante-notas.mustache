@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Notas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
+
+<div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-5xl">
+
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">
+        Mis Notas
+    </h1>
+
+    {{#notas}}
+    <table class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg overflow-hidden">
+        <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+            <tr>
+                <th class="px-4 py-3">Tipo</th>
+                <th class="px-4 py-3">Materia / Taller</th>
+                <th class="px-4 py-3">Nota</th>
+                <th class="px-4 py-3">Condición</th>
+                <th class="px-4 py-3">Fecha</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#notas}}
+            <tr class="border-t border-gray-200 hover:bg-gray-50">
+                <td class="px-4 py-3">{{tipo}}</td>
+                <td class="px-4 py-3">{{nombre}}</td>
+                <td class="px-4 py-3">{{notaFinal}}</td>
+                <td class="px-4 py-3">{{condicion}}</td>
+                <td class="px-4 py-3">{{fechaExamen}}</td>
+            </tr>
+            {{/notas}}
+        </tbody>
+    </table>
+    {{/notas}}
+
+    {{^notas}}
+    <p class="text-center text-gray-500 mt-8">
+        Todavía no tenés notas cargadas.
+    </p>
+    {{/notas}}
+
+    <div class="mt-6 text-center">
+        <a href="/dashboard" class="text-blue-600 hover:underline text-sm">
+            ← Volver al dashboard
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -20,6 +20,7 @@ import com.is1.proyecto.controller.NotaController;
 import com.is1.proyecto.controller.EstudianteController;
 import com.is1.proyecto.controller.EstudiaController;
 
+
 import static spark.Spark.get;
 import static spark.Spark.post;
 import spark.template.mustache.MustacheTemplateEngine;
@@ -136,6 +137,8 @@ public class Routes {
         get("/admin/taller/lista",(req, res) -> AdminController.listaTalleres(req, res), engine);
 
         get("/admin/taller/asignar", (req, res) -> AdminController.formAsignarDocenteTaller(req, res), engine);
+
+        get("/estudiante/notas", (req, res) -> NotaController.notasEstudiante(req, res), engine);
 
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
