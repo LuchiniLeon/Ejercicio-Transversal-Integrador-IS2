@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Materia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">
+            Nueva Materia
+        </h1>
+
+        {{#successMessage}}
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{successMessage}}</span>
+        </div>
+        {{/successMessage}}
+
+        {{#errorMessage}}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{errorMessage}}</span>
+        </div>
+        {{/errorMessage}}
+
+        <form action="/materia/alta" method="post" class="space-y-4">
+
+            <div>
+                <label for="codigo" class="block text-gray-700 text-sm font-medium mb-1">
+                    Código (*):
+                </label>
+                <input type="number"
+                       id="codigo"
+                       name="codigo"
+                       required
+                       placeholder="Ej. 101"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="nombre" class="block text-gray-700 text-sm font-medium mb-1">
+                    Nombre (*):
+                </label>
+                <input type="text"
+                       id="nombre"
+                       name="nombre"
+                       required
+                       placeholder="Ej. Programación I"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="horasTotales" class="block text-gray-700 text-sm font-medium mb-1">
+                    Horas Totales (*):
+                </label>
+                <input type="number"
+                       id="horasTotales"
+                       name="horasTotales"
+                       required
+                       min="1"
+                       placeholder="Ej. 120"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="dniAdministrador" class="block text-gray-700 text-sm font-medium mb-1">
+                    DNI Administrador (*):
+                </label>
+                <input type="number"
+                       id="dniAdministrador"
+                       name="dniAdministrador"
+                       required
+                       placeholder="Ej. 30111222"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="dniDocente" class="block text-gray-700 text-sm font-medium mb-1">
+                    DNI Docente (*):
+                </label>
+                <input type="number"
+                       id="dniDocente"
+                       name="dniDocente"
+                       required
+                       placeholder="Ej. 40111222"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <p class="text-xs text-gray-500">
+                (*) Campos obligatorios.
+            </p>
+
+            <div class="flex gap-4 mt-6">
+                <a href="/materia/lista"
+                   class="w-1/2 inline-block bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center">
+                    Cancelar
+                </a>
+
+                <button type="submit"
+                        class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+                    Guardar Materia
+                </button>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>

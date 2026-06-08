@@ -72,9 +72,16 @@ public class EstudiaService {
 
             // Docente titular
             Docente docente = Docente.findFirst("dni_Persona = ?", t.getInteger("dni_Docente"));
-            Persona persona = docente.parent(Persona.class);
-            
-            map.put("docenteTitular", persona.getString("nombre") + " " + persona.getString("apellido"));
+            if (docente != null) {
+                Persona persona = docente.parent(Persona.class);
+                if (persona != null) {
+                    map.put("docenteTitular", persona.getString("nombre") + " " + persona.getString("apellido"));
+                } else {
+                    map.put("docenteTitular", "No asignado");
+                }
+            } else {
+                map.put("docenteTitular", "No asignado");
+            }
             // Docentes participantes
             List<ParticipaDocenteTaller> participantes = ParticipaDocenteTaller.where("id_Taller = ?", t.getId());
             List<String> nombres = new ArrayList<>();
@@ -116,9 +123,16 @@ public class EstudiaService {
 
                  // Docente titular
                 Docente docente = Docente.findFirst("dni_Persona = ?", taller.getInteger("dni_Docente"));
-                Persona persona = docente.parent(Persona.class);
-                
-                map.put("docenteTitular", persona.getString("nombre") + " " + persona.getString("apellido"));
+                if (docente != null) {
+                    Persona persona = docente.parent(Persona.class);
+                    if (persona != null) {
+                        map.put("docenteTitular", persona.getString("nombre") + " " + persona.getString("apellido"));
+                    } else {
+                        map.put("docenteTitular", "No asignado");
+                    }
+                } else {
+                    map.put("docenteTitular", "No asignado");
+                }
 
                 // Docentes participantes
                 List<ParticipaDocenteTaller> participantes = ParticipaDocenteTaller.where("id_Taller = ?", taller.getId());
