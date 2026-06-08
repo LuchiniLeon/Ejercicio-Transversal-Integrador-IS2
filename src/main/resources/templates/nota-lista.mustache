@@ -2,10 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nuevo Taller</title>
+    <title>Listado de Notas</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
+<!-- FONDO -->
 <body class="relative h-screen overflow-hidden flex flex-col bg-[radial-gradient(circle_at_center,#1e293b_0%,#090d16_100%)] before:absolute before:inset-0 before:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] before:[background-size:24px_24px] before:-z-10">
+
 <!-- HEADER -->
 <header class="fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-700 flex items-center px-5 gap-4 z-50 shadow-sm">
     <button id="menuBtn" class="p-2 text-3xl text-blue-500">☰</button>
@@ -13,7 +15,7 @@
         <span class="text-blue-400 font-bold text-lg tracking-tight">Pentabyte</span>
     </div>
     <div class="w-px h-5 bg-gray-200"></div>
-    <span class="text-slate-300 text-base">Panel de docente</span>
+    <span class="text-slate-300 text-base">Panel de docencia</span>
     <div class="ml-auto">
         <a href="/profile"
            class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-white hover:bg-blue-600 transition"
@@ -28,7 +30,7 @@
 </header>
 
 <!-- LAYOUT -->
-<div class="flex mt-14 h-[calc(100vh-56px)] overflow-hidden">
+<div class="flex mt-14 min-h-[calc(100vh-56px)]">
 
     <!-- SIDEBAR -->
     <aside id="sidePanel"
@@ -40,14 +42,19 @@
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
             <span class="sidebar-label">Inicio</span>
         </a>
+
         <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Gestión</div>
         <a href="/taller/alta"
-           class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 text-base font-semibold overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Cargar taller</span>
-        </a>
-        <a href=""
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+            <span class="sidebar-label">Cargar talleres</span>
+        </a>
+        <a href="/nota/alta"
+            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
             <span class="sidebar-label">Cargar notas</span>
+        </a>
+        <a href="/nota/lista"
+           class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 text-base font-semibold overflow-hidden whitespace-nowrap">
+            <span class="sidebar-label">Notas</span>
         </a>
         <a href="/taller/lista"
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
@@ -57,8 +64,6 @@
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
             <span class="sidebar-label">Mis materias</span>
         </a>
-
-
 
         <div class="flex-1"></div>
 
@@ -71,12 +76,15 @@
     </aside>
 
     <!-- MAIN -->
-    <main class="flex-1 flex items-center justify-center p-8">
+    <main class="flex-1 flex items-start justify-center p-8 overflow-auto">
+        <div class="w-full max-w-5xl bg-slate-300 backdrop-blur-sm border border-slate-400 rounded-xl shadow-lg p-8">
 
-        <div class="w-full max-w-xl bg-slate-300 backdrop-blur-sm border border-slate-400  rounded-xl shadow-lg p-8">
-
-            <div class="mb-6">
-                <h1 class="text-3xl font-bold text-blue-600">Nuevo Taller</h1>
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-3xl font-bold text-blue-600">Listado de Notas</h1>
+                <a href="/nota/alta"
+                   class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 font-semibold">
+                    + Cargar nueva nota
+                </a>
             </div>
 
             {{#successMessage}}
@@ -91,46 +99,53 @@
             </div>
             {{/errorMessage}}
 
-            <form action="/taller/alta" method="post" class="space-y-4">
-                <div>
-                    <label for="titulo" class="block text-gray-700 text-sm font-medium mb-1">Título (*):</label>
-                    <input type="text" id="titulo" name="titulo" required placeholder="Ej. Taller de Java"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
-                </div>
-                <div>
-                    <label for="hora" class="block text-gray-700 text-sm font-medium mb-1">Horas (*):</label>
-                    <input type="number" id="hora" name="hora" required min="1" placeholder="Ej. 2"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
-                </div>
-                <div>
-                    <label for="vigente" class="block text-gray-700 text-sm font-medium mb-1">Vigente:</label>
-                    <select id="vigente" name="vigente"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
-                        <option value="1">Sí</option>
-                        <option value="0">No</option>
-                    </select>
-                </div>
+            
+            <table class="w-full text-sm text-left text-gray-700 bg-white border border-slate-300 rounded-lg overflow-hidden">
+                <thead class="bg-white text-slate-800 uppercase text-xs border-b border-slate-300">
+                    <tr>
+                        <th class="px-4 py-3">Condición</th>
+                        <th class="px-4 py-3">Nota final</th>
+                        <th class="px-4 py-3">Fecha examen</th>
+                        <th class="px-4 py-3">DNI estudiante</th>
+                        <th class="px-4 py-3">Materia/Taller</th>
+                        <th class="px-4 py-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#notas}}
+                <tr class="border-t border-slate-300 bg-white">
+                    <td class="px-4 py-3">{{condicion}}</td>
+                    <td class="px-4 py-3">{{notaFinal}}</td>
+                    <td class="px-4 py-3">{{fechaExamen}}</td>
+                    <td class="px-4 py-3">{{dniEstudiante}}</td>
+                    <td class="px-4 py-3">{{nombre}}</td>
+                    <td class="px-4 py-3 flex gap-2">
+                        <a href="/nota/editar/{{id}}"
+                           class="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 text-xs font-semibold">
+                            Editar
+                        </a>
+                        <form action="/nota/eliminar/{{id}}" method="post">
+                            <button type="submit"
+                                    onclick="return confirm('¿Estás seguro que querés eliminar esta nota?')"
+                                    class="bg-slate-600 text-white py-1 px-3 rounded hover:bg-slate-700 text-xs font-semibold">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {{/notas}}
+                </tbody>
+            </table>
 
-                <p class="text-xs text-gray-500">(*) Campos obligatorios.</p>
-
-                <div class="flex gap-4 pt-2">
-                    <a href="/taller/lista"
-                       class="w-1/2 inline-block bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-700 text-center font-semibold text-sm">
-                        Cancelar
-                    </a>
-                    <button type="submit"
-                            class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 font-semibold text-sm">
-                        Guardar Taller
-                    </button>
-                </div>
-            </form>
+            {{^notas}}
+            <p class="text-center text-gray-500 mt-8">No tenés notas cargadas todavía.</p>
+            {{/notas}}
 
             <div class="mt-6">
-                <a href="/taller/lista" class="text-blue-600 hover:underline text-sm">← Volver a Talleres</a>
+                <a href="/dashboard" class="text-blue-600 hover:underline text-sm">← Volver al dashboard</a>
             </div>
 
         </div>
-
     </main>
 </div>
 

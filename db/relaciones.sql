@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS nota (
     id_Nota INTEGER,
     condicion TEXT NOT NULL CHECK (condicion IN ('Libre', 'Regular', 'Promocional')),
     nota_Final INTEGER NOT NULL,
-    fecha_Examen TEXT NOT NULL, --No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
+    fecha_Examen TEXT NOT NULL, -- No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
     dni_Estudiante INTEGER,
     id_Materia INTEGER,
     CONSTRAINT pk_nota PRIMARY KEY (id_Nota),
