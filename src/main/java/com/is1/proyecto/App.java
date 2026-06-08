@@ -6,6 +6,8 @@ import static spark.Spark.*; // Importa los métodos estáticos principales de S
 import com.is1.proyecto.config.DBFiltro;
 import com.is1.proyecto.routes.Routes;
 
+import spark.Service.StaticFiles;
+
 /**
  * Clase principal de la aplicación Spark.
  * Configura las rutas, filtros y el inicio del servidor web.
@@ -18,9 +20,12 @@ public class App {
     public static void main(String[] args) {
         port(8080); // Configura el puerto en el que la aplicación Spark escuchará las peticiones
                     // (por defecto es 4567).
-
+        staticFiles.location("/public");
+        
         DBFiltro.configure();
  
         Routes.configure();
+
+        
     } 
 } 
