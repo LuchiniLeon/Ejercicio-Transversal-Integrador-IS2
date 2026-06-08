@@ -9,26 +9,26 @@ import org.javalite.activejdbc.annotations.Table;
 public class Token extends Model {
 
     public String getToken() {
-        return getString("token"); // Obtiene el valor de la columna 'name'
+        return getString("token"); // Obtiene el valor de la columna 'token'
     }
 
     public void setToken(String token) {
-        set("token", token); // Establece el valor para la columna 'name'
+        set("token", token); // Establece el valor para la columna 'token'
     }
 
     public String getmail() {
-        return getString("email"); // Obtiene el valor de la columna 'password'
+        return getString("email"); // Obtiene el email asociado al token
     }
 
     public void setmail(String mail) {
-        set("email", mail); // Establece el valor para la columna 'password'
+        set("email", mail); // Guarda el email asociado al token
     }
 
       public String getExpiracion() {
-        return getString("fecha_expiracion"); // Obtiene el valor de la columna 'password'
+        return getString("fecha_expiracion"); // Obtiene la fecha de expiración del token
     }
 
     public void setExpiracion(String fecha) {
-        set("fecha_expiracion", fecha); // Establece el valor para la columna 'password'
+        set("fecha_expiracion", fecha); // Guarda la fecha de expiración del token
     }
 }
