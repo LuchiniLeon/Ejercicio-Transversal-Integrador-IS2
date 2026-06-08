@@ -80,24 +80,22 @@
 
 <table border="1">
     <tr>
-        <th>ID</th>
         <th>Condición</th>
         <th>Nota final</th>
         <th>Fecha examen</th>
         <th>DNI estudiante</th>
-        <th>Materia</th>
+        <th>Materia/Taller</th>
         
         <th>Acciones</th>
     </tr>
 
     {{#notas}}
     <tr>
-        <td>{{id}}</td>
         <td>{{condicion}}</td>
         <td>{{notaFinal}}</td>
         <td>{{fechaExamen}}</td>
         <td>{{dniEstudiante}}</td>
-        <td>{{idMateria}}</td>
+        <td>{{nombre}}</td>
         
         <td>
             <a href="/nota/editar/{{id}}">Editar</a>

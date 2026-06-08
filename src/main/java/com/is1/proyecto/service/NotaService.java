@@ -158,7 +158,20 @@ public class NotaService {
             n.put("dniEstudiante", nota.getDniEstudiante());
             n.put("idMateria", nota.getIdMateria());
             
-
+            Integer idMateria = nota.getIdMateria();
+            if (idMateria != null) {
+                Materia materia = Materia.findById(idMateria);
+                n.put("nombre", materia != null ? materia.getNombre() : "Materia no encontrada");
+            } else {
+                NotaTaller notaTaller = NotaTaller.findFirst("id_nota = ?", nota.getIdNota());
+                if (notaTaller != null) {
+                    Taller taller = Taller.findById(notaTaller.getIdTaller());
+                    n.put("nombre", taller != null ? taller.getTitulo() : "Taller no encontrado");
+                } else {
+                    n.put("nombre", "-");
+                }
+            }
+         
             lista.add(n);
         }
 
@@ -173,7 +186,6 @@ public class NotaService {
        for (Nota nota : notas) {
             Map<String, Object> n = new HashMap<>();
 
-            n.put("id", nota.getIdNota());
             n.put("condicion", nota.getCondicion());
             n.put("notaFinal", nota.getNotaFinal());
             n.put("fechaExamen", nota.getFechaExamen());
@@ -222,24 +234,24 @@ public class NotaService {
     
     public static Map<String, Object> obtenerNota(Integer idNota) {
 
-    Nota nota = Nota.findById(idNota);
+        Nota nota = Nota.findById(idNota);
 
-    if (nota == null) {
-        throw new IllegalArgumentException("Nota no encontrada");
+        if (nota == null) {
+            throw new IllegalArgumentException("Nota no encontrada");
+        }
+
+        Map<String, Object> n = new HashMap<>();
+        n.put("id", nota.getIdNota());
+        n.put("condicion", nota.getCondicion());
+        n.put("notaFinal", nota.getNotaFinal());
+        n.put("fechaExamen", nota.getFechaExamen());
+        n.put("dniEstudiante", nota.getDniEstudiante());
+        n.put("idMateria", nota.getIdMateria());
+        n.put("idTaller", nota.getIdTaller());
+        n.put("dniEstudianteEstudia", nota.getDniEstudianteEstudia());
+
+        return n;
     }
-
-    Map<String, Object> n = new HashMap<>();
-    n.put("id", nota.getIdNota());
-    n.put("condicion", nota.getCondicion());
-    n.put("notaFinal", nota.getNotaFinal());
-    n.put("fechaExamen", nota.getFechaExamen());
-    n.put("dniEstudiante", nota.getDniEstudiante());
-    n.put("idMateria", nota.getIdMateria());
-    n.put("idTaller", nota.getIdTaller());
-    n.put("dniEstudianteEstudia", nota.getDniEstudianteEstudia());
-
-    return n;
-}
 
 public static void editarNota(Integer idNota, String condicion, Integer notaFinal, String fechaExamen) {
 
