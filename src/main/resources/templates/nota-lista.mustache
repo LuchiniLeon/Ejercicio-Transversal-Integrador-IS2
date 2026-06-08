@@ -1,113 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Listado de Notas</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #eef2f7;
-            min-height: 100vh;
-            padding: 40px;
-        }
-
-        .card {
-            background: white;
-            max-width: 1000px;
-            margin: auto;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 8px 25px rgba(51, 104, 202, 0.15);
-        }
-
-        h1 {
-            text-align: center;
-            color: #0d1b2a;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 15px;
-            background: #0d6efd;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background: #0d1b2a;
-            color: white;
-            padding: 10px;
-        }
-
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            text-align: center;
-        }
-
-        .ok { color: green; text-align: center; }
-        .error { color: red; text-align: center; }
-
-        button {
-            padding: 7px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
-<body>
+<!-- FONDO -->
+<body class="relative h-screen overflow-hidden flex flex-col bg-[radial-gradient(circle_at_center,#1e293b_0%,#090d16_100%)] before:absolute before:inset-0 before:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] before:[background-size:24px_24px] before:-z-10">
 
-<h1>Listado de notas</h1>
-{{#successMessage}}
-<p class="ok">{{successMessage}}</p>
-{{/successMessage}}
+<!-- HEADER -->
+<header class="fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-700 flex items-center px-5 gap-4 z-50 shadow-sm">
+    <button id="menuBtn" class="p-2 text-3xl text-blue-500">☰</button>
+    <div class="flex items-center gap-2">
+        <span class="text-blue-400 font-bold text-lg tracking-tight">Pentabyte</span>
+    </div>
+    <div class="w-px h-5 bg-gray-200"></div>
+    <span class="text-slate-300 text-base">Panel de docencia</span>
+    <div class="ml-auto">
+        <a href="/profile"
+           class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-white hover:bg-blue-600 transition"
+           title="Mi perfil">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+</header>
 
-{{#errorMessage}}
-<p class="error">{{errorMessage}}</p>
-{{/errorMessage}}
+<!-- LAYOUT -->
+<div class="flex mt-14 min-h-[calc(100vh-56px)]">
 
-<a class="btn" href="/nota/alta">Cargar nueva nota</a>
+    <!-- SIDEBAR -->
+    <aside id="sidePanel"
+           class="relative bg-slate-800 border-r border-slate-700 flex flex-col py-4 shadow-sm transition-all duration-200"
+           style="width:210px; min-width:210px;">
 
-<br><br>
+        <div class="px-5 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">General</div>
+        <a href="/dashboard"
+           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+            <span class="sidebar-label">Inicio</span>
+        </a>
 
-<table border="1">
-    <tr>
-        <th>Condición</th>
-        <th>Nota final</th>
-        <th>Fecha examen</th>
-        <th>DNI estudiante</th>
-        <th>Materia/Taller</th>
-        
-        <th>Acciones</th>
-    </tr>
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Gestión</div>
+        <a href="/taller/alta"
+           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+            <span class="sidebar-label">Cargar talleres</span>
+        </a>
+        <a href="/notas/alta"
+            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+            <span class="sidebar-label">Cargar notas</span>
+        </a>
+        <a href=""
+           class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 text-base font-semibold overflow-hidden whitespace-nowrap">
+            <span class="sidebar-label">Mis notas</span>
+        </a>
+        <a href="/taller/lista"
+           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+            <span class="sidebar-label">Mis talleres</span>
+        </a>
+        <a href="/materia/lista"
+           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+            <span class="sidebar-label">Mis materias</span>
+        </a>
 
-    {{#notas}}
-    <tr>
-        <td>{{condicion}}</td>
-        <td>{{notaFinal}}</td>
-        <td>{{fechaExamen}}</td>
-        <td>{{dniEstudiante}}</td>
-        <td>{{nombre}}</td>
-        
-        <td>
-            <a href="/nota/editar/{{id}}">Editar</a>
+        <div class="flex-1"></div>
 
-            <form action="/nota/eliminar/{{id}}" method="post" style="display:inline;">
-                <button type="submit">Eliminar</button>
-            </form>
-        </td>
-    </tr>
-    {{/notas}}
-</table>
+        <div class="border-t border-gray-600 pt-3">
+            <a href="/logout"
+               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Cerrar sesión</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 flex items-start justify-center p-8 overflow-auto">
+        <div class="w-full max-w-5xl bg-slate-300 backdrop-blur-sm border border-slate-400 rounded-xl shadow-lg p-8">
+
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-3xl font-bold text-blue-600">Listado de Notas</h1>
+                <a href="/nota/alta"
+                   class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 font-semibold">
+                    + Cargar nueva nota
+                </a>
+            </div>
+
+            {{#successMessage}}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span class="block sm:inline">{{successMessage}}</span>
+            </div>
+            {{/successMessage}}
+
+            {{#errorMessage}}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span class="block sm:inline">{{errorMessage}}</span>
+            </div>
+            {{/errorMessage}}
+
+            
+            <table class="w-full text-sm text-left text-gray-700 bg-white border border-slate-300 rounded-lg overflow-hidden">
+                <thead class="bg-white text-slate-800 uppercase text-xs border-b border-slate-300">
+                    <tr>
+                        <th class="px-4 py-3">Condición</th>
+                        <th class="px-4 py-3">Nota final</th>
+                        <th class="px-4 py-3">Fecha examen</th>
+                        <th class="px-4 py-3">DNI estudiante</th>
+                        <th class="px-4 py-3">Materia/Taller</th>
+                        <th class="px-4 py-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#notas}}
+                <tr class="border-t border-slate-300 bg-white">
+                    <td class="px-4 py-3">{{condicion}}</td>
+                    <td class="px-4 py-3">{{notaFinal}}</td>
+                    <td class="px-4 py-3">{{fechaExamen}}</td>
+                    <td class="px-4 py-3">{{dniEstudiante}}</td>
+                    <td class="px-4 py-3">{{nombre}}</td>
+                    <td class="px-4 py-3 flex gap-2">
+                        <a href="/nota/editar/{{id}}"
+                           class="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 text-xs font-semibold">
+                            Editar
+                        </a>
+                        <form action="/nota/eliminar/{{id}}" method="post">
+                            <button type="submit"
+                                    onclick="return confirm('¿Estás seguro que querés eliminar esta nota?')"
+                                    class="bg-slate-600 text-white py-1 px-3 rounded hover:bg-slate-700 text-xs font-semibold">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {{/notas}}
+                </tbody>
+            </table>
+
+            {{^notas}}
+            <p class="text-center text-gray-500 mt-8">No tenés notas cargadas todavía.</p>
+            {{/notas}}
+
+            <div class="mt-6">
+                <a href="/dashboard" class="text-blue-600 hover:underline text-sm">← Volver al dashboard</a>
+            </div>
+
+        </div>
+    </main>
 </div>
 
+<script>
+    const sidePanel = document.getElementById('sidePanel');
+    const menuBtn = document.getElementById('menuBtn');
+
+    menuBtn.addEventListener('click', () => {
+        if (sidePanel.style.display === 'none') {
+            sidePanel.style.display = 'flex';
+        } else {
+            sidePanel.style.display = 'none';
+        }
+    });
+</script>
 </body>
 </html>
