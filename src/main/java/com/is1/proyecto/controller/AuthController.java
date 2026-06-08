@@ -21,17 +21,15 @@ public class AuthController {
 
         // validación básica (HTTP)
         if (username == null || username.isEmpty() || plainTextPassword == null || plainTextPassword.isEmpty()) {
-            res.status(400);
-            model.put("errorMessage", "El nombre de usuario y la contraseña son requeridos.");
-            return new ModelAndView(model, "login.mustache");
+            res.redirect("/login?errorMessage=El+nombre+de+usuario+y+la+contrasena+son+requeridos.");
+            return null;
         }
 
         User user = AuthService.login(username, plainTextPassword);
 
         if (user == null) {
-            res.status(401);
-            model.put("errorMessage", "Usuario o contraseña incorrectos.");
-            return new ModelAndView(model, "login.mustache");
+            res.redirect("/login?errorMessage=Usuario+o+contrasena+incorrectos.");
+            return null;
         }
 
         // sesión (esto SI es controller)

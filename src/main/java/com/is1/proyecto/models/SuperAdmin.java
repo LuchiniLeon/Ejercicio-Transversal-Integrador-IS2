@@ -2,7 +2,14 @@ package com.is1.proyecto.models;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-public class SuperAdmin {
+import org.javalite.activejdbc.Model;
+import org.javalite.activejdbc.annotations.IdName;
+import org.javalite.activejdbc.annotations.Table;
+
+@Table("administrador")
+@IdName("dni_Persona")
+
+public class SuperAdmin{
 
     public SuperAdmin(){
 
