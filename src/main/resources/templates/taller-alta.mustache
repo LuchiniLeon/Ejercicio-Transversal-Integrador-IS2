@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Taller</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
 <body class="relative h-screen overflow-hidden flex flex-col bg-[radial-gradient(circle_at_center,#1e293b_0%,#090d16_100%)] before:absolute before:inset-0 before:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] before:[background-size:24px_24px] before:-z-10">
 <!-- HEADER -->
@@ -28,44 +28,53 @@
 </header>
 
 <!-- LAYOUT -->
-<div class="flex mt-14 h-[calc(100vh-56px)] overflow-hidden">
+<div class="flex mt-14 min-h-[calc(100vh-56px)]">
 
     <!-- SIDEBAR -->
     <aside id="sidePanel"
-           class="relative bg-slate-800 border-r border-slate-700 flex flex-col py-4 shadow-sm transition-all duration-200"
-           style="width:210px; min-width:210px;">
+        class="bg-slate-800 border-r border-slate-700 flex flex-col py-4 shadow-sm transition-all duration-200"
+        style="width:210px; min-width:210px;">
 
-        <div class="px-5 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">General</div>
-        <a href="/dashboard"
-           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Inicio</span>
-        </a>
-        <a href="/taller/alta"
-           class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 text-base font-semibold overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Cargar taller</span>
-        </a>
-        <a href=""
-           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Cargar notas</span>
-        </a>
-        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Gestión</div>
-        <a href="/taller/lista"
-           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Mis talleres</span>
-        </a>
-        <a href="/materia/lista"
-           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Mis materias</span>
+        <div class="px-5 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">General</div>
+        <a href="/dashboard" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Inicio
         </a>
 
+        <a href="/profile" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Mi Perfil
+        </a>
 
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Gestión Docente</div>
+        <a href="/materia/lista" class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 bg-slate-700/50 text-base font-semibold">
+            Mis Materias
+        </a>
+
+        <a href="/taller/lista" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Mis Talleres
+        </a>
+
+        <a href="/taller/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Cargar Taller
+        </a>
+
+        <a href="/nota/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Cargar Nota
+        </a>
+
+        <a href="/nota/lista" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Notas
+        </a>
+
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Organización</div>
+        <a href="/planificador/tarea" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Planificador de Tareas
+        </a>
 
         <div class="flex-1"></div>
 
-        <div class="border-t border-gray-600 pt-3">
-            <a href="/logout"
-               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-                <span class="sidebar-label">Cerrar sesión</span>
+        <div class="border-t border-slate-700 pt-3">
+            <a href="/logout" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+                Cerrar sesión
             </a>
         </div>
     </aside>

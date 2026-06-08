@@ -2,10 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Opciones de Asignación</title>
+    <title>Cargar Nota</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<!-- FONDO -->
 <body class="relative h-screen overflow-hidden flex flex-col bg-[radial-gradient(circle_at_center,#1e293b_0%,#090d16_100%)] before:absolute before:inset-0 before:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] before:[background-size:24px_24px] before:-z-10">
 
     <!-- HEADER -->
@@ -28,64 +27,42 @@
             </a>
         </div>
     </header>
-    
+
     <!-- LAYOUT -->
     <div class="flex mt-14 h-[calc(100vh-56px)] overflow-hidden">
-        
+
         <!-- SIDEBAR -->
         <aside id="sidePanel"
                class="relative bg-slate-800 border-r border-slate-700 flex flex-col py-4 shadow-sm transition-all duration-200 overflow-y-auto h-[calc(100vh-56px)] [&>*]:shrink-0"
                style="width:210px; min-width:210px;">
-    
+
             <div class="px-5 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">General</div>
             <a href="/dashboard"
                class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
                 <span class="sidebar-label">Inicio</span>
             </a>
-            <a href="/profile" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-lg font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-                <span class="sidebar-label">Mi Perfil</span>
+            <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Gestión</div>
+            <a href="/taller/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Cargar talleres</span>
             </a>
-            
-                
-            <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Usuarios</div>
-            <a href="/docente/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
-                Nuevo Docente
+            <a href="/nota/alta"
+               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Cargar notas</span>
             </a>
-            <a href="/estudiante/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
-                Nuevo Estudiante
+            <a href="/taller/lista"
+               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Mis talleres</span>
             </a>
-            <a href="/asignar/profesor" class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 text-base font-semibold overflow-hidden whitespace-nowrap">
-            Asignar Profesor
+            <a href="/materia/lista"
+               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Mis materias</span>
             </a>
-            <a href="/editor" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
-                Editar Usuario
-            </a>
-
-            <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Académico</div>
-            <a href="/admin/materia/lista" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
-                Materias
-            </a>
-            <a href="/admin/materia/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
-                Nueva Materia
-            </a>
-            <a href="/admin/carrera/lista" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
-                Carreras
+            <a href="" class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 text-base font-semibold overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Asignar nota</span>
             </a>
 
-            <a href="/admin/carrera/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
-                Nueva Carrera
-            </a>
-
-            <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Taller</div>
-            <a href="/admin/taller/lista" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
-                Talleres
-            </a>
-            <a href="/admin/taller/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
-                Nuevo Taller
-            </a>
-    
             <div class="flex-1"></div>
-    
+
             <div class="border-t border-gray-600 pt-3">
                 <a href="/logout"
                    class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
@@ -93,43 +70,56 @@
                 </a>
             </div>
         </aside>
-    
+
         <!-- MAIN -->
         <main class="flex-1 overflow-y-auto flex items-center justify-center p-8">
-    
-            <!-- Cambié max-w-xl por max-w-md para que quede más compacto como un menú de selección -->
+
             <div class="w-full max-w-md bg-slate-300 backdrop-blur-sm border border-slate-400 rounded-xl shadow-lg p-8">
-    
+
                 <div class="mb-4">
-                    <h1 class="text-3xl font-bold text-center text-blue-600">Asignar Profesor</h1>
+                    <h1 class="text-3xl font-bold text-center text-blue-600">Cargar Nota</h1>
                 </div>
-                
-                <p class="text-center text-gray-700 text-sm font-medium mb-8">Seleccione el tipo de asignación que desea realizar:</p>
-    
+
+                {{#message}}
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    {{message}}
+                </div>
+                {{/message}}
+
+                {{#errorMessage}}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    {{errorMessage}}
+                </div>
+                {{/errorMessage}}
+
+                <p class="text-center text-gray-700 text-sm font-medium mb-8">
+                    Seleccioná qué tipo de nota querés cargar:
+                </p>
+
                 <div class="space-y-4">
-                    <a href="/admin/materia/asignar" 
+                    <a href="/nota/alta/materia"
                        class="w-full block text-center bg-slate-800 text-white py-3 px-4 rounded-md hover:bg-slate-900 transition-colors duration-300 font-semibold shadow-sm">
-                        Asignar a Materia
+                        Nota de Materia
                     </a>
-        
-                    <a href="/admin/taller/asignar" 
-                     class="w-full block text-center bg-slate-800 text-white py-3 px-4 rounded-md hover:bg-slate-900 transition-colors duration-300 font-semibold shadow-sm">
-                           Asignar a Taller
+                    <a href="/nota/alta/taller"
+                       class="w-full block text-center bg-slate-800 text-white py-3 px-4 rounded-md hover:bg-slate-900 transition-colors duration-300 font-semibold shadow-sm">
+                        Nota de Taller
                     </a>
                 </div>
 
                 <div class="mt-8 text-center">
                     <a href="/dashboard" class="text-blue-600 hover:underline text-sm">← Volver al dashboard</a>
                 </div>
+
             </div>
-    
+
         </main>
     </div>
-    
+
     <script>
         const sidePanel = document.getElementById('sidePanel');
         const menuBtn = document.getElementById('menuBtn');
-    
+
         menuBtn.addEventListener('click', () => {
             if (sidePanel.style.display === 'none') {
                 sidePanel.style.display = 'flex';

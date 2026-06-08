@@ -15,6 +15,15 @@ import com.is1.proyecto.controller.ProfileController;
 import com.is1.proyecto.controller.SuperAdminController;
 import com.is1.proyecto.controller.TallerController;
 import com.is1.proyecto.controller.UserController;
+import com.is1.proyecto.controller.EditorController;
+import com.is1.proyecto.controller.EstudianteController;
+import com.is1.proyecto.controller.EstudiaController;
+import com.is1.proyecto.controller.PlanificadorController;
+import com.is1.proyecto.controller.EditorController;
+import com.is1.proyecto.controller.NotaController;
+import com.is1.proyecto.controller.EstudianteController;
+import com.is1.proyecto.controller.EstudiaController;
+
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -71,8 +80,27 @@ public class Routes {
         // GET: Muestra las opciones para asignar un profesor
         get("/asignar/profesor", (req, res) -> AdminController.opcionesAsignacion(req, res), engine);
 
+        // RUTAS PARA NOTAS
+        get("/estudiantes/nota", (req, res) -> NotaController.notasEstudiante(req, res), engine);
+        get("/nota/alta", (req, res) -> NotaController.formAlta(req, res), engine);
+        get("/nota/alta/materia", (req, res) -> NotaController.formAltaMateria(req, res), engine);
+        get("/nota/alta/taller", (req, res) -> NotaController.formAltaTaller(req, res), engine);
+        get("/nota/lista", (req, res) -> NotaController.lista(req, res), engine);
+        get("/nota/editar/:id", (req, res) -> NotaController.formEditar(req, res), engine);
+        
+        
+        post("/nota/alta/materia", (req, res) -> NotaController.altaMateria(req, res));
+        post("/nota/alta/taller", (req, res) -> NotaController.altaTaller(req, res));post("/nota/alta", (req, res) -> NotaController.alta(req, res));
+        post("/nota/editar/:id", (req, res) -> NotaController.editar(req, res));
+        post("/nota/eliminar/:id", (req, res) -> NotaController.eliminar(req, res));
+        //Rutas post para menejar la carga de notas
+
         // RUTAS PARA TALLER
         get("/taller/alta", (req,res) -> TallerController.formAlta(req, res), engine);
+
+        get("/planificador/tarea", (req, res) -> PlanificadorController.tarea(req, res), engine);
+
+        get("/planificador/calendario", (req, res) -> PlanificadorController.horasDia(req, res), engine);
 
         get("/taller/lista", (req,res) -> TallerController.listaPorDocente(req, res), engine);
         
@@ -118,6 +146,8 @@ public class Routes {
 
         get("/admin/taller/asignar", (req, res) -> AdminController.formAsignarDocenteTaller(req, res), engine);
 
+        get("/estudiante/notas", (req, res) -> NotaController.notasEstudiante(req, res), engine);
+
         // --- Rutas POST para manejar envíos de formularios y APIs ---
 
         // POST
@@ -148,6 +178,8 @@ public class Routes {
 
         // POST: Endpoint para añadir usuarios (API que devuelve JSON, no HTML).
         post("/add_users", (req, res) -> UserController.addUser(req, res));
+
+        post("planificador/save", (req, res) -> PlanificadorController.save(req, res));
 
         //POST: Recuperacion de contraseña
         post("/forgot-password", (req, res) -> PasswordRecoveryController.forgotPasswordPost(req, res));

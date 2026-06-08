@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS nota (
     id_Nota INTEGER,
     condicion TEXT NOT NULL CHECK (condicion IN ('Libre', 'Regular', 'Promocional')),
     nota_Final INTEGER NOT NULL,
-    fecha_Examen TEXT NOT NULL, --No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
+    fecha_Examen TEXT NOT NULL, -- No existe el tipo date, por lo cual se escribe asi: 'YYYY-MM-DD'
     dni_Estudiante INTEGER,
     id_Materia INTEGER,
     CONSTRAINT pk_nota PRIMARY KEY (id_Nota),
@@ -126,4 +126,17 @@ CREATE TABLE IF NOT EXISTS nota_taller (
     CONSTRAINT fk_Nota_Pertenece FOREIGN KEY (id_Nota) REFERENCES nota(id_Nota) ON DELETE CASCADE,
     CONSTRAINT fk_Taller_pertenece FOREIGN KEY (id_Taller) REFERENCES taller(id_Taller) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS planificador_tarea (
+    dni_Persona INTEGER NOT NULL,
+    id_Tarea INTEGER PRIMARY KEY,
+    dia INTEGER,
+    mes TEXT,
+    anio INTEGER,
+    hora_inicio INTEGER, 
+    hora_fin INTEGER,
+    tarea TEXT,
+    CONSTRAINT fk_debil_persona_pltarea FOREIGN KEY (dni_Persona) REFERENCES persona(dni) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 PRAGMA foreign_keys = ON;

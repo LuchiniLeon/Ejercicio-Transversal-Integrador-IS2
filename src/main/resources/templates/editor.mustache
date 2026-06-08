@@ -4,184 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor de Mi Perfil</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
-   <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <div class="mb-6 text-center">
-            <div class="inline-block bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-sm font-semibold mb-2">Usuario</div>
-            <h2 class="text-2xl text-gray-700 font-bold">{{name}}</h2>
+<body class="relative h-screen overflow-hidden flex flex-col bg-[radial-gradient(circle_at_center,_#1e293b_0%,_#090d16_100%)] before:absolute before:inset-0 before:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] before:[background-size:24px_24px] before:-z-10">
+
+
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-700 flex items-center px-5 gap-4 z-50 shadow-sm">
+        <button id="menuBtn" class="p-2 text-3xl text-blue-500">☰</button>
+        <div class="flex items-center gap-2">
+            <span class="text-blue-400 font-bold text-lg tracking-tight">Pentabyte</span>
         </div>
+        <div class="w-px h-5 bg-gray-200"></div>
+        <span class="text-slate-300 text-base">Editor de Perfil</span>
+    </header>
 
-        {{#modificarUsuario}}
-            <div class="mb-8 max-w-md mx-auto">
-                <form action="/editor?modo=oculto" method="GET" class="flex gap-2">
-                    <div class="relative flex-grow">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                        </div>
-                        
-                        <input type="text" 
-                            name="buscarUsuario" 
-                            value="{{busquedaActual}}" 
-                            placeholder="Buscar por nombre de usuario..." 
-                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                    </div>
-                    
-                    <button type="submit" 
-                            class="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors shadow-sm">
-                        Buscar
-                    </button>
-                    
-                    {{#busquedaActual}}
-                    <a href="/editor?modo=oculto" 
-                    class="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 flex items-center justify-center transition-colors" 
-                    title="Limpiar búsqueda">
-                        ✕
-                    </a>
-                    {{/busquedaActual}}
-                </form>
-            </div>
+<!-- LAYOUT -->
+<div class="flex mt-14 min-h-[calc(100vh-56px)]">
 
-            <div class="space-y-3 max-w-md mx-auto mb-6">
-                {{#listaUsuarios}}
-                    <div class="bg-gray-50 p-3 rounded-lg shadow-sm border-l-4 border-indigo-500 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-sm text-gray-700">@{{nombreUsuario}}</p>
-                            <p class="text-xs text-gray-500">{{nombre}} {{apellido}}</p>
-                        </div>
-                        <a href="/editor?modo=oculto&buscarUsuario={{nombreUsuario}}" class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded hover:bg-indigo-200 font-medium transition-colors">
-                            Seleccionar
-                        </a>
-                    </div>
-                {{/listaUsuarios}}
-            </div>
-        {{/modificarUsuario}}
+    <!-- SIDEBAR -->
+    <aside id="sidePanel"
+        class="bg-slate-800 border-r border-slate-700 flex flex-col py-4 shadow-sm transition-all duration-200"
+        style="width:210px; min-width:210px;">
 
-        <form action="{{#modificarUsuario}}/save-admin{{/modificarUsuario}}{{^modificarUsuario}}/save-usuario{{/modificarUsuario}}" method="POST">
+        <div class="px-5 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">General</div>
+        <a href="/dashboard" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Inicio
+        </a>
+        
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Usuarios</div>
+        <a href="/docente/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Nuevo Docente
+        </a>
+        <a href="/estudiante/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Nuevo Estudiante
+        </a>
+        <a href="/asignar/profesor" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Asignar Profesor
+        </a>
+        <a href="/editor" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Editar Usuario
+        </a>
 
-            <input type="hidden" name="buscarUsuario" value="{{name}}"> 
-            {{#modificarUsuario}}
-                <input type="hidden" name="modificarUsuario" value="true">
-            {{/modificarUsuario}}
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Académico</div>
+        <a href="/admin/materia/lista" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Materias
+        </a>
+        <a href="/admin/materia/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Nueva Materia
+        </a>
+        <a href="/admin/carrera/lista" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Carreras
+        </a>
 
-            {{#esDocente}}
-                <input type="hidden" name="esDocente" value="true">
-            {{/esDocente}}
+        <a href="/admin/carrera/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Nueva Carrera
+        </a>
 
-            {{#esAdministrador}}
-                <input type="hidden" name="esAdministrador" value="true">
-            {{/esAdministrador}}
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Taller</div>
+        <a href="/admin/taller/lista" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Talleres
+        </a>
+        <a href="/admin/taller/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Nuevo Taller
+        </a>
 
-            {{#esEstudiante}}
-                <input type="hidden" name="esEstudiante" value="true">
-            {{/esEstudiante}}
+        <div class="flex-1"></div>
 
-            <div class="mb-6 text-center">
-                <label for="nombre" class="block text-gray-700 text-sm font-medium mb-1">Nombre</label>
-                <input type="text" name="nombre" value="{{nombre}}" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                    placeholder="Ingresá tu nombre">
-            </div>
+        <div class="border-t border-slate-700 pt-3">
+            <a href="/logout" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+                Cerrar sesión
+            </a>
+        </div>
+    </aside>
 
-            <div class="mb-6 text-center">
-                <label for="apellido" class="block text-gray-700 text-sm font-medium mb-1">Apellido</label>
-                <input type="text" name="apellido" value="{{apellido}}" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                    placeholder="Ingresá tu apellido">
-            </div>
-
-            <div class="mb-6 text-center">
-                <label for="fecha" class="block text-gray-700 text-sm font-medium mb-1">Fecha de Nacimiento</label>
-                <input type="text" name="fecha" value="{{fecha}}" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                    placeholder="Ingresá tu fecha de nacimiento">
-            </div>
-
-            {{#modificarUsuario}}
-               <div class="mb-6 text-center">
-                    <label for="dni" class="block text-gray-700 text-sm font-medium mb-1">DNI (Inmutable)</label>
-                    <input type="text" 
-                        name="dni" 
-                        value="{{dni}}" 
-                        readonly 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center bg-gray-100 text-gray-500 font-medium cursor-not-allowed"
-                        placeholder="Ingresá tu dni">
+        <!-- MAIN -->
+        <main class="flex-1 flex items-start justify-center p-8">
+            <div class="w-full max-w-2xl bg-slate-50 rounded-xl shadow-lg border border-slate-200 p-8">
+                
+                <!-- Cambiado el fondo de esta sección de slate-50 a slate-100 para mejor contraste interno -->
+                <div class="mb-8 text-center bg-slate-100 p-4 rounded-lg border border-slate-200">
+                    <div class="inline-block bg-blue-100 text-blue-700 py-1 px-3 rounded-full text-xs font-bold uppercase tracking-wider mb-2">Usuario</div>
+                    <h2 class="text-2xl text-slate-800 font-bold">{{name}}</h2>
                 </div>
 
-                {{#esDocente}}
-                    <div class="mb-6 text-center">
-                        <label for="legajo" class="block text-gray-700 text-sm font-medium mb-1">Legajo</label>
-                        <input type="text" name="legajo" value="{{legajo}}" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                            placeholder="Ingresá tu legajo">
+                {{#modificarUsuario}}
+                    <div class="mb-8 max-w-md mx-auto">
+                        <form action="/editor?modo=oculto" method="GET" class="flex gap-2">
+                            <!-- Cambiado bg-white a bg-slate-50 -->
+                            <input type="text" name="buscarUsuario" value="{{busquedaActual}}" placeholder="Buscar usuario..." class="w-full pl-4 pr-4 py-2 border border-slate-300 rounded-lg text-sm bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                            <button type="submit" class="bg-slate-800 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-slate-900 transition">Buscar</button>
+                            {{#busquedaActual}}
+                                <a href="/editor?modo=oculto" class="bg-slate-200 px-3 py-2 rounded-lg text-sm font-semibold">✕</a>
+                            {{/busquedaActual}}
+                        </form>
                     </div>
 
-                    <div class="mb-6 text-center">
-                        <label for="cargo" class="block text-gray-700 text-sm font-medium mb-1">Cargo</label>
-                        <input type="text" name="cargoDoc" value="{{cargoDoc}}" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                            placeholder="Ingresá tu cargo">
+                    <div class="space-y-3 max-w-md mx-auto mb-6">
+                        {{#listaUsuarios}}
+                            <div class="bg-slate-100 p-3 rounded-lg border-l-4 border-slate-600 flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-sm text-slate-800">@{{nombreUsuario}}</p>
+                                    <p class="text-xs text-slate-600">{{nombre}} {{apellido}}</p>
+                                </div>
+                                <a href="/editor?modo=oculto&buscarUsuario={{nombreUsuario}}" class="text-xs bg-slate-800 text-white px-2 py-1 rounded hover:bg-slate-900 font-medium transition">Seleccionar</a>
+                            </div>
+                        {{/listaUsuarios}}
                     </div>
-                {{/esDocente}}
+                {{/modificarUsuario}}
 
-                {{#esAdministrador}}
-                    {{^esSuperAdministrador}}   
-                        <div class="mb-6 text-center">
-                            <label for="cargo" class="block text-gray-700 text-sm font-medium mb-1">Cargo</label>
-                            <input type="text" name="cargoAdm" value="{{cargoAdm}}" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                                placeholder="Ingresá tu cargo">
+                <form action="{{#modificarUsuario}}/save-admin{{/modificarUsuario}}{{^modificarUsuario}}/save-usuario{{/modificarUsuario}}" method="POST" class="space-y-6">
+                    <input type="hidden" name="buscarUsuario" value="{{name}}"> 
+                    {{#modificarUsuario}}<input type="hidden" name="modificarUsuario" value="true">{{/modificarUsuario}}
+                    {{#esDocente}}<input type="hidden" name="esDocente" value="true">{{/esDocente}}
+                    {{#esAdministrador}}<input type="hidden" name="esAdministrador" value="true">{{/esAdministrador}}
+                    {{#esEstudiante}}<input type="hidden" name="esEstudiante" value="true">{{/esEstudiante}}
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-slate-700 text-sm font-medium mb-1">Nombre</label>
+                            <!-- Cambiado bg-white a bg-slate-50 -->
+                            <input type="text" name="nombre" value="{{nombre}}" required class="w-full px-3 py-2 border border-slate-300 rounded-md bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none">
                         </div>
-
-                        <div class="mb-6 text-center">
-                            <label for="sector" class="block text-gray-700 text-sm font-medium mb-1">Sector</label>
-                            <input type="text" name="sector" value="{{sector}}" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                                placeholder="Ingresá tu sector">
+                        <div>
+                            <label class="block text-slate-700 text-sm font-medium mb-1">Apellido</label>
+                            <input type="text" name="apellido" value="{{apellido}}" required class="w-full px-3 py-2 border border-slate-300 rounded-md bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none">
                         </div>
-
-                    {{/esSuperAdministrador}}
-                {{/esAdministrador}}
-
-                {{#esEstudiante}}
-                    <div class="mb-6 text-center">
-                        <label for="ingreso" class="block text-gray-700 text-sm font-medium mb-1">Ingreso</label>
-                        <input type="text" name="ingreso" value="{{ingreso}}" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                            placeholder="Ingresá tu ingreso">
                     </div>
 
-                    <div class="mb-6 text-center">
-                        <label for="estado" class="block text-gray-700 text-sm font-medium mb-1">Estado</label>
-                        <input type="text" name="estado" value="{{estado}}" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-                            placeholder="Ingresá tu estado">
+                    <div>
+                        <label class="block text-slate-700 text-sm font-medium mb-1">Fecha de Nacimiento</label>
+                        <input type="text" name="fecha" value="{{fecha}}" required class="w-full px-3 py-2 border border-slate-300 rounded-md bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
 
-                {{/esEstudiante}}
-            {{/modificarUsuario}}
+                    {{#modificarUsuario}}
+                        <div class="bg-slate-100 p-4 rounded-lg">
+                            <label class="block text-slate-700 text-sm font-medium mb-1">DNI (Inmutable)</label>
+                            <input type="text" value="{{dni}}" readonly class="w-full px-3 py-2 border border-slate-300 rounded-md bg-slate-200 text-slate-500 cursor-not-allowed">
+                        </div>
+                        {{#esDocente}}<div class="grid grid-cols-2 gap-4"><input type="text" name="legajo" value="{{legajo}}" class="border border-slate-300 p-2 rounded bg-slate-50"><input type="text" name="cargoDoc" value="{{cargoDoc}}" class="border border-slate-300 p-2 rounded bg-slate-50"></div>{{/esDocente}}
+                    {{/modificarUsuario}}
 
-           <div class="flex gap-4 mt-6"> 
-                {{^modificarUsuario}}
-                    <a href="/mensaje-advertencia"
-                    class="w-1/3 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center text-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        Pedir Cambios
-                    </a>
-                {{/modificarUsuario}} 
-                <button type="submit" 
-                class="{{#modificarUsuario}}w-1/2{{/modificarUsuario}}{{^modificarUsuario}}w-1/3{{/modificarUsuario}} bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 text-center text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all">
-                    Guardar Cambios
-                </button>
+                    <div class="flex gap-4 pt-4 border-t border-slate-200"> 
+                        {{^modificarUsuario}}
+                            <a href="/mensaje-advertencia" class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center text-sm font-medium transition-colors">Pedir Cambios</a>
+                        {{/modificarUsuario}} 
+                        
+                        <button type="submit" class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center text-sm font-medium transition-colors">Guardar Cambios</button>
 
-                <a href="/dashboard" 
-                class="{{#modificarUsuario}}w-1/2{{/modificarUsuario}}{{^modificarUsuario}}w-1/3{{/modificarUsuario}} bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center text-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all">
-                    Cancelar
-                </a>
+                        <a href="/dashboard" class="flex-1 bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-700 text-center text-sm font-medium transition-colors">Cancelar</a>
+                    </div>
+                </form> 
             </div>
+        </main>
+    </div>
 
-        </form> </div>
+    <script>
+    const sidePanel = document.getElementById('sidePanel');
+    const menuBtn = document.getElementById('menuBtn');
+    menuBtn.addEventListener('click', () => {
+        sidePanel.style.display = (sidePanel.style.display === 'none') ? 'flex' : 'none';
+    });
+    </script>
 </body>
 </html>

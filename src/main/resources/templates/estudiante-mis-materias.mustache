@@ -5,65 +5,167 @@
     <title>Mis Materias</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Mis Materias</h1>
-        </div>
+<!-- FONDO -->
+<body class="relative h-screen overflow-hidden flex flex-col bg-[radial-gradient(circle_at_center,#1e293b_0%,#090d16_100%)] before:absolute before:inset-0 before:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] before:[background-size:24px_24px] before:-z-10">
 
-        {{#successMessage}}
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-            <span class="block sm:inline">{{successMessage}}</span>
-        </div>
-        {{/successMessage}}
-
-        {{#errorMessage}}
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-            <span class="block sm:inline">{{errorMessage}}</span>
-        </div>
-        {{/errorMessage}}
-
-        <table class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg overflow-hidden">
-            <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
-                <tr>
-                    <th class="px-4 py-3">Código</th>
-                    <th class="px-4 py-3">Nombre</th>
-                    <th class="px-4 py-3">Horas</th>
-                    <th class="px-4 py-3">Docente titular</th>
-                    <th class="px-4 py-3">Estado</th>
-                    <th class="px-4 py-3">Fecha inscripción</th>
-                    <th class="px-4 py-3">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#materias}}
-                <tr class="border-t border-gray-200 hover:bg-gray-50">
-                    <td class="px-4 py-3">{{codigo}}</td>
-                    <td class="px-4 py-3">{{nombre}}</td>
-                    <td class="px-4 py-3">{{horasTotales}}</td>
-                    <td class="px-4 py-3">{{docenteTitular}}</td>
-                    <td class="px-4 py-3">{{estado}}</td>
-                    <td class="px-4 py-3">{{fechaInscripcion}}</td>
-                    <td class="px-4 py-3">
-                        <form action="/inscripcion/materia/{{id}}/desinscribir" method="post">
-                            <button type="submit" onclick="return confirm('¿Estás seguro que querés desinscribirte?')"
-                                    class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 text-xs font-semibold">
-                                Desinscribirse
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                {{/materias}}
-            </tbody>
-        </table>
-
-        {{^materias}}
-        <p class="text-center text-gray-500 mt-8">No estás inscripto en ninguna materia todavía.</p>
-        {{/materias}}
-
-        <div class="mt-6">
-            <a href="/dashboard" class="text-blue-600 hover:underline text-sm">← Volver al dashboard</a>
-        </div>
+<!-- HEADER -->
+<header class="fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-700 flex items-center px-5 gap-4 z-50 shadow-sm">
+    <button id="menuBtn" class="p-2 text-3xl text-blue-500">☰</button>
+    <div class="flex items-center gap-2">
+        <span class="text-blue-400 font-bold text-lg tracking-tight">Pentabyte</span>
     </div>
+    <div class="w-px h-5 bg-gray-200"></div>
+    <span class="text-slate-300 text-base">Panel Estudiante</span>
+    <div class="ml-auto">
+        <a href="/profile"
+           class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-white hover:bg-blue-600 transition"
+           title="Mi perfil">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </a>
+    </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="flex mt-14 min-h-[calc(100vh-56px)]">
+
+    <!-- SIDEBAR -->
+    <aside id="sidePanel"
+        class="bg-slate-800 border-r border-slate-700 flex flex-col py-4 shadow-sm transition-all duration-200"
+        style="width:210px; min-width:210px;">
+
+        <div class="px-5 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">General</div>
+        <a href="/dashboard" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Inicio
+        </a>
+
+        <a href="/profile" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Mi Perfil
+        </a>
+
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Académico</div>
+        <a href="/inscripcion/carrera" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Inscripción Carrera
+        </a>
+
+        <a href="/inscripcion/materia" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Inscripción Materia
+        </a>
+        
+
+        <a href="/estudiante/mis-materias" class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 bg-slate-700/50 text-base font-semibold">
+            Mis Materias
+        </a>
+
+
+        <a href="/estado/carrera" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Estado Carrera
+        </a>
+
+        <a href="/estudiantes/nota" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Mis Notas
+        </a>
+
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Talleres</div>
+        <a href="/estudiante/talleres" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Inscripción Taller
+        </a>
+
+        <a href="/estudiante/mis-talleres" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Mis Talleres
+        </a>
+
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Organización</div>
+        <a href="/planificador/tarea" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Planificador de Tareas
+        </a>
+
+        <div class="flex-1"></div>
+
+        <div class="border-t border-slate-700 pt-3">
+            <a href="/logout" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+                Cerrar sesión
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 flex items-center justify-center p-8">
+
+        <div class="w-full max-w-7xl bg-slate-300 backdrop-blur-sm border border-slate-400 rounded-xl shadow-lg p-8">
+
+            <h1 class="text-3xl font-bold text-blue-600 mb-6 text-center">Mis Materias</h1>
+
+            {{#successMessage}}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                <span class="block sm:inline">{{successMessage}}</span>
+            </div>
+            {{/successMessage}}
+
+            {{#errorMessage}}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                <span class="block sm:inline">{{errorMessage}}</span>
+            </div>
+            {{/errorMessage}}
+
+            <table class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg overflow-hidden">
+                <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+                    <tr>
+                        <th class="px-4 py-3">Código</th>
+                        <th class="px-4 py-3">Nombre</th>
+                        <th class="px-4 py-3">Horas</th>
+                        <th class="px-4 py-3">Docente titular</th>
+                        <th class="px-4 py-3">Estado</th>
+                        <th class="px-4 py-3">Fecha inscripción</th>
+                        <th class="px-4 py-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#materias}}
+                    <tr class="border-t border-gray-200 hover:bg-gray-50">
+                        <td class="px-4 py-3">{{codigo}}</td>
+                        <td class="px-4 py-3">{{nombre}}</td>
+                        <td class="px-4 py-3">{{horasTotales}}</td>
+                        <td class="px-4 py-3">{{docenteTitular}}</td>
+                        <td class="px-4 py-3">{{estado}}</td>
+                        <td class="px-4 py-3">{{fechaInscripcion}}</td>
+                        <td class="px-4 py-3">
+                            <form action="/inscripcion/materia/{{id}}/desinscribir" method="post">
+                                <button type="submit" onclick="return confirm('¿Estás seguro que querés desinscribirte?')"
+                                        class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 text-xs font-semibold">
+                                    Desinscribirse
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{/materias}}
+                </tbody>
+            </table>
+
+            {{^materias}}
+            <p class="text-center text-gray-500 mt-8">No estás inscripto en ninguna materia todavía.</p>
+            {{/materias}}
+
+            <div class="flex gap-4 pt-2">
+                <a href="/dashboard"
+                    class="flex-1 bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-700 text-center font-semibold">
+                    Volver
+                </a>
+            </div>
+        </div>
+    </main>
+<script>
+const sidePanel = document.getElementById('sidePanel');
+const menuBtn = document.getElementById('menuBtn');
+
+menuBtn.addEventListener('click', () => {
+    if (sidePanel.style.display === 'none') {
+            sidePanel.style.display = 'flex';
+    } else {
+            sidePanel.style.display = 'none';
+    }
+});
+</script>
 </body>
 </html>

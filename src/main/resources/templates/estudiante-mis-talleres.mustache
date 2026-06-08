@@ -29,65 +29,68 @@
 </header>
 
 <!-- LAYOUT -->
-<div class="flex mt-14 h-[calc(100vh-56px)] overflow-hidden">
+<div class="flex mt-14 min-h-[calc(100vh-56px)]">
 
     <!-- SIDEBAR -->
     <aside id="sidePanel"
-           class="relative bg-slate-800 border-r border-slate-700 flex flex-col py-4 shadow-sm transition-all duration-200"
-           style="width:210px; min-width:210px;">
+        class="bg-slate-800 border-r border-slate-700 flex flex-col py-4 shadow-sm transition-all duration-200"
+        style="width:210px; min-width:210px;">
 
-        <div class="px-5 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">General</div>
-        <a href="/dashboard"
-           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span>Inicio</span>
+        <div class="px-5 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">General</div>
+        <a href="/dashboard" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Inicio
         </a>
 
-        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Academico</div>
-            <a href="/inscripcion/materia"
-                class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-                 <span>Inscribirse a materia</span>
-            </a>
+        <a href="/profile" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Mi Perfil
+        </a>
 
-            <a href="/inscripcion/carrera"
-                class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-                 <span>Inscribirse a carrera</span>
-            </a>
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Académico</div>
+        <a href="/inscripcion/carrera" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Inscripción Carrera
+        </a>
 
-            <a href="/estudiante/materias"
-                class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-                <span>Mis materias</span>
-            </a>
+        <a href="/inscripcion/materia" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Inscripción Materia
+        </a>
+        
 
-            <a href=""
-               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-                <span>Estado materia</span>
-            </a>
+        <a href="/estudiante/mis-materias" class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 bg-slate-700/50 text-base font-semibold">
+            Mis Materias
+        </a>
 
-            <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Talleres</div>
-            <a href="/estudiante/talleres"
-               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-                <span>Inscribirse a taller</span>
-            </a>
 
-            <a href="/estudiante/talleres"
-               class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 text-base font-semibold overflow-hidden whitespace-nowrap">
-                <span>Mis talleres</span>
-            </a>
+        <a href="/estado/carrera" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Estado Carrera
+        </a>
 
-            <a href=""
-                class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-                <span>Estado taller</span>
-            </a>
+        <a href="/estudiantes/nota" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Mis Notas
+        </a>
+
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Talleres</div>
+        <a href="/estudiante/talleres" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Inscripción Taller
+        </a>
+
+        <a href="/estudiante/mis-talleres" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Mis Talleres
+        </a>
+
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Organización</div>
+        <a href="/planificador/tarea" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+            Planificador de Tareas
+        </a>
 
         <div class="flex-1"></div>
 
-        <div class="border-t border-gray-600 pt-3">
-            <a href="/logout"
-               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-                <span>Cerrar sesión</span>
+        <div class="border-t border-slate-700 pt-3">
+            <a href="/logout" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors">
+                Cerrar sesión
             </a>
         </div>
     </aside>
+
 
     <!-- MAIN -->
     <main class="flex-1 p-8 overflow-y-auto">

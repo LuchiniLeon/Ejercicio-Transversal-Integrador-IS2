@@ -197,7 +197,7 @@ public class MateriaController {
 
             String msg = "Materia actualizada con éxito";
 
-            res.redirect("/materia/lista?message="
+            res.redirect("/admin/materia/lista?message="
                     + URLEncoder.encode(msg, StandardCharsets.UTF_8));
 
             return "";
@@ -243,7 +243,7 @@ public class MateriaController {
 
             String msg = "Materia eliminada con éxito";
 
-            res.redirect("/materia/lista?message="
+            res.redirect("/admin/materia/lista?message="
                     + URLEncoder.encode(msg, StandardCharsets.UTF_8));
 
             return "";

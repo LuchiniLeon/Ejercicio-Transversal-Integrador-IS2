@@ -5,71 +5,105 @@
     <title>Crear una cuenta</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Crear una cuenta</h1>
+<!-- FONDO -->
+<body class="relative h-screen overflow-hidden flex flex-col bg-[radial-gradient(circle_at_center,#1e293b_0%,#090d16_100%)] before:absolute before:inset-0 before:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] before:[background-size:24px_24px] before:-z-10">
 
-        {{#successMessage}}
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline">{{successMessage}}</span>
+    <!-- HEADER MINIMALISTA -->
+    <header class="fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-700 flex items-center px-5 gap-4 z-50 shadow-sm">
+        <div class="flex items-center gap-2">
+            <span class="text-blue-400 font-bold text-lg tracking-tight">Pentabyte</span>
         </div>
-        {{/successMessage}}
+        <div class="w-px h-5 bg-gray-200"></div>
+        <span class="text-slate-300 text-base">Registro de usuario</span>
+    </header>
 
-        {{#errorMessage}}
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline">{{errorMessage}}</span>
-        </div>
-        {{/errorMessage}}
+    <!-- LAYOUT SIN SIDEBAR -->
+    <div class="flex mt-14 h-[calc(100vh-56px)] overflow-hidden">
+        
+        <!-- MAIN -->
+        <main class="flex-1 overflow-y-auto flex items-center justify-center p-8">
+    
+            <div class="w-full max-w-md bg-slate-300 backdrop-blur-sm border border-slate-400 rounded-xl shadow-lg p-8">
+    
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-center text-blue-600">Crear una cuenta</h1>
+                </div>
+    
+                {{#successMessage}}
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">{{successMessage}}</span>
+                </div>
+                {{/successMessage}}
+    
+                {{#errorMessage}}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">{{errorMessage}}</span>
+                </div>
+                {{/errorMessage}}
+    
+                <form action="/user/new" method="post" class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-gray-700 text-sm font-medium mb-1">Nombre de Usuario:</label>
+                        <input type="text" id="name" name="name" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
+                    </div>
 
-        <form action="/user/new" method="post" class="space-y-4" >
-            <div>
-                <label for="name" class="block text-gray-700 text-sm font-medium mb-1">Nombre de Usuario:</label>
-                <input type="text" id="name" name="name" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div>
+                        <label for="password" class="block text-gray-700 text-sm font-medium mb-1">Contraseña:</label>
+                        <input type="password" id="password" name="password" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
+                    </div>
+
+                    <div>
+                        <label for="passwordConfirmada" class="block text-gray-700 text-sm font-medium mb-1">Confirmar contraseña:</label>
+                        <input type="password" id="passwordConfirmada" name="passwordConfirmada" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-gray-700 text-sm font-medium mb-1">Email:</label>
+                        <input type="email" id="email" name="email" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
+                    </div>
+
+                    <div>
+                        <label for="dni" class="block text-gray-700 text-sm font-medium mb-1">DNI (Sin puntos):</label>
+                        <input type="number" id="dni" name="dni" required min="1" max="99999999"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
+                    </div>
+
+                    <div>
+                        <label for="nombre" class="block text-gray-700 text-sm font-medium mb-1">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
+                    </div>
+
+                    <div>
+                        <label for="apellido" class="block text-gray-700 text-sm font-medium mb-1">Apellido:</label>
+                        <input type="text" id="apellido" name="apellido" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
+                    </div>
+
+                    <div>
+                        <label for="fechaNacimiento" class="block text-gray-700 text-sm font-medium mb-1">Fecha de nacimiento: (YYYY-MM-DD)</label>
+                        <input type="text" id="fechaNacimiento" name="fechaNacimiento" required placeholder="Ej: 1999-12-31"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit"
+                                class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 font-semibold text-sm transition-colors shadow-sm">
+                            Registrar Usuario
+                        </button>
+                    </div>
+                </form>
+
+                <div class="mt-6 text-center">
+                    <a href="/" class="text-blue-600 hover:underline text-sm">← Volver al inicio</a>
+                </div>
             </div>
-            <div>
-                <label for="password" class="block text-gray-700 text-sm font-medium mb-1">Contraseña:</label>
-                <input type="password" id="password" name="password" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div>
-                <label for="passwordConfirmada" class="block text-gray-700 text-sm font-medium mb-1">Confirmar contraseña:</label>
-                <input type="password" id="passwordConfirmada" name="passwordConfirmada" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-             <div>
-                <label for="email" class="block text-gray-700 text-sm font-medium mb-1">Email:</label>
-                <input type="email" id="email" name="email" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-             <div>
-                <label for="dni" class="block text-gray-700 text-sm font-medium mb-1">DNI (Sin puntos):</label>
-                <input type="number" id="dni" name="dni" required min="1" max="99999999"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-             <div>
-                <label for="nombre" class="block text-gray-700 text-sm font-medium mb-1">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-             <div>
-                <label for="apellido" class="block text-gray-700 text-sm font-medium mb-1">Apellido:</label>
-                <input type="text" id="apellido" name="apellido" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-             <div>
-                <label for="fechaNacimiento" class="block text-gray-700 text-sm font-medium mb-1">Fecha de nacimiento: (YYYY-MM-DD)</label>
-                <input type="text" id="fechaNacimiento" name="fechaNacimiento" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <button type="submit"
-                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                Registrar Usuario
-            </button>
-            <div class="text-center mt-4">
-                <a href="/" class="text-blue-600 hover:underline text-sm">Volver al inicio</a>
-            </div>
-        </form>
+    
+        </main>
     </div>
 </body>
 </html>
