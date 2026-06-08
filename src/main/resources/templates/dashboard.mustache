@@ -31,26 +31,6 @@
     </div>
 </header>
 
-<!-- HEADER -->
-<header class="fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-700 flex items-center px-5 gap-4 z-50 shadow-sm">
-    <button id="menuBtn" class="p-2 text-3xl text-blue-500">☰</button>
-    <div class="flex items-center gap-2">
-        <span class="text-blue-400 font-bold text-lg tracking-tight">Pentabyte</span>
-    </div>
-    <div class="w-px h-5 bg-gray-200"></div>
-    <span class="text-slate-300 text-base">Panel de Administrador</span>
-    <div class="ml-auto">
-        <a href="/profile"
-           class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-white hover:bg-blue-600 transition"
-           title="Mi perfil">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            </svg>
-        </a>
-    </div>
-</header>
-
-
 
 <!-- LAYOUT -->
 <div class="flex mt-14 min-h-[calc(100vh-56px)]">
@@ -194,9 +174,9 @@
     </aside>
 
 <!-- MAIN -->
-    <main class="flex-1 overflow-y-auto flex items-start justify-center p-8">
+    <main class="flex-1 overflow-y-hidden flex items-center justify-center p-8">
 
-       <div class="w-full max-w-7xl bg-slate-300 backdrop-blur-sm border border-slate-400 rounded-xl shadow-lg p-8">
+        <div class="w-full max-w-7xl max-h-full overflow-y-auto bg-slate-300/90 backdrop-blur-sm border border-slate-400 rounded-xl shadow-lg p-8">
         
         <div class="mb-8">
             {{#username}}
@@ -210,10 +190,9 @@
         {{#esSuperAdmin}}
                 <p class="font-bold text-xl text-center">Super Administrador</p>
         
-            <!-- Subtítulos más grandes y azules claros -->
             <h3 class="text-2xl font-bold text-blue-800 mb-5 text-left border-b border-slate-400/50 pb-2">Gestión de Administrador</h3>
             <div class="flex flex-wrap gap-x-8 gap-y-5 mb-10">
-                <!-- Botones con color slate-800 y hover slate-900 -->
+            
                 <a href="/superadmin/alta" class="w-full sm:w-auto flex-initial bg-slate-800 hover:bg-slate-900 text-white transition-colors duration-300 font-bold text-lg shadow-md py-3.5 px-8 rounded-lg text-center">
                     Cargar Administrador
                 </a>
