@@ -5,49 +5,128 @@
     <title>Cargar Nota</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="relative h-screen overflow-hidden flex flex-col bg-[radial-gradient(circle_at_center,#1e293b_0%,#090d16_100%)] before:absolute before:inset-0 before:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] before:[background-size:24px_24px] before:-z-10">
 
-<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-700 flex items-center px-5 gap-4 z-50 shadow-sm">
+        <button id="menuBtn" class="p-2 text-3xl text-blue-500">☰</button>
+        <div class="flex items-center gap-2">
+            <span class="text-blue-400 font-bold text-lg tracking-tight">Pentabyte</span>
+        </div>
+        <div class="w-px h-5 bg-gray-200"></div>
+        <span class="text-slate-300 text-base">Panel de Administración</span>
+        <div class="ml-auto">
+            <a href="/profile"
+               class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-white hover:bg-blue-600 transition"
+               title="Mi perfil">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+            </a>
+        </div>
+    </header>
 
-<div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <!-- LAYOUT -->
+    <div class="flex mt-14 h-[calc(100vh-56px)] overflow-hidden">
 
-    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">
-        Cargar Nota
-    </h1>
+        <!-- SIDEBAR -->
+        <aside id="sidePanel"
+               class="relative bg-slate-800 border-r border-slate-700 flex flex-col py-4 shadow-sm transition-all duration-200 overflow-y-auto h-[calc(100vh-56px)] [&>*]:shrink-0"
+               style="width:210px; min-width:210px;">
 
-    {{#message}}
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-        {{message}}
+            <div class="px-5 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">General</div>
+            <a href="/dashboard"
+               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Inicio</span>
+            </a>
+            <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Gestión</div>
+            <a href="/taller/alta" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Cargar talleres</span>
+            </a>
+            <a href="/nota/alta"
+               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Cargar notas</span>
+            </a>
+            <a href="/taller/lista"
+               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Mis talleres</span>
+            </a>
+            <a href="/materia/lista"
+               class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Mis materias</span>
+            </a>
+            <a href="" class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 text-base font-semibold overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Asignar nota</span>
+            </a>
+
+            <div class="flex-1"></div>
+
+            <div class="border-t border-gray-600 pt-3">
+                <a href="/logout"
+                   class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                    <span class="sidebar-label">Cerrar sesión</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="flex-1 overflow-y-auto flex items-center justify-center p-8">
+
+            <div class="w-full max-w-md bg-slate-300 backdrop-blur-sm border border-slate-400 rounded-xl shadow-lg p-8">
+
+                <div class="mb-4">
+                    <h1 class="text-3xl font-bold text-center text-blue-600">Cargar Nota</h1>
+                </div>
+
+                {{#message}}
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    {{message}}
+                </div>
+                {{/message}}
+
+                {{#errorMessage}}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    {{errorMessage}}
+                </div>
+                {{/errorMessage}}
+
+                <p class="text-center text-gray-700 text-sm font-medium mb-8">
+                    Seleccioná qué tipo de nota querés cargar:
+                </p>
+
+                <div class="space-y-4">
+                    <a href="/nota/alta/materia"
+                       class="w-full block text-center bg-slate-800 text-white py-3 px-4 rounded-md hover:bg-slate-900 transition-colors duration-300 font-semibold shadow-sm">
+                        Nota de Materia
+                    </a>
+                    <a href="/nota/alta/taller"
+                       class="w-full block text-center bg-slate-800 text-white py-3 px-4 rounded-md hover:bg-slate-900 transition-colors duration-300 font-semibold shadow-sm">
+                        Nota de Taller
+                    </a>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <a href="/dashboard" class="text-blue-600 hover:underline text-sm">← Volver al dashboard</a>
+                </div>
+
+            </div>
+
+        </main>
     </div>
-    {{/message}}
 
-    {{#errorMessage}}
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        {{errorMessage}}
-    </div>
-    {{/errorMessage}}
+    <script>
+        const sidePanel = document.getElementById('sidePanel');
+        const menuBtn = document.getElementById('menuBtn');
 
-    <p class="text-center text-gray-600 mb-6">
-        Seleccioná qué tipo de nota querés cargar:
-    </p>
-
-    <div class="space-y-4">
-        <a href="/nota/alta/materia"
-           class="block w-full text-center bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 font-semibold">
-            Nota de Materia
-        </a>
-
-        <a href="/nota/alta/taller"
-           class="block w-full text-center bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 font-semibold">
-            Nota de Taller
-        </a>
-
-        <a href="/dashboard"
-           class="block w-full text-center bg-red-600 text-white py-3 px-4 rounded-md hover:bg-red-700 font-semibold">
-            Volver
-        </a>
-    </div>
-
-</div>
-
+        menuBtn.addEventListener('click', () => {
+            if (sidePanel.style.display === 'none') {
+                sidePanel.style.display = 'flex';
+            } else {
+                sidePanel.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
