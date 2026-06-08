@@ -5,6 +5,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.is1.proyecto.models.Docente;
+import com.is1.proyecto.models.Nota;
+import com.is1.proyecto.models.User;
+import com.is1.proyecto.service.TallerService;
+import com.is1.proyecto.service.MateriaService;
 import com.is1.proyecto.service.NotaService;
 
 import spark.ModelAndView;
@@ -26,7 +31,134 @@ public class NotaController {
             model.put("errorMessage", errorMessage);
         }
 
-        return new ModelAndView(model, "nota-alta.mustache");
+        return new ModelAndView(model, "nota-seleccionar-tipo.mustache");
+    }
+     
+    public static ModelAndView formAltaMateria(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+
+        String message = req.queryParams("message");
+        if (message != null && !message.isEmpty()) {
+            model.put("message", message);
+        }
+
+        String errorMessage = req.queryParams("error");
+        if (errorMessage != null && !errorMessage.isEmpty()) {
+            model.put("errorMessage", errorMessage);
+        }
+
+        model.put("materias", MateriaService.listarMaterias());
+
+        return new ModelAndView(model, "nota-alta-materia.mustache");
+    }
+
+    public static ModelAndView formAltaTaller(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+
+        String message = req.queryParams("message");
+        if (message != null && !message.isEmpty()) {
+            model.put("message", message);
+        }
+
+        String errorMessage = req.queryParams("error");
+        if (errorMessage != null && !errorMessage.isEmpty()) {
+            model.put("errorMessage", errorMessage);
+        }
+
+        String currentUsername = req.session().attribute("currentUserUsername");
+        User user = User.findFirst("nombreUsuario = ?", currentUsername);
+        Docente docente = Docente.findFirst("dni_Persona = ?", user.getDNI());
+
+        if (docente == null) {
+            res.redirect("/dashboard");
+            return null;
+        }
+
+        model.put("talleres", TallerService.listarTalleresPorDocente(docente.getDni()));
+
+        return new ModelAndView(model, "nota-alta-taller.mustache");
+    }
+
+    public static Object altaTaller(Request req, Response res) {
+        try {
+            Integer dniEstudiante = Integer.parseInt(req.queryParams("dniEstudiante"));
+            Integer idTaller = Integer.parseInt(req.queryParams("idTaller"));
+            String condicion = req.queryParams("condicion");
+            Integer notaFinal = Integer.parseInt(req.queryParams("notaFinal"));
+            String fechaExamen = req.queryParams("fechaExamen");
+
+            NotaService.crearNotaTaller(condicion, notaFinal, fechaExamen, dniEstudiante, idTaller);
+
+            res.redirect("/nota/lista?message=" +
+                  URLEncoder.encode("Nota de taller creada correctamente", StandardCharsets.UTF_8));
+            return "";
+
+        } catch (Exception e) {
+            res.redirect("/nota/alta/taller?error=" +
+                   URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            return "";
+        }
+    }
+    
+
+    public static Object altaMateria(Request req, Response res) {
+        try {
+            Integer dniEstudiante = Integer.parseInt(req.queryParams("dniEstudiante"));
+            Integer idMateria = Integer.parseInt(req.queryParams("idMateria"));
+            String condicion = req.queryParams("condicion");
+            Integer notaFinal = Integer.parseInt(req.queryParams("notaFinal"));
+            String fechaExamen = req.queryParams("fechaExamen");
+
+            NotaService.crearNotaMateria(condicion, notaFinal, fechaExamen, dniEstudiante, idMateria);
+
+            res.redirect("/nota/lista?message=" +
+                        URLEncoder.encode("Nota de materia creada correctamente", StandardCharsets.UTF_8));
+            return "";
+
+        } catch (Exception e) {
+            res.redirect("/nota/alta/materia?error=" +
+                URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
+            return "";
+        }
+    }
+
+    public static void crearNotaMateria(String condicion, Integer notaFinal, String fechaExamen,
+                                        Integer dniEstudiante, Integer idMateria) {
+
+        if (condicion == null || condicion.trim().isEmpty()) {
+            throw new IllegalArgumentException("La condición no puede estar vacía");
+        }
+
+        if (!condicion.equals("Libre") && !condicion.equals("Regular") && !condicion.equals("Promocional")) {
+            throw new IllegalArgumentException("La condición debe ser Libre, Regular o Promocional");
+        }
+
+        if (notaFinal == null || notaFinal < 1 || notaFinal > 10) {
+           throw new IllegalArgumentException("La nota final debe estar entre 1 y 10");
+        }
+
+        if (fechaExamen == null || fechaExamen.trim().isEmpty()) {
+            throw new IllegalArgumentException("La fecha de examen no puede estar vacía");
+        }
+
+        if (dniEstudiante == null) {
+            throw new IllegalArgumentException("Debe ingresar un estudiante");
+        }
+
+        if (idMateria == null) {
+            throw new IllegalArgumentException("Debe seleccionar una materia");
+        }
+
+        Nota nota = new Nota();
+        nota.setCondicion(condicion.trim());
+        nota.setNotaFinal(notaFinal);
+        nota.setFechaExamen(fechaExamen.trim());
+        nota.setDniEstudiante(dniEstudiante);
+        nota.setIdMateria(idMateria);
+
+        if (!nota.save()) {
+           throw new IllegalArgumentException("No se pudo guardar la nota de materia");
+        }
     }
 
     public static Object alta(Request req, Response res) {

@@ -77,11 +77,15 @@ public class Routes {
 
         // RUTAS PARA NOTAS
         get("/user/nota", (req, res) -> NotaController.formAlta(req, res), engine);
-        get("/nota/alta", (req, res) -> NotaController.formAlta(req, res), engine);   
+        get("/nota/alta", (req, res) -> NotaController.formAlta(req, res), engine);
+        get("/nota/alta/materia", (req, res) -> NotaController.formAltaMateria(req, res), engine);
+        get("/nota/alta/taller", (req, res) -> NotaController.formAltaTaller(req, res), engine);
         get("/nota/lista", (req, res) -> NotaController.lista(req, res), engine);
         get("/nota/editar/:id", (req, res) -> NotaController.formEditar(req, res), engine);
-
-        post("/nota/alta", (req, res) -> NotaController.alta(req, res));
+        
+        
+        post("/nota/alta/materia", (req, res) -> NotaController.altaMateria(req, res));
+        post("/nota/alta/taller", (req, res) -> NotaController.altaTaller(req, res));post("/nota/alta", (req, res) -> NotaController.alta(req, res));
         post("/nota/editar/:id", (req, res) -> NotaController.editar(req, res));
         post("/nota/eliminar/:id", (req, res) -> NotaController.eliminar(req, res));
         //Rutas post para menejar la carga de notas

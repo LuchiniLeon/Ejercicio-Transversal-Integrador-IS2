@@ -1,7 +1,8 @@
 package com.is1.proyecto.service;
 
 
-
+import com.is1.proyecto.models.NotaTaller;
+import org.javalite.activejdbc.Base;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,6 +83,65 @@ public class NotaService {
         }
     }
 
+    public static void crearNotaTaller(String condicion, Integer notaFinal, String fechaExamen,
+                                     Integer dniEstudiante, Integer idTaller) {
+
+        if (condicion == null || condicion.trim().isEmpty()) {
+            throw new IllegalArgumentException("La condición no puede estar vacía");
+        }
+
+        if (!condicion.equals("Libre") && !condicion.equals("Regular") && !condicion.equals("Promocional")) {
+            throw new IllegalArgumentException("La condición debe ser Libre, Regular o Promocional");
+        }
+
+        if (notaFinal == null || notaFinal < 1 || notaFinal > 10) {
+            throw new IllegalArgumentException("La nota final debe estar entre 1 y 10");
+        }
+
+        if (fechaExamen == null || fechaExamen.trim().isEmpty()) {
+            throw new IllegalArgumentException("La fecha de examen no puede estar vacía");
+        }
+
+        if (dniEstudiante == null) {
+            throw new IllegalArgumentException("Debe ingresar un estudiante");
+        }
+
+        if (idTaller == null) {
+            throw new IllegalArgumentException("Debe ingresar un taller");
+        }
+
+        Base.openTransaction();
+
+        try {
+            Nota nota = new Nota();
+            nota.setCondicion(condicion.trim());
+            nota.setNotaFinal(notaFinal);
+            nota.setFechaExamen(fechaExamen.trim());
+            nota.setDniEstudiante(dniEstudiante);
+            nota.setIdMateria(null);
+
+            if (!nota.save()) {
+                throw new IllegalArgumentException("No se pudo guardar la nota");
+            }
+
+            NotaTaller notaTaller = new NotaTaller();
+            notaTaller.setIdNota(nota.getIdNota());
+            notaTaller.setDniEstudiante(dniEstudiante);
+            notaTaller.setIdTaller(idTaller);
+
+            if (!notaTaller.save()) {
+                throw new IllegalArgumentException("No se pudo guardar la relación nota-taller");
+            }
+
+            Base.commitTransaction();
+
+        } catch (Exception e) {
+            Base.rollbackTransaction();
+            throw e;
+        }
+    }
+ 
+
     public static List<Map<String, Object>> listarNotas() {
         List<Nota> notas = Nota.findAll();
         List<Map<String, Object>> lista = new ArrayList<>();
@@ -94,7 +154,7 @@ public class NotaService {
             n.put("fechaExamen", nota.getFechaExamen());
             n.put("dniEstudiante", nota.getDniEstudiante());
             n.put("idMateria", nota.getIdMateria());
-            n.put("idTaller", nota.getIdTaller());
+            
 
             lista.add(n);
         }
@@ -167,5 +227,45 @@ public static void eliminarNota(Integer idNota) {
         throw new IllegalArgumentException("No se pudo eliminar la nota");
     }
 }
+
+public static void crearNotaMateria(String condicion, Integer notaFinal, String fechaExamen,
+                                    Integer dniEstudiante, Integer idMateria) {
+
+    if (condicion == null || condicion.trim().isEmpty()) {
+        throw new IllegalArgumentException("La condición no puede estar vacía");
+    }
+
+    if (!condicion.equals("Libre") && !condicion.equals("Regular") && !condicion.equals("Promocional")) {
+        throw new IllegalArgumentException("La condición debe ser Libre, Regular o Promocional");
+    }
+
+    if (notaFinal == null || notaFinal < 1 || notaFinal > 10) {
+        throw new IllegalArgumentException("La nota final debe estar entre 1 y 10");
+    }
+
+    if (fechaExamen == null || fechaExamen.trim().isEmpty()) {
+        throw new IllegalArgumentException("La fecha de examen no puede estar vacía");
+    }
+
+    if (dniEstudiante == null) {
+        throw new IllegalArgumentException("Debe ingresar un estudiante");
+    }
+
+    if (idMateria == null) {
+        throw new IllegalArgumentException("Debe seleccionar una materia");
+    }
+
+    Nota nota = new Nota();
+    nota.setCondicion(condicion.trim());
+    nota.setNotaFinal(notaFinal);
+    nota.setFechaExamen(fechaExamen.trim());
+    nota.setDniEstudiante(dniEstudiante);
+    nota.setIdMateria(idMateria);
+
+    if (!nota.save()) {
+        throw new IllegalArgumentException("No se pudo guardar la nota de materia");
+    }
+}
+
 }
 
