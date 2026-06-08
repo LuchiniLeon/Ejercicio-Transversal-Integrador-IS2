@@ -2,136 +2,150 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-[url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-screen p-4">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Mi Perfil</h1>
+<body class="relative h-screen overflow-hidden flex flex-col bg-[radial-gradient(circle_at_center,_#1e293b_0%,_#090d16_100%)] before:absolute before:inset-0 before:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] before:[background-size:24px_24px] before:-z-10">
 
-        <div class="mb-6 text-center">
-            <div class="inline-block bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-sm font-semibold mb-2">Usuario</div>
-            <h2 class="text-2xl text-gray-700 font-bold">{{name}}</h2>
-        </div>
-
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p class="text-sm text-gray-500">Nombre Completo</p>
-                    <p class="font-medium text-gray-800">{{nombre}} {{apellido}}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500">DNI</p>
-                    <p class="font-medium text-gray-800">{{dni}}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500">Fecha de Nacimiento</p>
-                    <p class="font-medium text-gray-800">{{fecha}}</p>
-                </div>
-         </div>
-
-        {{#esDocente}}
-        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p class="text-sm text-gray-500">Legajo</p>
-                    <p class="font-medium text-gray-800">{{legajo}}</p>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">Cargo</p>
-                    <p class="font-medium text-blue-600">{{cargoDoc}}</p>
-                </div>
+    <header class="fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-700 flex items-center px-5 gap-4 z-50 shadow-sm">
+            <button id="menuBtn" class="p-2 text-3xl text-blue-500">☰</button>
+            <div class="flex items-center gap-2">
+                <span class="text-blue-400 font-bold text-lg tracking-tight">Pentabyte</span>
             </div>
-        </div>
-        {{/esDocente}}
-
-        {{#esAdministrador}}
-        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
+            <div class="w-px h-5 bg-gray-200"></div>
+            <span class="text-slate-300 text-base">Mi Perfil</span>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p class="text-sm text-gray-500">Cargo</p>
-                    <p class="font-medium text-gray-800">{{cargoAdm}}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500">Sector</p>
-                    <p class="font-medium text-blue-600">{{sector}}</p>
-                </div>
+            <div class="ml-auto flex items-center gap-4">
+                <a href="/settings" class="text-gray-400 hover:text-green-500 transition"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.767a1.123 1.123 0 0 0-.417 1.03c.004.074.006.148.006.222 0 .074-.002.148-.006.222a1.123 1.123 0 0 0 .417 1.03l1.003.767a1.125 1.125 0 0 1 .26 1.43l-1.296 2.247a1.125 1.125 0 0 1-1.37.49l-1.216-.456a1.125 1.125 0 0 0-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281a1.125 1.125 0 0 0-.646-.87a6.555 6.555 0 0 1-.22-.127a1.125 1.125 0 0 0-1.074-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.49l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128c.332-.183.582-.495.646-.869L9.593 3.94Z" /></svg></a>
+                <a href="/profile" class="text-gray-400 hover:text-blue-500 transition"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg></a>
+                <a href="/logout" class="text-gray-400 hover:text-red-500 transition"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" /></svg></a>
             </div>
-        </div>
-        {{/esAdministrador}}
+    </header>
 
-        {{#esEstudiante}}
-        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información Académica</h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p class="text-sm text-gray-500">Fecha Ingreso</p>
-                    <p class="font-medium text-gray-800">{{ingreso}}</p>
-                </div>
+    <div class="flex mt-14 min-h-[calc(100vh-56px)]">
 
-                <div>
-                    <p class="text-sm text-gray-500">Estado Académico</p>
-                    <p class="font-medium text-blue-600">{{estado}}</p>
-                </div>
-            </div>
-        </div>
-        {{/esEstudiante}}
-
-        {{^esDocente}}
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-            <div class="flex">
-                <div class="ml-3">
-                    <p class="text-sm text-yellow-700">
-                        Este usuario no tiene un perfil de docente asociado.
-                    </p>
-                </div>
-            </div>
-        </div>
-        {{/esDocente}}
-
-        {{^esAdministrador}}
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-            <div class="flex">
-                <div class="ml-3">
-                    <p class="text-sm text-yellow-700">
-                        Este usuario no tiene un perfil de administrador asociado.
-                    </p>
-                </div>
-            </div>
-        </div>
-        {{/esAdministrador}}
-
-        {{^esEstudiante}}
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-            <div class="flex">
-                <div class="ml-3">
-                    <p class="text-sm text-yellow-700">
-                        Este usuario no tiene un perfil de estudiante asociado.
-                    </p>
-                </div>
-            </div>
-        </div>
-        {{/esEstudiante}}
-
-        <div class="flex gap-4 mt-6">
-            <a href="/dashboard" 
-            class="w-1/2 inline-block bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 text-center focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
-                Volver al Panel
+        <aside id="sidePanel" class="relative bg-slate-800 border-r border-slate-700 flex flex-col py-4 shadow-sm" style="width:210px; min-width:210px;">
+            <div class="px-5 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">General</div>
+            <a href="/dashboard" class="flex items-center gap-2.5 px-4 py-1.5 text-slate-300 hover:bg-slate-700 hover:text-white text-base border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Inicio</span>
             </a>
-            
-            <a href="/editor" 
-            class="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                Editar Datos
-            </a>
-        </div>
 
+            <a href="/profile" class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 text-base font-semibold overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Mi Perfil</span>
+            </a>
+
+            <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Gestion de Estudiante</div>
+
+            <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Académico</div>
+            <a href="/estudiante/mis-materias" class="flex items-center gap-2.5 px-4 py-1.5 text-slate-300 hover:bg-slate-700 hover:text-white text-base border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Mis Materias</span>
+            </a>
+            <a href="/estado/materia" class="flex items-center gap-2.5 px-4 py-1.5 text-slate-300 hover:bg-slate-700 hover:text-white text-base border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Estado Materia</span>
+            </a>
+            <a href="/inscripcion/carrera" class="flex items-center gap-2.5 px-4 py-1.5 text-slate-300 hover:bg-slate-700 hover:text-white text-base border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Inscribirse Carrera</span>
+            </a>
+            <a href="/estado/carrera" class="flex items-center gap-2.5 px-4 py-1.5 text-slate-300 hover:bg-slate-700 hover:text-white text-base border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Estado Carrera</span>
+            </a>
+
+            <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Talleres</div>
+            <a href="/estudiante/talleres" class="flex items-center gap-2.5 px-4 py-1.5 text-slate-300 hover:bg-slate-700 hover:text-white text-base border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Inscribirse Taller</span>
+            </a>
+            <a href="/estudiante/mis-talleres" class="flex items-center gap-2.5 px-4 py-1.5 text-slate-300 hover:bg-slate-700 hover:text-white text-base border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Mis Talleres</span>
+            </a>
+            <a href="/estado/taller" class="flex items-center gap-2.5 px-4 py-1.5 text-slate-300 hover:bg-slate-700 hover:text-white text-base border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Estado Taller</span>
+            </a>
+
+            
+            <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest">Panel</div>
+
+            <a href="/planificador/tarea" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+                <span class="sidebar-label">Planificador Tarea</span>
+            </a>
+
+            <div class="flex-1"></div>
+            <div class="border-t border-slate-700 pt-3">
+                <a href="/logout" class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-slate-700 text-base font-medium border-l-2 border-transparent transition-colors">Cerrar Sesion</a>
+            </div>
+        </aside>
+
+        <main class="flex-1 flex items-start justify-center p-8">
+            <div class="w-full max-w-2xl bg-slate-50 rounded-xl shadow-lg border border-slate-200 p-8">
+                
+                <h1 class="text-3xl font-bold text-center text-slate-800 mb-8">Mi Perfil</h1>
+
+                <div class="mb-8 text-center bg-slate-100 p-4 rounded-lg border border-slate-200">
+                    <div class="inline-block bg-blue-100 text-blue-700 py-1 px-3 rounded-full text-xs font-bold uppercase tracking-wider mb-2">Usuario</div>
+                    <h2 class="text-2xl text-slate-800 font-bold">{{name}}</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase font-semibold">Nombre Completo</p>
+                        <p class="font-medium text-slate-800">{{nombre}} {{apellido}}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase font-semibold">DNI</p>
+                        <p class="font-medium text-slate-800">{{dni}}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase font-semibold">Fecha de Nacimiento</p>
+                        <p class="font-medium text-slate-800">{{fecha}}</p>
+                    </div>
+                </div>
+
+                {{#esDocente}}
+                <div class="bg-slate-800 rounded-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-white mb-4 border-b border-slate-600 pb-2">Información Académica</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><p class="text-xs text-slate-400">Legajo</p><p class="font-medium text-white">{{legajo}}</p></div>
+                        <div><p class="text-xs text-slate-400">Cargo</p><p class="font-medium text-blue-300">{{cargoDoc}}</p></div>
+                    </div>
+                </div>
+                {{/esDocente}}
+
+                {{#esAdministrador}}
+                <div class="bg-slate-800 rounded-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-white mb-4 border-b border-slate-600 pb-2">Información Académica</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><p class="text-xs text-slate-400">Cargo</p><p class="font-medium text-white">{{cargoAdm}}</p></div>
+                        <div><p class="text-xs text-slate-400">Sector</p><p class="font-medium text-blue-300">{{sector}}</p></div>
+                    </div>
+                </div>
+                {{/esAdministrador}}
+
+                {{#esEstudiante}}
+                <div class="bg-slate-800 rounded-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-white mb-4 border-b border-slate-600 pb-2">Información Académica</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><p class="text-xs text-slate-400">Fecha Ingreso</p><p class="font-medium text-white">{{ingreso}}</p></div>
+                        <div><p class="text-xs text-slate-400">Estado Académico</p><p class="font-medium text-blue-300">{{estado}}</p></div>
+                    </div>
+                </div>
+                {{/esEstudiante}}
+
+                {{^esDocente}}{{^esAdministrador}}{{^esEstudiante}}
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6 rounded">
+                    <p class="text-sm text-yellow-700">No se ha encontrado información académica asociada a tu cuenta.</p>
+                </div>
+                {{/esEstudiante}}{{/esAdministrador}}{{/esDocente}}
+
+                <a href="/editor" class="mt-6 block bg-blue-600 text-white py-2 px-6 rounded text-center hover:bg-blue-700">Editar Datos</a>
+                
+            </div>
+        </main>
     </div>
+
+    <script>
+    const sidePanel = document.getElementById('sidePanel');
+    const menuBtn = document.getElementById('menuBtn');
+    menuBtn.addEventListener('click', () => {
+        sidePanel.style.display = (sidePanel.style.display === 'none') ? 'flex' : 'none';
+    });
+    </script>
 </body>
 </html>

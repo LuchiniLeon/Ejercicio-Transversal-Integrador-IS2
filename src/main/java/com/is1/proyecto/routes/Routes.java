@@ -16,6 +16,10 @@ import com.is1.proyecto.controller.SuperAdminController;
 import com.is1.proyecto.controller.TallerController;
 import com.is1.proyecto.controller.UserController;
 import com.is1.proyecto.controller.EditorController;
+import com.is1.proyecto.controller.EstudianteController;
+import com.is1.proyecto.controller.EstudiaController;
+import com.is1.proyecto.controller.PlanificadorController;
+import com.is1.proyecto.controller.EditorController;
 import com.is1.proyecto.controller.NotaController;
 import com.is1.proyecto.controller.EstudianteController;
 import com.is1.proyecto.controller.EstudiaController;
@@ -94,6 +98,10 @@ public class Routes {
         // RUTAS PARA TALLER
         get("/taller/alta", (req,res) -> TallerController.formAlta(req, res), engine);
 
+        get("/planificador/tarea", (req, res) -> PlanificadorController.tarea(req, res), engine);
+
+        get("/planificador/calendario", (req, res) -> PlanificadorController.horasDia(req, res), engine);
+
         get("/taller/lista", (req,res) -> TallerController.listaPorDocente(req, res), engine);
         
         get("/taller/editar/:id", (req, res) -> TallerController.formEditar(req, res), engine);
@@ -170,6 +178,8 @@ public class Routes {
 
         // POST: Endpoint para añadir usuarios (API que devuelve JSON, no HTML).
         post("/add_users", (req, res) -> UserController.addUser(req, res));
+
+        post("planificador/save", (req, res) -> PlanificadorController.save(req, res));
 
         //POST: Recuperacion de contraseña
         post("/forgot-password", (req, res) -> PasswordRecoveryController.forgotPasswordPost(req, res));
