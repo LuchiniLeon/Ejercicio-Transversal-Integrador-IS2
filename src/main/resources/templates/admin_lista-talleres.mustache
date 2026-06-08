@@ -5,7 +5,7 @@
     <title>Talleres</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-slate-100 to-blue-100 h-screen overflow-hidden flex flex-col">
+<body class="relative h-screen overflow-hidden flex flex-col bg-[radial-gradient(circle_at_center,#1e293b_0%,#090d16_100%)] before:absolute before:inset-0 before:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] before:[background-size:24px_24px] before:-z-10">
 
 <!-- HEADER -->
 <header class="fixed top-0 left-0 right-0 h-14 bg-slate-900 border-b border-slate-700 flex items-center px-5 gap-4 z-50 shadow-sm">
@@ -42,52 +42,54 @@
             <span class="sidebar-label">Inicio</span>
         </a>
 
-        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Gestión</div>
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Usuario</div>
 
-        <a href="/editor"
-           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Editar usuario</span>
-        </a>
         <a href="/docente/alta"
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Cargar nuevo docente</span>
+            <span class="sidebar-label">Nuevo docente</span>
         </a>
         <a href="/estudiante/alta"
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Cargar nuevo estudiante</span>
+            <span class="sidebar-label">Nuevo estudiante</span>
         </a>
-
         <a href="/asignar/profesor"
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
             <span class="sidebar-label">Asignar profesor</span>
         </a>
 
-        <a href="/admin/materia/alta"
+        <a href="/editor"
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Cargar materias</span>
+            <span class="sidebar-label">Editar usuario</span>
         </a>
+
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Academico</div>
 
         <a href="/admin/materia/lista"
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Ver materias</span>
+            <span class="sidebar-label">Materias</span>
         </a>
 
-        <a href="/admin/carrera/alta"
+        <a href="/admin/materia/alta"
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Cargar carrera</span>
+            <span class="sidebar-label">Nueva materias</span>
         </a>
-
+        
         <a href="/admin/carrera/lista"
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Ver carreras</span>
+            <span class="sidebar-label">Carreras</span>
         </a>
+        <a href="/admin/carrera/alta"
+           class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
+            <span class="sidebar-label">Nueva carrera</span>
+        </a>
+        <div class="px-5 mt-4 mb-1 text-[12px] font-semibold text-gray-400 uppercase tracking-widest overflow-hidden whitespace-nowrap">Usuario</div>
         <a href="/admin/taller/lista" class="flex items-center gap-2.5 px-4 py-2 text-blue-400 border-l-2 border-blue-500 text-base font-semibold overflow-hidden whitespace-nowrap">
             <span class="sidebar-label">Talleres</span>
         </a>
 
         <a href="/admin/taller/alta"
            class="flex items-center gap-2.5 px-4 py-2 text-slate-300 hover:bg-gray-50 hover:text-gray-900 text-base font-medium border-l-2 border-transparent transition-colors overflow-hidden whitespace-nowrap">
-            <span class="sidebar-label">Cargar taller</span>
+            <span class="sidebar-label">Nuevos taller</span>
         </a>
 
         <div class="flex-1"></div>
@@ -103,7 +105,7 @@
     <!-- MAIN -->
     <main class="flex-1 flex items-start justify-center p-8">
 
-        <div class="w-full max-w-4xl bg-slate-300/70 backdrop-blur-sm border border-slate-400 rounded-xl shadow-lg p-8">
+        <div class="w-full max-w-4xl bg-slate-300 backdrop-blur-sm border border-slate-400 rounded-xl shadow-lg p-8">
             <div class="flex items-center justify-between mb-6">
                 <h1 class="text-3xl font-bold text-blue-600">Talleres</h1>
                 <a href="/admin/taller/alta"
