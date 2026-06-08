@@ -81,7 +81,7 @@ public class Routes {
         get("/asignar/profesor", (req, res) -> AdminController.opcionesAsignacion(req, res), engine);
 
         // RUTAS PARA NOTAS
-        get("/user/nota", (req, res) -> NotaController.formAlta(req, res), engine);
+        get("/estudiantes/nota", (req, res) -> NotaController.notasEstudiante(req, res), engine);
         get("/nota/alta", (req, res) -> NotaController.formAlta(req, res), engine);
         get("/nota/alta/materia", (req, res) -> NotaController.formAltaMateria(req, res), engine);
         get("/nota/alta/taller", (req, res) -> NotaController.formAltaTaller(req, res), engine);
