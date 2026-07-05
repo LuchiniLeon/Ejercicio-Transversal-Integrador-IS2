@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.print.Doc;
 
 import java.net.URLEncoder;
@@ -26,14 +29,16 @@ import spark.Request;
 import spark.Response;
 
 public class EditorController {
+
+    private static final Logger logger = LoggerFactory.getLogger(EditorController.class);
     
     public static ModelAndView editar(Request req, Response res){
         Map<String, Object> model = new HashMap<>();
 
         // Verificación de sesión
         if (req.session().attribute("loggedIn") == null) {
+            logger.warn("Intento de acceso sin iniciar sesión. Redirigiendo al inicio.");
             res.redirect("/");
-            System.out.println("El logueo es nulo");
             return null;
         }
 
@@ -65,7 +70,7 @@ public class EditorController {
             }
     
         } catch (Exception e) {
-            e.printStackTrace(); 
+            logger.error("Error al cargar el perfil", e);
             model.put("errorMessage", "Error al cargar el perfil");
         }
         return new ModelAndView(model, "editor.mustache");
@@ -74,8 +79,8 @@ public class EditorController {
     public static ModelAndView saveUser(Request req, Response res){
 
         if (req.session().attribute("loggedIn") == null) {
+            logger.warn("Intento de acceso sin iniciar sesión. Redirigiendo al inicio.");
             res.redirect("/");
-            System.out.println("El logueo es nulo");
             return null;
         }
 
@@ -99,8 +104,8 @@ public class EditorController {
     public static ModelAndView saveAdmin(Request req, Response res){
 
         if (req.session().attribute("loggedIn") == null) {
+            logger.warn("Intento de acceso sin iniciar sesión. Redirigiendo al inicio.");
             res.redirect("/");
-            System.out.println("El logueo es nulo");
             return null;
         }
 

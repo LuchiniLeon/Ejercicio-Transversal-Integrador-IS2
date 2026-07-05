@@ -6,16 +6,26 @@ import java.util.HashMap;
 
 import com.is1.proyecto.service.PasswordRecoveryService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
 public class PasswordRecoveryController {
 
+    private static final Logger logger = LoggerFactory.getLogger(PasswordRecoveryController.class);
+
     //Recibe el mail y solicida al service que cree el token y envie el mail
     public static Object forgotPasswordPost(Request req, Response res){
         String mail = req.queryParams("email");
-        PasswordRecoveryService.SolicitarRecuperación(mail);
+        try{
+            PasswordRecoveryService.SolicitarRecuperación(mail);
+            logger.info("Solicitud de recuperación procesada para el correo: {}", mail);
+        } catch (Exception e){
+            logger.error("Error interno al intentar enviar correo de recuperación a: " + mail, e);
+        }
         res.redirect("/?successMessage=" + URLEncoder.encode("Si el correo está registrado, recibirás un link de recuperación.", StandardCharsets.UTF_8));
         return null;
     }
@@ -28,6 +38,7 @@ public class PasswordRecoveryController {
         try{
             PasswordRecoveryService.validarToken(token);
         }catch(IllegalArgumentException e){
+            logger.warn("Intento de recuperación con token inválido o expirado. Token: {}", token);
             res.redirect("/forgot-password?errorMessage=" + 
                 URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return new ModelAndView(model, "forgot_password.mustache");
@@ -43,16 +54,24 @@ public class PasswordRecoveryController {
         String confirmacion = req.queryParams("confirmacionPassword");
 
         if(!password.equals(confirmacion)){
+            logger.info("Las contraseñas ingresadas no coinciden.");
             res.redirect("/reset-password?token=" + token + "&error=Las contraseñas no coinciden");
             return null;
         }
 
         try{
             PasswordRecoveryService.reestablecerContraseña(token, password);
+            logger.info("Contraseña restablecida exitosamente mediante token.");
             res.redirect("/?successMessage=" + URLEncoder.encode("Contraseña actualizada exitosamente", StandardCharsets.UTF_8));
             return null;
         }catch(IllegalArgumentException e){
+            logger.warn("Fallo de validación al intentar restablecer contraseña: {}", e.getMessage());
             res.redirect("/reset-password?token=" + token + "&error=" + e.getMessage());
+            return null;
+        }catch(Exception e){
+            //Posibles fallos de base de datos
+            logger.error("Error crítico de base de datos al intentar guardar nueva contraseña.", e);
+            res.redirect("/reset-password?token=" + token + "&error=" + URLEncoder.encode("Error interno del servidor.", StandardCharsets.UTF_8));
             return null;
         }
     }

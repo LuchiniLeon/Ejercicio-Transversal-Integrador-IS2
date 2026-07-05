@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.AdminService;
@@ -17,6 +20,9 @@ import spark.Request;
 import spark.Response;
 
 public class MateriaController {
+
+    //Unicamente usado para reemplazar tres printStackTrace
+    private static final Logger logger = LoggerFactory.getLogger(MateriaController.class);
 
     public static ModelAndView formAlta(Request req, Response res) {
 
@@ -72,7 +78,7 @@ public class MateriaController {
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            logger.error("Error interno durante alta de materia", e);
 
             res.redirect("/materia/alta?error="
                     + URLEncoder.encode("Error interno del servidor",
@@ -222,8 +228,7 @@ public class MateriaController {
             return "";
 
         } catch (Exception e) {
-
-            e.printStackTrace();
+            logger.error("Error interno durante edicion de materia", e);
 
             res.redirect("/materia/lista?error="
                     + URLEncoder.encode("Error interno del servidor",
@@ -257,7 +262,7 @@ public class MateriaController {
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            logger.error("Error interno durante eliminacion de materia", e);
 
             res.redirect("/materia/lista?error="
                     + URLEncoder.encode("Error interno del servidor",

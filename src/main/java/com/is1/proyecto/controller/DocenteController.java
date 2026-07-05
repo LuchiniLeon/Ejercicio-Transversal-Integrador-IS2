@@ -5,6 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.User;
@@ -15,6 +18,8 @@ import spark.Request;
 import spark.Response;
 
 public class DocenteController {
+    //Unicamente usado para eliminar un printStackTrace
+    private static final Logger logger = LoggerFactory.getLogger(DocenteController.class);
 
   public static Object alta(Request req, Response res) {
 
@@ -83,7 +88,7 @@ public class DocenteController {
             return "";
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error al dar de alta un docente", e);
             res.status(500);
             res.redirect("/docente/alta?error=Error interno del servidor");
             return "";

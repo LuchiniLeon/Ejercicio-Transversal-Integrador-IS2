@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.is1.proyecto.models.Estudiante;
 import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.CarreraInscripcionService;
@@ -16,6 +19,9 @@ import spark.Request;
 import spark.Response;
 
 public class MateriaInscripcionController {
+
+    //Unicamente usado para reemplazar dos printStackTrace
+    private static final Logger logger = LoggerFactory.getLogger(MateriaInscripcionController.class);
 
     public static ModelAndView listaMaterias(Request req, Response res) {
         Map<String, Object> model = new HashMap<>();
@@ -132,7 +138,7 @@ public class MateriaInscripcionController {
             res.redirect("/inscripcion/materia?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error interno durante inscripcion a materia", e);
             res.redirect("/inscripcion/materia?error=Error interno del servidor");
             return "";
         }
@@ -162,7 +168,7 @@ public class MateriaInscripcionController {
             res.redirect("/estudiante/mis-materias?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error interno durante desinscripcion a materia", e);
             res.redirect("/estudiante/mis-materias?error=Error interno del servidor");
             return "";
         }
