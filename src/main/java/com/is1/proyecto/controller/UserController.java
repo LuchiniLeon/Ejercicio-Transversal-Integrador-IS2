@@ -5,6 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.UserService;
 
@@ -13,6 +16,9 @@ import spark.Request;
 import spark.Response;
 
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     public static Object create(Request req, Response res) {
 
         String name = req.queryParams("name");
@@ -73,9 +79,10 @@ public class UserController {
 
         } catch (Exception e) {
 
+            logger.error("Error interno durante creacion de usuario", e);
             res.status(500);
             res.redirect("/user/create?error=Error interno al crear la cuenta.");
-            e.printStackTrace();
+            
 
             return null;
         }   
@@ -134,8 +141,7 @@ public class UserController {
                             Map.of("message", "Usuario '" + name + "' registrado con exito.", "id", newUser.getId()));
 
         } catch (Exception e) {
-            System.err.println("Error al registrar usuario: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error interno al registrar usuario", e);
             res.status(500);
 
             return new com.fasterxml.jackson.databind.ObjectMapper()

@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.is1.proyecto.models.Estudiante;
 import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.EstudiaService;
@@ -15,6 +18,9 @@ import spark.Request;
 import spark.Response;
 
 public class EstudiaController {
+
+    //Unicamente usado para reemplazar dos printStackTrace
+    private static final Logger logger = LoggerFactory.getLogger(EstudiaController.class);
     
     //Lista talleres disponibles para que el estudiante se inscriba
     public static ModelAndView listaTaller(Request req, Response res){
@@ -115,7 +121,7 @@ public class EstudiaController {
             res.redirect("/estudiante/talleres?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         } catch(Exception e){
-            e.printStackTrace();
+            logger.error("Error interno durante inscripcion a taller", e);
             res.redirect("/estudiante/talleres?error=Error interno del servidor");
             return "";
         }
@@ -153,7 +159,7 @@ public class EstudiaController {
             res.redirect("/estudiante/talleres?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error interno durante desinscripcion a taller", e);
             res.redirect("/estudiante/talleres?error=Error interno del servidor");
             return "";
         }

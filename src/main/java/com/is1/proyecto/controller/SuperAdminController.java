@@ -5,6 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.is1.proyecto.service.SuperAdminService;
 
 import spark.ModelAndView;
@@ -12,6 +15,9 @@ import spark.Request;
 import spark.Response;
 
 public class SuperAdminController {
+
+    //Unicamente usado para reemplazar un print stack trace
+    private static final Logger logger = LoggerFactory.getLogger(SuperAdminController.class);
 
     public static Object alta(Request req, Response res){
         try{
@@ -28,7 +34,7 @@ public class SuperAdminController {
             return "";
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Errir interno durante alta de super administrador", e);
             res.status(500);
             res.redirect("/superadmin/alta?error=Error interno del servidor");
             return "";

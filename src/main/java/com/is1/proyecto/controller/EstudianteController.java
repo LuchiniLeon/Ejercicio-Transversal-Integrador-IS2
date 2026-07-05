@@ -5,6 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.User;
@@ -16,6 +19,10 @@ import spark.Request;
 import spark.Response;
 
 public class EstudianteController {
+
+    //Unicamente usado para reemplazar un printStackTrace
+    private static final Logger logger = LoggerFactory.getLogger(EstudianteController.class);
+
      public static Object alta(Request req, Response res) {
 
         String dniStr = req.queryParams("dni");
@@ -73,7 +80,7 @@ public class EstudianteController {
             return "";
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error interno durante alta de estudiante", e);
             res.status(500);
             res.redirect("/estudiante/alta?error=Error interno del servidor");
             return "";

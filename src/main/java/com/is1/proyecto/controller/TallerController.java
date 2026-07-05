@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.User;
 import com.is1.proyecto.service.TallerService;
@@ -16,6 +19,9 @@ import com.is1.proyecto.service.TallerService;
 import spark.ModelAndView;
 
 public class TallerController {
+
+    //Unicamente usado para reemplazar cuatro printStackTrace
+    private static final Logger logger = LoggerFactory.getLogger(TallerController.class);
     
     public static ModelAndView formAlta(Request req, Response res){
         Map<String, Object> model = new HashMap<>();
@@ -53,9 +59,8 @@ public class TallerController {
             res.redirect("/taller/alta?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         } catch (Exception e) {
-            e.printStackTrace();
-            String errorMsg = e.getMessage() != null ? e.getMessage() : "Error interno del servidor";
-            res.redirect("/taller/alta?error=" + URLEncoder.encode(errorMsg, StandardCharsets.UTF_8));
+            logger.error("Error interno durante alta de taller", e);
+            res.redirect("/taller/alta?error=" + URLEncoder.encode("Error interno del servidor", StandardCharsets.UTF_8));
             return "";
         }
     }
@@ -124,11 +129,11 @@ public class TallerController {
             return "";
 
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            logger.warn("Fallo en la validacion de argumentos para la edicion de taller", e);
             res.redirect("/taller/editar/" + req.params(":id") + "?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error interno durante edicion de taller", e);
             res.redirect("/taller/editar/" + req.params(":id") + "?error=Error interno del servidor");
             return "";
         }
@@ -145,7 +150,7 @@ public class TallerController {
             res.redirect("/taller/lista?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));
             return "";
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error interno durante eliminacion de taller", e);
             res.redirect("/taller/lista?error=Error interno del servidor");
             return "";
         }

@@ -1,5 +1,8 @@
 package com.is1.proyecto.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 import org.javalite.activejdbc.Base;
 import com.is1.proyecto.models.Persona;
@@ -7,6 +10,9 @@ import com.is1.proyecto.models.PlanificadorTarea;
 import com.is1.proyecto.models.User;
 
 public class PlanificadorService {
+
+    //Unicamente usado para reemplazar un printStackTrace
+    private static final Logger logger = LoggerFactory.getLogger(PlanificadorService.class);
     
     public static void save(Map<String, Object> model){
         try {
@@ -52,8 +58,9 @@ public class PlanificadorService {
             }
         } catch (Exception e) {
             try { Base.rollbackTransaction(); } catch(Exception ex) {}
-            System.out.println("Error al cargar una tarea: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error interno al cargar tarea", e);
+            //System.out.println("Error al cargar una tarea: " + e.getMessage());
+            //e.printStackTrace();
         }
     }
 }
