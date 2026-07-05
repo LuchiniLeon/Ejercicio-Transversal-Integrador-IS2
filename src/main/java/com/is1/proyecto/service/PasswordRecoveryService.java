@@ -3,6 +3,9 @@ package com.is1.proyecto.service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.javalite.activejdbc.Base;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -11,6 +14,8 @@ import com.is1.proyecto.models.Token;
 import com.is1.proyecto.models.User;
 
 public class PasswordRecoveryService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PasswordRecoveryService.class);
     
     //Generar token y enviar correo
     public static void SolicitarRecuperación(String emailStr){
@@ -65,7 +70,7 @@ public class PasswordRecoveryService {
 
             //Enviar mail
             javax.mail.Transport.send(mensaje);
-            System.out.println("Correo enviado exitosamente a " + emailStr);
+            logger.info("Correo enviado exitosamente a {}", emailStr);
         }catch(javax.mail.MessagingException e){
             throw new RuntimeException("Error al enviar el correo " + e.getMessage());
         }
