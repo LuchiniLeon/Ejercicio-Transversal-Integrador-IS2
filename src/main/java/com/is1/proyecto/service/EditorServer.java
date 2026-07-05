@@ -3,6 +3,9 @@ import org.javalite.activejdbc.Base;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.is1.proyecto.models.Admin;
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Estudiante;
@@ -10,6 +13,9 @@ import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.User;
 
 public class EditorServer {
+
+    //Instancia de logger para esta clase específica
+    private static final Logger logger = LoggerFactory.getLogger(EditorServer.class);
     
     public static void save(Map<String, Object> datos) {
         try {  
@@ -66,13 +72,16 @@ public class EditorServer {
                     
                     // Consolidamos todos los cambios en un solo viaje al disco
                     Base.commitTransaction();
-                    System.out.println("¡Perfil actualizado con éxito para el DNI: " + dniFijo);
+
+                    //Reemplazo del system.out.println (Inseguro) por logger.info
+                    logger.info("¡Perfil actualizado con éxito para el DNI: {}", dniFijo);
                 }
             }
         } catch (Exception e) {
             try { Base.rollbackTransaction(); } catch(Exception ex) {}
-            System.out.println("Error al actualizar perfil: " + e.getMessage());
-            e.printStackTrace();
+
+            //Reemplazo del system.out.println y printStackTrace (Inseguros) por logger.error
+            logger.error("Error al actualizar perfil: ", e);
         }
     }
 }
